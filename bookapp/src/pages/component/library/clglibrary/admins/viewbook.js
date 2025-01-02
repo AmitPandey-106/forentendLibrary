@@ -265,6 +265,8 @@ export default function AdminViewBook() {
                   src={isValidURL(book.PHOTO) ? book.PHOTO : defaultimage}
                   alt={book.TITLE}
                   className="book-image"
+                  height={400}
+                  width={300}
                 />
                 <h2 className="book-title">{book.TITLE}</h2>
                 <p className="book-author">by {book.authorName || 'Unknown Author'}</p>
