@@ -11,9 +11,13 @@ export default function AdminViewBook() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [books, setBooks] = useState([])
+  const [subject, setSubject] = useState('');
+    const [subjects, setSubjects] = useState([]);
     const [query, setQuery] = useState('');
     const [currentPage, setCurrentPage] = useState(1); // Current page state
     const [totalPages, setTotalPages] = useState(1); // Total pages state
+    const [showSuggestions, setShowSuggestions] = useState(false);
+    // Total pages state
   // const [selectedOption, setSelectedOption] = useState('viewbook');
   // const [searchQuery, setSearchQuery] = useState('');
   // const [filteredBooks, setFilteredBooks] = useState([]);
@@ -54,6 +58,54 @@ export default function AdminViewBook() {
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+
+    const fetchSubjects = useCallback(async () => {
+      try {
+        const response = await fetch('https://backendlibrary-2.onrender.com/subjects');
+        if (!response.ok) {
+          throw new Error('Failed to fetch subjects');
+        }
+        const data = await response.json();
+        setSubjects(data.map((subject) => subject.SUB_NAME));
+      } catch (error) {
+        console.error('Error fetching subjects:', error);
+      }
+    }, []); 
+  
+    const handleSubjectChange = (e) => {
+      const value = e.target.value;
+      setSubject(value);
+  
+      if (value.trim() === '') {
+        // If subject input is cleared, fetch all books
+        fetchBooks();
+        setShowSuggestions(false); // Hide suggestions
+      } else {
+        setShowSuggestions(true);
+      }
+    };
+  
+    const handleSubjectSelect = (selectedSubject) => {
+      setSubject(selectedSubject); // Set the selected subject to the input
+      setShowSuggestions(false); // Hide the suggestions dropdown
+    };
+  
+    const searchBooks = async () => {
+      setLoading(true);
+      try {
+        const url = `https://backendlibrary-2.onrender.com/search-by-filter?subname=${subject}&query=${query}`;
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error('Failed to search books');
+        }
+        const data = await response.json();
+        setBooks(data);
+      } catch (error) {
+        console.error('Error searching books:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
   // const applyFilters = () => {
   //   let filtered = books;
@@ -160,6 +212,46 @@ export default function AdminViewBook() {
         />
       </div>
       </div> */}
+      <div className="search-bar">
+        <input
+          type="text"
+          placeholder="Search books by title or author..."
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        />
+        <div ref={subjectInputRef} className="subject-input-container">
+          <input
+            type="text"
+            placeholder="Search by subject..."
+            value={subject}
+            onChange={handleSubjectChange}
+            onFocus={() => setShowSuggestions(true)}
+          />
+          {showSuggestions && (
+            <div className="suggestions">
+              {subjects
+                .filter((s) =>
+                  typeof s === 'string' && s.toLowerCase().includes(subject.toLowerCase())
+                )
+                .map((suggestion, index) => (
+                  <div
+                    key={index}
+                    onClick={() => handleSubjectSelect(suggestion)}
+                    className="suggestion-item"
+                  >
+                    {suggestion}
+                  </div>
+                ))}
+            </div>
+          )}
+        </div>
+        <button
+          className="submit-button"
+          onClick={searchBooks}
+        >
+          Search
+        </button>
+      </div>
         {loading && <p>Loading...</p>}
 
         <div className="books-row">
