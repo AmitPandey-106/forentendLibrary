@@ -14,7 +14,7 @@ export default function Member() {
   useEffect(() => {
     const fetchMembers = async () => {
       try {
-        const response = await fetch('backendlibrary-production.up.railway.app/all-members');
+        const response = await fetch('https://backendlibrary-2.onrender.com/all-members');
         const data = await response.json();
         setMembers(data.members);
       } catch (error) {

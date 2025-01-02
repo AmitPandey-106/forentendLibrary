@@ -38,7 +38,7 @@ export default function ChangePassword() {
             return;
         }
 
-        const response = await fetch('backendlibrary-production.up.railway.app/change-user/password', {
+        const response = await fetch('https://backendlibrary-2.onrender.com/change-user/password', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

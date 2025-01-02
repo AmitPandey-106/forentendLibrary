@@ -27,7 +27,7 @@ export default function ProfileForm({ initialError }) {
     const fetchData = async () => {
       try {
         const token = localStorage.getItem('token'); // Make sure the token is stored in localStorage or another secure place
-        const res = await fetch('backendlibrary-production.up.railway.app/get-user-profile', {
+        const res = await fetch('https://backendlibrary-2.onrender.com/get-user-profile', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -72,7 +72,7 @@ export default function ProfileForm({ initialError }) {
     setSuccess(''); // Reset success message
 
     try {
-      const res = await fetch('backendlibrary-production.up.railway.app/user-profile-edit', {
+      const res = await fetch('https://backendlibrary-2.onrender.com/user-profile-edit', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),

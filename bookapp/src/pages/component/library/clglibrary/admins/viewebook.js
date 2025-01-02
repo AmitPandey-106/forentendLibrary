@@ -21,7 +21,7 @@ export default function ViewEBook() {
   useEffect(() => {
     const fetchEBooks = async () => {
       try {
-        const response = await fetch('backendlibrary-production.up.railway.app/all-ebooks'); // Adjust the URL based on your backend
+        const response = await fetch('https://backendlibrary-2.onrender.com/all-ebooks'); // Adjust the URL based on your backend
         if (!response.ok) {
           throw new Error('Failed to fetch eBooks.');
         }
@@ -84,7 +84,7 @@ export default function ViewEBook() {
         </p>
         {/* Check file type and render accordingly */}
         <a
-          href={`backendlibrary-production.up.railway.app/${ebook.file}`} 
+          href={`https://backendlibrary-2.onrender.com/${ebook.file}`} 
           target="_blank" 
           rel="noopener noreferrer" 
           style={{ color: 'blue' }}

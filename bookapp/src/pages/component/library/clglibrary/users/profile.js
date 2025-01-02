@@ -22,7 +22,7 @@ export default function Profile() {
           return;
         }
 
-        const res = await fetch('backendlibrary-production.up.railway.app/get-user-profile', {
+        const res = await fetch('https://backendlibrary-2.onrender.com/get-user-profile', {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,

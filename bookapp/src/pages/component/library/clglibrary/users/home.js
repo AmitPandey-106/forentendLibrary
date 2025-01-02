@@ -21,7 +21,7 @@ export default function Home() {
     const fetchBooks = async () => {
       setLoading(true); // Show loading until data is fetched
       try {
-        const response = await fetch('backendlibrary-production.up.railway.app/get-clg-books?startIndex=10&endIndex=20'); // Adjust the API endpoint as needed
+        const response = await fetch('https://backendlibrary-2.onrender.com/get-clg-books?startIndex=10&endIndex=20'); // Adjust the API endpoint as needed
         if (!response.ok) {
           const errorData = await response.json();
           throw new Error(errorData.msg || 'Failed to fetch books');

@@ -10,7 +10,7 @@ export default function AdminBorrowRequests() {
   useEffect(() => {
     const fetchRequests = async () => {
       try {
-        const response = await fetch("backendlibrary-production.up.railway.app/borrow-requests/pending");
+        const response = await fetch("https://backendlibrary-2.onrender.com/borrow-requests/pending");
         const data = await response.json();
         setRequests(data);
         // setPendingRequestsCount(data.length);
@@ -21,7 +21,7 @@ export default function AdminBorrowRequests() {
 
     const fetchWaitlist = async () => {
       try {
-        const response = await fetch("backendlibrary-production.up.railway.app/get-waitlist");
+        const response = await fetch("https://backendlibrary-2.onrender.com/get-waitlist");
         const data = await response.json();
         setWaitlist(data);
       } catch (error) {
@@ -31,7 +31,7 @@ export default function AdminBorrowRequests() {
 
     const markRequestsViewed = async () => {
       try {
-        await fetch("backendlibrary-production.up.railway.app/borrow-requests/mark-viewed", { method: "POST" });
+        await fetch("https://backendlibrary-2.onrender.com/borrow-requests/mark-viewed", { method: "POST" });
         console.log("Requests marked as viewed.");
         setPendingRequestsCount(0); // Reset count locally
       } catch (error) {
@@ -46,7 +46,7 @@ export default function AdminBorrowRequests() {
 
   const handleRequestAction = async (requestId, action) => {
     try {
-      const response = await fetch("backendlibrary-production.up.railway.app/user-borrow/request", {
+      const response = await fetch("https://backendlibrary-2.onrender.com/user-borrow/request", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ requestId, action }),

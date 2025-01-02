@@ -12,7 +12,7 @@ ForgotPassword.getLayout = function getLayout(page) {
     const handleSubmit = async (e) => {
       e.preventDefault();
       try {
-        const response = await fetch('backendlibrary-production.up.railway.app/auth/forgot-password', {
+        const response = await fetch('https://backendlibrary-2.onrender.com/auth/forgot-password', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email }),

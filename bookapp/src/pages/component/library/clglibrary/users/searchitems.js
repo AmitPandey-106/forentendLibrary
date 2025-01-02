@@ -9,7 +9,7 @@ export default function SearchItems() {
   const fetchBooks = useCallback(async () => {
       setLoading(true);
       try {
-        const response = await fetch(`backendlibrary-production.up.railway.app/get-clg-books`);
+        const response = await fetch(`https://backendlibrary-2.onrender.com/get-clg-books`);
         if (!response.ok) {
           throw new Error('Failed to fetch books');
         }
@@ -38,7 +38,7 @@ export default function SearchItems() {
     setLoading(true);
 
     try {
-      const response = await fetch(`backendlibrary-production.up.railway.app/search-books?query=${query}`);
+      const response = await fetch(`https://backendlibrary-2.onrender.com/search-books?query=${query}`);
       if (!response.ok) {
         throw new Error('Failed to fetch search results');
       }

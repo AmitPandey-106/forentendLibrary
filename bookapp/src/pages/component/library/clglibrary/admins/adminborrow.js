@@ -28,7 +28,7 @@ export default function AdminBorrow() {
   const BorrowbyAdmin = async () => {
     setLoading(true);
     try {
-      const response = await fetch('backendlibrary-production.up.railway.app/borrow-by-admin', {
+      const response = await fetch('https://backendlibrary-2.onrender.com/borrow-by-admin', {
         method: 'POST',
         headers: {
           'Content-type': 'application/json',
@@ -51,7 +51,7 @@ export default function AdminBorrow() {
 
   const fetchBookSuggestions = async (query) => {
     try {
-      const response = await fetch(`backendlibrary-production.up.railway.app/api/autocomplete-books?q=${query}`);
+      const response = await fetch(`https://backendlibrary-2.onrender.com/api/autocomplete-books?q=${query}`);
       const data = await response.json();
 
       if (data.success) {

@@ -11,7 +11,7 @@ export default function AdminUpdateBook(){
       // Now authUser is available, make the fetch request
       const fetchBorrowedBooks = async () => {
         try {
-          const res = await fetch(`backendlibrary-production.up.railway.app/all-borrow-books`, { 
+          const res = await fetch(`https://backendlibrary-2.onrender.com/all-borrow-books`, { 
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
@@ -40,7 +40,7 @@ export default function AdminUpdateBook(){
         if (!window.confirm("Are you sure you want to remove this book?")) return;
       
         try {
-          const response = await fetch(`backendlibrary-production.up.railway.app/remove-borrow/${bookId}`, {
+          const response = await fetch(`https://backendlibrary-2.onrender.com/remove-borrow/${bookId}`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

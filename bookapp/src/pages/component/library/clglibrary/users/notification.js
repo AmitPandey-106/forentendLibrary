@@ -19,7 +19,7 @@ export default function Notification() {
         return;
       }
       try {
-        const response = await fetch(`backendlibrary-production.up.railway.app/notifications/${profileId}`, {
+        const response = await fetch(`https://backendlibrary-2.onrender.com/notifications/${profileId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

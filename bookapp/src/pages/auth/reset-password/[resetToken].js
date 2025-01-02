@@ -16,7 +16,7 @@ export default function ResetPassword() {
     }
 
     try {
-      const response = await fetch(`https://backendlibrary-production.up.railway.app/forget/reset-password`, {
+      const response = await fetch(`https://backendlibrary-2.onrender.com/forget/reset-password`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ token: resetToken, newPassword }),
