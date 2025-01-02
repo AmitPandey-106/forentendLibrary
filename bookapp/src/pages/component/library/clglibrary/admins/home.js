@@ -11,13 +11,13 @@ import { useRouter } from 'next/router';
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement);
 
 export async function getServerSideProps() {
-  const res = await fetch("backendlibrary-production.up.railway.app/all-members");
+  const res = await fetch("https://backendlibrary-production.up.railway.app/all-members");
   const data = await res.json();
 
-  const res2 = await fetch("backendlibrary-production.up.railway.app/all-books");
+  const res2 = await fetch("https://backendlibrary-production.up.railway.app/all-books");
   const data2 = await res2.json();
 
-  const res3 = await fetch('backendlibrary-production.up.railway.app/all-borrow-books');
+  const res3 = await fetch('https://backendlibrary-production.up.railway.app/all-borrow-books');
   const data3 = await res3.json()
 
   return {
@@ -74,7 +74,7 @@ export default function HomePage({ memberLength, bookslen, allborrowed }) {
   useEffect(() => {
     const fetchMostBorrowedBooks = async () => {
       try {
-        const response = await fetch("backendlibrary-production.up.railway.app/most-borrowed"); // Replace with your API endpoint
+        const response = await fetch("https://backendlibrary-production.up.railway.app/most-borrowed"); // Replace with your API endpoint
         const result = await response.json();
 
         if (result.success) {
@@ -120,7 +120,7 @@ export default function HomePage({ memberLength, bookslen, allborrowed }) {
   const fetchTommorow = async () => {
     try {
       setLoading(true);
-      const response = await fetch("backendlibrary-production.up.railway.app/tmr-due-books");
+      const response = await fetch("https://backendlibrary-production.up.railway.app/tmr-due-books");
       const data = await response.json();
 
       if (data.success) {
@@ -139,7 +139,7 @@ export default function HomePage({ memberLength, bookslen, allborrowed }) {
   const fetchDueBooks = async () => {
     try {
       setLoading(true);
-      const response = await fetch("backendlibrary-production.up.railway.app/today-due-books");
+      const response = await fetch("https://backendlibrary-production.up.railway.app/today-due-books");
       const data = await response.json();
 
       if (data.success) {
