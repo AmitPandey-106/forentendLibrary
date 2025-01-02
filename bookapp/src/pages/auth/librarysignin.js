@@ -79,7 +79,6 @@ export default function LibrarySignin({ initialError }) {
             name="password"
             value={form.password}
             onChange={handleChange}
-            required
           />
         </div>
         <button className={styles.button} type="submit">Sign In</button>
