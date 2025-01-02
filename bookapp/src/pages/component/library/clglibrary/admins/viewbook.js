@@ -1,6 +1,7 @@
 // pages/viewBooks.js
 import AdminLayout from './layout';
 import Userlayout from '@/u_layout';
+import { useRef } from 'react';
 import { useState, useEffect, useContext, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
@@ -13,6 +14,7 @@ export default function AdminViewBook() {
   const [books, setBooks] = useState([])
   const [subject, setSubject] = useState('');
     const [subjects, setSubjects] = useState([]);
+    const subjectInputRef = useRef(null);
     const [query, setQuery] = useState('');
     const [currentPage, setCurrentPage] = useState(1); // Current page state
     const [totalPages, setTotalPages] = useState(1); // Total pages state
@@ -54,6 +56,7 @@ export default function AdminViewBook() {
     };
 
     fetchBooks();
+    fetchSubjects();
   }, [currentPage]);
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
