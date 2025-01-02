@@ -5,10 +5,9 @@ const NotificationContext = createContext(); // Create context
 
 export const NotificationProvider = ({ children }) => {
     const [hasNewRequest, setHasNewRequest] = useState(false);
-    
 
     return (
-        <NotificationContext.Provider value={{ hasNewRequest:hasNewRequest, setHasNewRequest }}>
+        <NotificationContext.Provider value={{ hasNewRequest: hasNewRequest, setHasNewRequest }}>
             {children}
         </NotificationContext.Provider>
     );
@@ -21,3 +20,5 @@ export const useNotification = () => {
     }
     return context;
 };
+
+export default NotificationProvider; // Added default export here
