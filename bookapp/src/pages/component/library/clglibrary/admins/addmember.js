@@ -25,7 +25,7 @@ export default function AdminAddMember() {
         }
 
         try {
-            const response = await fetch('http://localhost:8000/api/addmember', {
+            const response = await fetch('backendlibrary-production.up.railway.app/api/addmember', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

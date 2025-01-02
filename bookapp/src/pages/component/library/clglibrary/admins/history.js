@@ -11,7 +11,7 @@ export default function History() {
     // Fetch history data from the API
     const fetchHistory = async () => {
       try {
-        const response = await fetch('http://localhost:8000/admin-history'); // Adjust API endpoint as per your backend
+        const response = await fetch('backendlibrary-production.up.railway.app/admin-history'); // Adjust API endpoint as per your backend
         if (!response.ok) {
           throw new Error('Failed to fetch history records.');
         }

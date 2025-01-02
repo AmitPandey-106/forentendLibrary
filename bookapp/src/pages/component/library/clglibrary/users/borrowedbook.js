@@ -18,7 +18,7 @@ export default function Borrowedbook() {
       // Now authUser is available, make the fetch request
       const fetchBorrowedBooks = async () => {
         try {
-          const res = await fetch(`http://localhost:8000/user/${authUser.id}/borrowed-books`, { 
+          const res = await fetch(`backendlibrary-production.up.railway.app/user/${authUser.id}/borrowed-books`, { 
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',

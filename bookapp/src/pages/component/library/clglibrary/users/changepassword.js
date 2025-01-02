@@ -38,7 +38,7 @@ export default function ChangePassword() {
             return;
         }
 
-        const response = await fetch('http://localhost:8000/change-user/password', {
+        const response = await fetch('backendlibrary-production.up.railway.app/change-user/password', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

@@ -38,7 +38,7 @@ export default function UploadEBook() {
         form.append(key, formData[key]);
       });
 
-      const response = await fetch('http://localhost:8000/upload-ebook', {
+      const response = await fetch('backendlibrary-production.up.railway.app/upload-ebook', {
         method: 'POST',
         body: form,
       });

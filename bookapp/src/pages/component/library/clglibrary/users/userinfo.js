@@ -19,7 +19,7 @@ export default function Userinfo() {
           return;
         }
 
-        const res = await fetch('http://localhost:8000/get-user-profile', {
+        const res = await fetch('backendlibrary-production.up.railway.app/get-user-profile', {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,

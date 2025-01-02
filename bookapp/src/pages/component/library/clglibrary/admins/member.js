@@ -14,7 +14,7 @@ export default function Member() {
   useEffect(() => {
     const fetchMembers = async () => {
       try {
-        const response = await fetch('http://localhost:8000/all-members');
+        const response = await fetch('backendlibrary-production.up.railway.app/all-members');
         const data = await response.json();
         setMembers(data.members);
       } catch (error) {

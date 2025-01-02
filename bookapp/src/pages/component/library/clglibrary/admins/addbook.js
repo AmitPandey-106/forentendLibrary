@@ -66,7 +66,7 @@ export default function AdminAddBook() {
     };
 
     try {
-      const res = await fetch('http://localhost:8000/add-books', {
+      const res = await fetch('backendlibrary-production.up.railway.app/add-books', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(bookData), // Send the specific fields

@@ -27,7 +27,7 @@ export default function Editbook() {
 
     const fetchBookDetails = async () => {
       try {
-        const res = await fetch(`http://localhost:8000/book/${id}`);
+        const res = await fetch(`backendlibrary-production.up.railway.app/book/${id}`);
         const data = await res.json();
 
         if (res.status === 200) {
@@ -78,7 +78,7 @@ export default function Editbook() {
     };
   
     try {
-      const res = await fetch(`http://localhost:8000/update-book/${id}`, {
+      const res = await fetch(`backendlibrary-production.up.railway.app/update-book/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedBook),

@@ -18,7 +18,7 @@ export default function Others() {
   useEffect(() => {
     const fetchEBooks = async () => {
       try {
-        const response = await fetch('http://localhost:8000/all-ebooks'); // Adjust the URL based on your backend
+        const response = await fetch('backendlibrary-production.up.railway.app/all-ebooks'); // Adjust the URL based on your backend
         if (!response.ok) {
           throw new Error('Failed to fetch eBooks.');
         }
@@ -33,7 +33,7 @@ export default function Others() {
     };
     const fetchCategorys = async () => {
       try {
-        const res = await fetch('http://localhost:8000/all-categorys'); // Assume an endpoint to get available streams
+        const res = await fetch('backendlibrary-production.up.railway.app/all-categorys'); // Assume an endpoint to get available streams
         const data = await res.json();
 
         if (res.status === 200) {
@@ -133,7 +133,7 @@ export default function Others() {
               <p className={styles.bookPrice}>
                 Price: {ebook.price === 0 ? 'Free' : `$${ebook.price}`}
               </p>
-              <a href={`http://localhost:8000/${ebook.file}`} target="_blank" rel="noopener noreferrer" style={{ color: 'blue' }}>
+              <a href={`backendlibrary-production.up.railway.app/${ebook.file}`} target="_blank" rel="noopener noreferrer" style={{ color: 'blue' }}>
                 View PDF
               </a>
             </div>

@@ -19,7 +19,7 @@ export default function History() {
     const fetchHistory = async () => {
       try {
         console.log(`Fetching history for user ID: ${authUser.id}`);
-        const response = await fetch(`http://localhost:8000/users/${authUser.id}/history`, {
+        const response = await fetch(`backendlibrary-production.up.railway.app/users/${authUser.id}/history`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

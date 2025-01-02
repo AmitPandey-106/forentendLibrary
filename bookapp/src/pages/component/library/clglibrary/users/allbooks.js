@@ -15,7 +15,7 @@ export default function Allbooks() {
   useEffect(() => {
     const fetchBooks = async () => {
       try {
-        const res = await fetch('http://localhost:8000/all-books');
+        const res = await fetch('backendlibrary-production.up.railway.app/all-books');
         const data = await res.json();
 
         if (res.status === 200) {
@@ -31,7 +31,7 @@ export default function Allbooks() {
 
     const fetchStreams = async () => {
       try {
-        const res = await fetch('http://localhost:8000/all-streams'); // Endpoint for available streams
+        const res = await fetch('backendlibrary-production.up.railway.app/all-streams'); // Endpoint for available streams
         const data = await res.json();
 
         if (res.status === 200) {

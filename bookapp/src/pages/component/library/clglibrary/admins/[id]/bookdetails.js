@@ -75,7 +75,7 @@ export default function BookDetails() {
   const handleCollect = async () => {
     try {
       // Sending a POST request to borrow the book
-      const response = await fetch(`http://localhost:8000/borrow/${profileId}/${id}`, {
+      const response = await fetch(`backendlibrary-production.up.railway.app/borrow/${profileId}/${id}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -117,7 +117,7 @@ export default function BookDetails() {
 
   const handleWaitlist = async () => {
     try {
-      const response = await fetch('http://localhost:8000/waitlist', {
+      const response = await fetch('backendlibrary-production.up.railway.app/waitlist', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId: profileId, bookId: bookdetails._id }),
@@ -148,7 +148,7 @@ export default function BookDetails() {
 
     const fetchBookDetails = async () => {
       try {
-        const res = await fetch(`http://localhost:8000/book/${id}`);
+        const res = await fetch(`backendlibrary-production.up.railway.app/book/${id}`);
         const data = await res.json();
 
         if (res.status === 200) {

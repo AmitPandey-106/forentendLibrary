@@ -8,7 +8,7 @@ export default function AdminPenaltySection() {
   useEffect(() => {
     const fetchPenalties = async () => {
       try {
-        const res = await fetch('http://localhost:8000/user-penalties', {
+        const res = await fetch('backendlibrary-production.up.railway.app/user-penalties', {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
         });

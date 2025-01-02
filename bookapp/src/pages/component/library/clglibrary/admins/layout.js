@@ -10,7 +10,7 @@ export default function AdminLayout({ children }) {
   useEffect(() => {
     const fetchMemberCount = async () => {
       try {
-        const response = await fetch("http://localhost:8000/borrow-requests/count-pending");
+        const response = await fetch("backendlibrary-production.up.railway.app/borrow-requests/count-pending");
         const data = await response.json();
         setShowDot(data.count);  // Set the member count
       } catch (error) {

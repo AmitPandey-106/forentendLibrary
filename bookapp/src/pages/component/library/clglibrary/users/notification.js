@@ -19,7 +19,7 @@ export default function Notification() {
         return;
       }
       try {
-        const response = await fetch(`http://localhost:8000/notifications/${profileId}`, {
+        const response = await fetch(`backendlibrary-production.up.railway.app/notifications/${profileId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

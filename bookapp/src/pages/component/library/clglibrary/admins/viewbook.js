@@ -35,7 +35,7 @@ export default function AdminViewBook() {
     const fetchBooks = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`http://localhost:8000/get-clg-books?page=${currentPage}`);
+        const response = await fetch(`backendlibrary-production.up.railway.app/get-clg-books?page=${currentPage}`);
         if (!response.ok) {
           throw new Error('Failed to fetch books');
         }

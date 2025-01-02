@@ -28,7 +28,7 @@ export default function ClgBooks() {
    const fetchBooks = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:8000/get-clg-books?page=${currentPage}`);
+      const response = await fetch(`backendlibrary-production.up.railway.app/get-clg-books?page=${currentPage}`);
       if (!response.ok) {
         throw new Error('Failed to fetch books');
       }
@@ -44,7 +44,7 @@ export default function ClgBooks() {
 
   const fetchSubjects = useCallback(async () => {
     try {
-      const response = await fetch('http://localhost:8000/subjects');
+      const response = await fetch('backendlibrary-production.up.railway.app/subjects');
       if (!response.ok) {
         throw new Error('Failed to fetch subjects');
       }
@@ -76,7 +76,7 @@ export default function ClgBooks() {
   const searchBooks = async () => {
     setLoading(true);
     try {
-      const url = `http://localhost:8000/search-by-filter?subname=${subject}&query=${query}`;
+      const url = `backendlibrary-production.up.railway.app/search-by-filter?subname=${subject}&query=${query}`;
       const response = await fetch(url);
       if (!response.ok) {
         throw new Error('Failed to search books');
