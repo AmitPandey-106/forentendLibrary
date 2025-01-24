@@ -1,9 +1,6 @@
 'use client';
 import { useState } from 'react';
 import AdminLayout from './layout';
-import Lottie from 'lottie-react';
-import booknotewithpen from "./../../../../../../public/booknotewithpen.json";
-
 
 export default function AdminAddMember() {
     const [emails, setEmails] = useState('');
@@ -91,11 +88,7 @@ export default function AdminAddMember() {
             {loading && (
                 <div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0' }}>
                     <div>
-                        <Lottie
-                        animationData={booknotewithpen}
-                        loop={true}
-                        style={{ width: '100px', height: '100px' }} 
-                        />
+                        Loading...
                     </div>
                 </div>
             )}

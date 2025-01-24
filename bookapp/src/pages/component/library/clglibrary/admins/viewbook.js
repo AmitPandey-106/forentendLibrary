@@ -7,10 +7,6 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { AuthContext } from '@/pages/component/context/authcontext';
 import styles from "@/styles/allbooks.module.css";
-import { Padding } from '@mui/icons-material';
-import Lottie from 'lottie-react';
-import booksrch from "./../../../../../../public/booksrch.json";
-
 
 export default function AdminViewBook() {
   const { authUser } = useContext(AuthContext)
@@ -263,11 +259,7 @@ export default function AdminViewBook() {
           </button>
         </div>
         {loading && <div className={styles.loadingOverlay}>
-          <Lottie
-            animationData={booksrch}
-            loop={true}
-            style={{ width: '500px', height: '500px' }}
-          />
+          Loading...
         </div>}
 
         <div className={styles.books_row}>
