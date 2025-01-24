@@ -42,7 +42,7 @@ export default function AdminAddBook() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setFormData({
-      isbn: '',
+    isbn: '',
     title: '',
     author: '',
     quantity: '',
@@ -162,7 +162,6 @@ export default function AdminAddBook() {
             onChange={handleFileChange}
           />
         </label>
-
         <button className={styles.button} type="submit">Add Book</button>
       </form>
     </div>

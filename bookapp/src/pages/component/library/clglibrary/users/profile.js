@@ -4,6 +4,8 @@ import React, { useContext, useState, useEffect } from 'react'
 import { AuthContext } from '@/pages/component/context/authcontext'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import styles from '@/styles/profile.module.css';
+
 
 export default function Profile() {
   const [profileData, setProfileData] = useState(null);
@@ -49,40 +51,40 @@ export default function Profile() {
   };
 
   return (
-    <div>
-      <h1>Profile</h1>
-      <div className='edit'>
-        <Link href={`/component/library/clglibrary/users/profileform`}>Edit</Link>
-      </div>
-      <div className='profile'>
-        <Image src="" alt="oops" />
+<div className={styles.body}>
+      <h1 className={styles.h1}>Profile</h1>
+
+      <div className={styles.profile}>
+        {/* <Image src="" alt="oops" /> */}
         {profileData ? (
           <div>
-            <h1>Name: {profileData.firstName} {profileData.lastName}</h1>
+            <h2 style={{color:'black'}}>Name: {profileData.firstName} {profileData.lastName}</h2>
+            <div className={styles.edit}>
+        <Link href={`/component/library/clglibrary/users/profileform`}>Edit</Link>
+      </div>
           </div>
         ) : (
           <p></p>
         )}
       </div>
       <hr />
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <h3 style={{ margin: '3px 0', border: '1px solid white', display: 'inline-block', width: '100px', boxShadow: '1px 1px 1px 1px gray' }}>
+      <div className={styles.buttons}>
+        <h3 className={styles.uinfo}>
           <Link href={'/component/library/clglibrary/users/userinfo'}>User Info</Link>
         </h3>
-        <h3 style={{ margin: '3px 0', border: '1px solid white', display: 'inline-block', width: '100px', boxShadow: '1px 1px 1px 1px gray' }}>
+        <h3 className={styles.cpassword}>
           <Link href={'/component/library/clglibrary/users/changepassword'}>Change Password</Link>
         </h3>
-        <h3 style={{ margin: '3px 0', border: '1px solid white', display: 'inline-block', width: '100px', boxShadow: '1px 1px 1px 1px gray' }}>
+        <h3 className={styles.borrowed_book}>
           <Link href={'/component/library/clglibrary/users/borrowedbook'}>Borrowed Book</Link>
         </h3>
-        <h3 style={{ margin: '3px 0', border: '1px solid white', display: 'inline-block', width: '100px', boxShadow: '1px 1px 1px 1px gray' }}>
+        <h3 className={styles.notif}>
           <Link href={'/component/library/clglibrary/users/notification'}>Notification</Link>
         </h3>
-        <h3 style={{ margin: '3px 0', border: '1px solid white', display: 'inline-block', width: '100px', boxShadow: '1px 1px 1px 1px gray' }}>
+        <h3 className={styles.history}>
           <Link href={'/component/library/clglibrary/users/history'}>History</Link>
         </h3>
-        <h3
-          style={{ margin: '3px 0', border: '1px solid white', display: 'inline-block', width: '100px', boxShadow: '1px 1px 1px 1px gray', cursor: 'pointer' }}
+        <h3 className={styles.logout}
           onClick={() => setShowPopup(true)} // Show popup on click
         >
           Logout

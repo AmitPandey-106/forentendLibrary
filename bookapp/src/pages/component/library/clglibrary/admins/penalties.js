@@ -17,6 +17,7 @@ export default function AdminPenaltySection() {
 
         if (res.status === 200) {
           setPenalties(data.penalties || []);
+          console.log(data.penalties)
         } else {
           console.error('Failed to fetch penalties');
         }
@@ -54,7 +55,7 @@ export default function AdminPenaltySection() {
                 <td style={{ padding: '8px', border: '1px solid #ddd' }}>
                   {penalty.user.firstName} {penalty.user.lastName} ({penalty.user.email})
                 </td>
-                <td style={{ padding: '8px', border: '1px solid #ddd' }}>{penalty.book.title}</td>
+                <td style={{ padding: '8px', border: '1px solid #ddd' }}>{penalty.book.TITLE}</td>
                 <td style={{ padding: '8px', border: '1px solid #ddd' }}>{penalty.daysOverdue}</td>
                 <td style={{ padding: '8px', border: '1px solid #ddd' }}>₹{penalty.penaltyAmount}</td>
                 <td style={{ padding: '8px', border: '1px solid #ddd' }}>

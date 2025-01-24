@@ -6,6 +6,11 @@ import { useState, useEffect, useContext, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { AuthContext } from '@/pages/component/context/authcontext';
+import styles from "@/styles/allbooks.module.css";
+import { Padding } from '@mui/icons-material';
+import Lottie from 'lottie-react';
+import booksrch from "./../../../../../../public/booksrch.json";
+
 
 export default function AdminViewBook() {
   const { authUser } = useContext(AuthContext)
@@ -13,13 +18,13 @@ export default function AdminViewBook() {
   const [loading, setLoading] = useState(true);
   const [books, setBooks] = useState([])
   const [subject, setSubject] = useState('');
-    const [subjects, setSubjects] = useState([]);
-    const subjectInputRef = useRef(null);
-    const [query, setQuery] = useState('');
-    const [currentPage, setCurrentPage] = useState(1); // Current page state
-    const [totalPages, setTotalPages] = useState(1); // Total pages state
-    const [showSuggestions, setShowSuggestions] = useState(false);
-    // Total pages state
+  const [subjects, setSubjects] = useState([]);
+  const subjectInputRef = useRef(null);
+  const [query, setQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState(1); // Current page state
+  const [totalPages, setTotalPages] = useState(1); // Total pages state
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  // Total pages state
   // const [selectedOption, setSelectedOption] = useState('viewbook');
   // const [searchQuery, setSearchQuery] = useState('');
   // const [filteredBooks, setFilteredBooks] = useState([]);
@@ -33,82 +38,81 @@ export default function AdminViewBook() {
     } catch {
       return false;
     }
-   };
+  };
 
   const Layout = authUser.role === 'user' ? Userlayout : AdminLayout;
 
-  useEffect(() => {
-    const fetchBooks = async () => {
-      setLoading(true);
-      try {
-        const response = await fetch(`https://backendlibrary-2.onrender.com/get-clg-books?page=${currentPage}`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch books');
-        }
-        const data = await response.json();
-        setBooks(data.clgbooks);
-        setTotalPages(data.totalPages);
-      } catch (error) {
-        console.error('Error fetching books:', error);
-      } finally {
-        setLoading(false);
+  const fetchBooks = useCallback(async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(`https://backendlibrary-2.onrender.com/get-clg-books?page=${currentPage}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch books');
       }
-    };
+      const data = await response.json();
+      setBooks(data.clgbooks);
+      setTotalPages(data.totalPages);
+    } catch (error) {
+      console.error('Error fetching books:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [currentPage]);  // Memoize based on currentPage
 
+  const fetchSubjects = useCallback(async () => {
+    try {
+      const response = await fetch('https://backendlibrary-2.onrender.com/subjects');
+      if (!response.ok) {
+        throw new Error('Failed to fetch subjects');
+      }
+      const data = await response.json();
+      setSubjects(data.map((subject) => subject.SUB_NAME));
+    } catch (error) {
+      console.error('Error fetching subjects:', error);
+    }
+  }, []);  // Memoize once since it doesn't depend on any other state
+
+  // Adding fetchBooks and fetchSubjects to the dependency array
+  useEffect(() => {
     fetchBooks();
     fetchSubjects();
-  }, [currentPage]);
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
+  }, [currentPage, fetchBooks, fetchSubjects]);
+
+
+  const handleSubjectChange = (e) => {
+    const value = e.target.value;
+    setSubject(value);
+
+    if (value.trim() === '') {
+      // If subject input is cleared, fetch all books
+      // fetchBooks();
+      setShowSuggestions(false); // Hide suggestions
+    } else {
+      setShowSuggestions(true);
+    }
   };
 
-    const fetchSubjects = useCallback(async () => {
-      try {
-        const response = await fetch('https://backendlibrary-2.onrender.com/subjects');
-        if (!response.ok) {
-          throw new Error('Failed to fetch subjects');
-        }
-        const data = await response.json();
-        setSubjects(data.map((subject) => subject.SUB_NAME));
-      } catch (error) {
-        console.error('Error fetching subjects:', error);
+  const handleSubjectSelect = (selectedSubject) => {
+    setSubject(selectedSubject); // Set the selected subject to the input
+    setShowSuggestions(false); // Hide the suggestions dropdown
+  };
+
+  const searchBooks = async () => {
+    setLoading(true);
+    try {
+      const url = `https://backendlibrary-2.onrender.com/search-by-filter?subname=${subject}&query=${query}`;
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error('Failed to search books');
       }
-    }, []); 
-  
-    const handleSubjectChange = (e) => {
-      const value = e.target.value;
-      setSubject(value);
-  
-      if (value.trim() === '') {
-        // If subject input is cleared, fetch all books
-        fetchBooks();
-        setShowSuggestions(false); // Hide suggestions
-      } else {
-        setShowSuggestions(true);
-      }
-    };
-  
-    const handleSubjectSelect = (selectedSubject) => {
-      setSubject(selectedSubject); // Set the selected subject to the input
-      setShowSuggestions(false); // Hide the suggestions dropdown
-    };
-  
-    const searchBooks = async () => {
-      setLoading(true);
-      try {
-        const url = `https://backendlibrary-2.onrender.com/search-by-filter?subname=${subject}&query=${query}`;
-        const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error('Failed to search books');
-        }
-        const data = await response.json();
-        setBooks(data);
-      } catch (error) {
-        console.error('Error searching books:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
+      const data = await response.json();
+      setBooks(data);
+    } catch (error) {
+      console.error('Error searching books:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // const applyFilters = () => {
   //   let filtered = books;
@@ -182,8 +186,8 @@ export default function AdminViewBook() {
 
   return (
     <Layout>
-      <div className="books-container">
-        <h1 className="title">Available Books</h1>
+      <div className={styles.books_container} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+        <h1 className={styles.title}>Available Books</h1>
         {/* <div style={{ margin: '10px 10px', display:'flex', }}>
         <select
           style={{ margin: "0px 10px", padding:'5px 10px', fontSize:'20px' }}
@@ -215,153 +219,95 @@ export default function AdminViewBook() {
         />
       </div>
       </div> */}
-      <div className="search-bar">
-        <input
-          type="text"
-          placeholder="Search books by title or author..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-        />
-        <div ref={subjectInputRef} className="subject-input-container">
-          <input
-            type="text"
-            placeholder="Search by subject..."
-            value={subject}
-            onChange={handleSubjectChange}
-            onFocus={() => setShowSuggestions(true)}
-          />
-          {showSuggestions && (
-            <div className="suggestions">
-              {subjects
-                .filter((s) =>
-                  typeof s === 'string' && s.toLowerCase().includes(subject.toLowerCase())
-                )
-                .map((suggestion, index) => (
-                  <div
-                    key={index}
-                    onClick={() => handleSubjectSelect(suggestion)}
-                    className="suggestion-item"
-                  >
-                    {suggestion}
-                  </div>
-                ))}
-            </div>
-          )}
+        <div className={styles.search_bar} style={{ padding: '10px 20px', marginBottom: '20px', display: 'flex', alignItems: 'center', }}>
+          <div className={styles.subject_input_container}>
+            <input
+              type="text"
+              placeholder="Search books by title or author..."
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+            />
+          </div>
+          <div ref={subjectInputRef} className={styles.subject_input_container}>
+            <input
+              type="text"
+              placeholder="Search by subject..."
+              value={subject}
+              onChange={handleSubjectChange}
+              onFocus={() => setShowSuggestions(true)}
+            />
+            {showSuggestions && (
+              <div className={styles.suggestions}>
+                {subjects
+                  .filter((s) =>
+                    typeof s === 'string' && s.toLowerCase().includes(subject.toLowerCase())
+                  )
+                  .map((suggestion, index) => (
+                    <div
+                      key={index}
+                      onClick={() => handleSubjectSelect(suggestion)}
+                      className={styles.suggestion_item}
+                    >
+                      {suggestion}
+                    </div>
+                  ))}
+              </div>
+            )}
+          </div>
+          <button
+            className={styles.submit_button}
+            onClick={searchBooks}
+            style={{ padding: '5px 20px', marginLeft: '40px' }}
+          >
+            Search
+          </button>
         </div>
-        <button
-          className="submit-button"
-          onClick={searchBooks}
-        >
-          Search
-        </button>
-      </div>
-        {loading && <p>Loading...</p>}
+        {loading && <div className={styles.loadingOverlay}>
+          <Lottie
+            animationData={booksrch}
+            loop={true}
+            style={{ width: '500px', height: '500px' }}
+          />
+        </div>}
 
-        <div className="books-row">
+        <div className={styles.books_row}>
           {books.length > 0 ? (
             books.map((book) => (
-              <div key={book._id} className="book-card" onClick={() => handleBookClick(book)}>
-                <Image
-                  src={isValidURL(book.PHOTO) ? book.PHOTO : defaultimage}
-                  alt={book.TITLE}
-                  className="book-image"
-                  height={400}
-                  width={300}
-                />
-                <h2 className="book-title">{book.TITLE}</h2>
-                <p className="book-author">by {book.authorName || 'Unknown Author'}</p>
-                <p className="book-quantity">Available: {book.TOTAL_VOL}</p>
+              <div key={book._id} className={styles.book_card} onClick={() => handleBookClick(book)}>
+                <div className={styles.book_image}>
+                  <Image
+                    src={isValidURL(book.PHOTO) ? book.PHOTO : defaultimage}
+                    alt={book.TITLE}
+                    layout="fill"
+                    objectFit="contain"
+                  />
+                </div>
+                <h2 className={styles.book_title}>{book.TITLE}</h2>
+                <p className={styles.book_author}>by {book.authorName || 'Unknown Author'}</p>
+                <p className={styles.book_quantity}>Available: {book.TOTAL_VOL}</p>
               </div>
             ))
           ) : (
             <p>No Book found</p>
           )}
 
-          <div className="pagination">
-            <button
-              onClick={() => handlePageChange(currentPage - 1)}
-              disabled={currentPage === 1}
-            >
-              Prev
-            </button>
-            <span>Page {currentPage} of {totalPages}</span>
-            <button
-              onClick={() => handlePageChange(currentPage + 1)}
-              disabled={currentPage === totalPages}
-            >
-              Next
-            </button>
-          </div>
+
         </div>
-
-        <style jsx>{`
-        .books-container {
-          padding: 20px;
-          max-width: 1400px;
-          margin: 0 auto;
-        }
-
-        .title {
-          text-align: center;
-          font-size: 28px;
-          color: #333;
-          margin-bottom: 20px;
-        }
-
-        .books-row {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 20px;
-          justify-content: flex-start; /* Align books to the left */
-        }
-
-        .book-card {
-          background: #fff;
-          border: 1px solid #ddd;
-          border-radius: 8px;
-          padding: 15px;
-          text-align: center;
-          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-          max-width: 300px;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          transition: box-shadow 0.3s ease, transform 0.3s ease;
-        }
-
-        .book-card:hover {
-          box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-          transform: translateY(-5px);
-        }
-
-        .book-image {
-          width: 100%;
-          height: auto;
-          max-height: 250px;
-          object-fit: cover;
-          border-radius: 5px;
-          margin-bottom: 10px;
-        }
-
-        .book-title {
-          font-size: 16px;
-          color: #333;
-          margin: 5px 0;
-          font-weight: bold;
-        }
-
-        .book-author {
-          font-size: 14px;
-          color: #666;
-          margin: 5px 0;
-        }
-
-        .book-quantity {
-          font-size: 14px;
-          color: #4CAF50;
-          font-weight: bold;
-        }
-      `}</style>
+        <div className={styles.pagination}>
+          <button
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            Prev
+          </button>
+          <span>Page {currentPage} of {totalPages}</span>
+          <button
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </button>
+        </div>
       </div>
     </Layout>
   );

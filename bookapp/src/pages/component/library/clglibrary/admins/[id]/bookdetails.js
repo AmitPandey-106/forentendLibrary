@@ -2,8 +2,11 @@ import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '@/pages/component/context/authcontext';
 import AdminLayout from '../layout';
-import UserLayout from '../../../../../../u_layout';
+import Userlayout from '@/u_layout';
 import Image from 'next/image';
+import styles from "@/styles/bookdetails.module.css";
+import Lottie from 'lottie-react';
+import booksrch from "./../../../../../../../public/booksrch.json";
 
 const ConfirmationModal = ({ title, message, onConfirm, onCancel }) => (
   <div className="modal-overlay">
@@ -63,8 +66,21 @@ export default function BookDetails() {
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState('');
   const [recommendations, setRecommendations] = useState([])
+  const defaultimage = 'https://th.bing.com/th/id/OIP.3J5xifaktO5AjxKJFHH7oAAAAA?rs=1&pid=ImgDetMain';
+  const isValidURL = (url) => {
+    try {
+      new URL(url);
+      return true;
+    } catch {
+      return false;
+    }
+  };
 
-  const Layout = authUser.role === 'user' ? UserLayout : AdminLayout;
+  const Layout = authUser.role === 'user' ? Userlayout : AdminLayout;
+  // console.log(profileId)
+  const handleroute = ()=>{
+    router.push('/component/library/clglibrary/users/profileform')
+  }
 
   const openModal = (type) => {
     setModalType(type);
@@ -73,54 +89,57 @@ export default function BookDetails() {
   const closeModal = () => setShowModal(false);
 
   const handleCollect = async () => {
+    const token = localStorage.getItem('token')
+    if(!token){
+      router.push('../../../../auth/librarysignin'); // Redirect to signin
+      return;
+    }
     try {
       // Sending a POST request to borrow the book
       const response = await fetch(`https://backendlibrary-2.onrender.com/borrow/${profileId}/${id}`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // Adding 7 days for the due date
-        }),
+        headers: { 
+          "Content-Type": "application/json",
+          'Authorization': `Bearer ${token}`,
+        },
       });
-
+  
       if (response.ok) {
         const data = await response.json();
+        console.log(data)
         setIsBorrowed(true);
 
-        // Update book quantity in the frontend state
+        // Assuming the API sends back the updated book details (including the dueDate)
         setBookdetails((prev) => ({
           ...prev,
-          quantity: prev.quantity > 0 ? prev.quantity - 1 : 0,
+          TOTAL_VOL: prev.book.TOTAL_VOL > 0 ? prev.book.TOTAL_VOL - 1 : 0,
         }));
 
-        // Display a success message
-        alert(
-          `Successfully borrowed "${bookdetails.title}". Due date: ${new Date(
-            data.dueDate
-          ).toLocaleDateString()}`
-        );
+        // Alert success with due date from API response
+        alert(`Request Successfully send for "${bookdetails.book.TITLE}"}`);
       } else {
-        // Handle errors returned by the API
         const errorData = await response.json();
         if (errorData.message) {
           alert(`Error: ${errorData.message}`);
-        } else {
+        }else if(!profileId){
+          handleroute();
+        } 
+        else {
           alert("Failed to borrow the book. Please try again later.");
         }
       }
     } catch (error) {
       console.error("Error borrowing book:", error);
-      alert("An unexpected error occurred while trying to borrow the book.");
+      // alert("An unexpected error occurred while trying to borrow the book.");
     }
-  };
-
-
+  }
+  
   const handleWaitlist = async () => {
     try {
       const response = await fetch('https://backendlibrary-2.onrender.com/waitlist', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: profileId, bookId: bookdetails._id }),
+        body: JSON.stringify({ userId: profileId, bookId: bookdetails.book._id }),
       });
 
       if (response.ok) {
@@ -152,7 +171,7 @@ export default function BookDetails() {
         const data = await res.json();
 
         if (res.status === 200) {
-          setBookdetails(data.book);
+          setBookdetails(data);
           setRecommendations(data.recommendations)
         } else {
           console.error(data.message || "Failed to fetch book details");
@@ -164,14 +183,22 @@ export default function BookDetails() {
 
     fetchBookDetails();
   }, [router.isReady, id]);
+  // console.log(bookdetails)
+  const handleBookClick = (book) => {
+    router.push({
+      pathname: `/component/library/clglibrary/admins/${book._id}/bookdetails`
+    });
+  };
+
 
   return (
     <Layout>
-      <div className="book-details-container">
+      
+      <div className={styles.book_details_container}>
         {authUser.role === 'user' ? (
-          <div className="button-group">
+          <div className={styles.buttongroup}>
             <button
-              className="collect-button"
+              className={styles.collect_button}
               onClick={() => openModal('borrow')}
               disabled={isBorrowed || bookdetails?.quantity === 0}
             >
@@ -179,7 +206,7 @@ export default function BookDetails() {
             </button>
 
             <button
-              className="waitlist-button"
+              className={styles.waitlistbutton}
               onClick={() => openModal('waitlist')}
               disabled={isWaitlisted || bookdetails?.quantity > 0}
             >
@@ -187,39 +214,68 @@ export default function BookDetails() {
             </button>
           </div>
         ) : (
-          <div className="button-group">
-            <button className="edit-button" onClick={() => router.push(`/component/library/clglibrary/admins/${id}/editbook`)}>Edit</button>
-            <button className="delete-button" onClick={() => alert("Delete button clicked")}>Delete</button>
+          <div className={styles.buttongroup}>
+            <button className={styles.collect_button} onClick={() => router.push(`/component/library/clglibrary/admins/${id}/editbook`)}>Edit</button>
+            <button className={styles.waitlistbutton} onClick={() => alert("Delete button clicked")}>Delete</button>
           </div>
         )}
         {bookdetails ? (
           <>
-            <div className='container'>
-              <h1 className="book-title">{bookdetails.TITLE}</h1>
-              <div className="book-details">
-                <Image src={bookdetails.PHOTO} alt={bookdetails.title} className="book-image" style={{width:"250px", height:"400px"}} />
-                <div className="book-info">
-                  <p><strong>Title:</strong> {bookdetails.title}</p>
-                  <p><strong>Author:</strong> {bookdetails.AUTH_ID1}</p>
-                  <p><strong>Quantity Available:</strong> {bookdetails.quantity}</p>
+            <div className={styles.bookdetails}>
+            <h1 className={styles.book_title}>{bookdetails.book.TITLE}</h1>
+              <div className={styles.section1}>
+                <div className={styles.sec1_bookname}>
+              <div className={styles.imgCover}>
+                <Image src={isValidURL(bookdetails.book.PHOTO) ? bookdetails.book.PHOTO : defaultimage} alt={bookdetails.book.TITLE} className="book-image" width={200} height={200} />
+                </div>
+                </div>
+              
+                <div className={styles.bookinfo}>
+                  <div className={styles.deepDetails}>
+                  <p><strong>Title:</strong> {bookdetails.book.TITLE}</p>
+                    <div className={styles.top}>
+                  <div className={styles.detailLeft}>
+                  <p><strong>Author:</strong> {bookdetails.author}</p>
+                  </div>
+                  
+                  <div className={styles.detailRight}>
+                  <p><strong>Quantity Available:</strong> {bookdetails.book.TOTAL_VOL}</p>
+                  <p><strong>Published On :</strong> 22/2/2022</p>
+                  </div>
+                  </div>
+                  <div className={styles.ratings}>
+                    <span className={styles.star}>&#9733;</span>
+                    <span className={styles.star}>&#9733;</span>
+                    <span className={styles.star}>&#9733;</span>
+                    <span className={styles.star}>&#9734;</span>
+                    <span className={styles.star}>&#9734;</span>
+                    <p className={styles.ratingText}>3.0/5.0</p>
+                  </div>
+                  </div>
                 </div>
               </div>
+            
+           
               {recommendations.length > 0 && (
-                <div className="recommendations">
-                  <h2>Recommended Books</h2>
+                <div className={styles.recommendation}>
+                  <h2>Recommended Books :- </h2>
+                <div className={styles.books_row}>
+                  
                   <div className="recommendation-list">
                     {recommendations.map((recBook) => (
                       <div
                         key={recBook._id}
-                        className="recommendation-item"
-                        onClick={() => router.push(`/component/library/book/${recBook._id}`)}
+                        className={styles.recommendation_item}
+                        onClick={()=>handleBookClick(recBook)}
                       >
-                        <Image src={recBook.bookimage} alt={recBook.title} className="recommendation-image" />
-                        <p className="recommendation-title">{recBook.title}</p>
+                        <Image src={isValidURL(recBook.PHOTO) ? recBook.PHOTO : defaultimage} alt={recBook.TITLE} className="recommendation-image" width={200} height={200}/>
+                        <p className={styles.recommendation_title}>{recBook.TITLE}</p>
                       </div>
                     ))}
                   </div>
+                  
                   <style jsx>{`
+                  
       .recommendations {
         margin-top: 20px;
       }
@@ -245,15 +301,20 @@ export default function BookDetails() {
       }
     `}</style>
                 </div>
+                </div>
               )}
 
             </div>
           </>
         ) : (
-          <p>Loading book details...</p>
+          <Lottie
+          animationData={booksrch}
+          loop={true}
+          style={{ width: '500px', height: '500px' }}
+        />
         )}
+      
       </div>
-
       {showModal && (
         <ConfirmationModal
           title={modalType === 'borrow' ? 'Confirm Borrowing' : 'Confirm Waitlisting'}

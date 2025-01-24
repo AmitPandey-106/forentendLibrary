@@ -89,7 +89,7 @@ export default function Editbook() {
       if (res.status === 200) {
         console.log(data.book);  // This will give you the updated book object
         setSuccess("Book updated successfully!");
-        router.push(`/component/library/clglibrary/admins/${id}/bookdetails`);
+        router.replace(`/component/library/clglibrary/admins/${id}/bookdetails`);
       } else {
         console.error('Failed to update book details');
         setError("Failed to update book details");  // Optional: show error message

@@ -64,7 +64,7 @@ export default function Others() {
           ebooks.map((ebook) => (
             <div key={ebook._id} className={styles.bookCard}>
               <Image
-                src={ebook.coverImage || '/logo.jpg'} // Placeholder image if no cover image is available
+                src={ebook.coverImage} // Placeholder image if no cover image is available
                 alt={ebook.title}
                 className={styles.bookImage}
               />

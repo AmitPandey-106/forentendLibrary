@@ -14,7 +14,7 @@ export default function Story() {
 
     const handleComponent = (value) => {
       setSelectedOption(value); // Update the selected option in state
-      router.push(`/component/library/clglibrary/admins/${value}`); // Navigate to the respective page
+      router.push(`/component/library/clglibrary/users/${value}`); // Navigate to the respective page
     };
     
     useEffect(() => {
@@ -31,8 +31,6 @@ export default function Story() {
           value={selectedOption}
           onChange={(e) => handleComponent(e.target.value)}
         >
-          <option value="viewbook">All Book</option>
-          <option value="viewebook">All E-Book</option>
           <option value="novel">Novel</option>
           <option value="story">Story</option>
         </select>

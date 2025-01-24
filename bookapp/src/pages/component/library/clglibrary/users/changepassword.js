@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import Userlayout from '../../../../../u_layout';
 import { useRouter } from 'next/router';
+import styles from '@/styles/changepassword.module.css';
+
 
 ChangePassword.getLayout = function getLayout(page) {
   return <Userlayout>{page}</Userlayout>;
@@ -64,7 +66,7 @@ export default function ChangePassword() {
 
 
   return (
-    <div>
+    <div className={styles.fg_pass}>
       <h1>Change Password</h1>
       <form onSubmit={handleSubmit}>
         {message && <p>{message}</p>}

@@ -94,11 +94,11 @@
 
   .pagination {
     display: flex;
-    justify-content: end;
     align-items: center;
     margin-top: 10px;
-    gap: 10px; /* Adds spacing between buttons and text */
+    gap: 10px;
   }
+
   
   .pagination button {
     padding: 8px 12px;

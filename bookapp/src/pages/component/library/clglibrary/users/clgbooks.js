@@ -3,19 +3,25 @@ import Userlayout from '../../../../../u_layout';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { useCallback } from 'react';
+import styles from '../../../../../styles/allbooks.module.css';
+import Lottie from 'lottie-react';
+import booksrch from "./../../../../../../public/booksrch.json";
 
 export default function ClgBooks() {
   const router = useRouter();
+  const [menuOpen, setMenuOpen] = useState([]);
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [subject, setSubject] = useState('');
   const [subjects, setSubjects] = useState([]);
   const [query, setQuery] = useState('');
-  const [currentPage, setCurrentPage] = useState(1); // Current page state
-  const [totalPages, setTotalPages] = useState(1); // Total pages state
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(-1);
   const defaultimage = 'https://th.bing.com/th/id/OIP.3J5xifaktO5AjxKJFHH7oAAAAA?rs=1&pid=ImgDetMain';
   const subjectInputRef = useRef(null);
+
   const isValidURL = (url) => {
     try {
       new URL(url);
@@ -23,9 +29,9 @@ export default function ClgBooks() {
     } catch {
       return false;
     }
-   };
+  };
 
-   const fetchBooks = useCallback(async () => {
+  const fetchBooks = useCallback(async () => {
     setLoading(true);
     try {
       const response = await fetch(`https://backendlibrary-2.onrender.com/get-clg-books?page=${currentPage}`);
@@ -53,25 +59,26 @@ export default function ClgBooks() {
     } catch (error) {
       console.error('Error fetching subjects:', error);
     }
-  }, []); 
+  }, []);
 
   const handleSubjectChange = (e) => {
     const value = e.target.value;
     setSubject(value);
-
     if (value.trim() === '') {
-      // If subject input is cleared, fetch all books
       fetchBooks();
-      setShowSuggestions(false); // Hide suggestions
+      setShowSuggestions(false);
     } else {
       setShowSuggestions(true);
+      setSelectedSuggestionIndex(-1); // Reset suggestion index
     }
   };
 
   const handleSubjectSelect = (selectedSubject) => {
-    setSubject(selectedSubject); // Set the selected subject to the input
-    setShowSuggestions(false); // Hide the suggestions dropdown
+    setSubject(selectedSubject);
+    setShowSuggestions(false);
   };
+
+  const toggleMenu = () => setMenuOpen(!menuOpen);
 
   const searchBooks = async () => {
     setLoading(true);
@@ -94,217 +101,148 @@ export default function ClgBooks() {
     fetchBooks();
     fetchSubjects();
   }, [currentPage, fetchBooks, fetchSubjects]);
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
+
+  const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (
-        subjectInputRef.current &&
-        !subjectInputRef.current.contains(event.target)
-      ) {
+      if (subjectInputRef.current && !subjectInputRef.current.contains(event.target)) {
         setShowSuggestions(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  const handleKeyDown = (e) => {
+
+      if (e.key === 'ArrowDown') {
+        // Move selection down
+        setSelectedSuggestionIndex((prevIndex) =>
+          prevIndex < subjects.length - 1 ? prevIndex + 1 : prevIndex
+        );
+      } else if (e.key === 'ArrowUp') {
+        // Move selection up
+        setSelectedSuggestionIndex((prevIndex) =>
+          prevIndex > 0 ? prevIndex - 1 : 0
+        );
+      } else if (e.key === 'Enter' && selectedSuggestionIndex >= 0) {
+        // Select the highlighted suggestion
+        handleSubjectSelect(subjects[selectedSuggestionIndex]);
+        e.preventDefault(); // Prevent form submission on Enter
+      }
+    };
+    useEffect(() => {
+      if (selectedSuggestionIndex >= 0 && subjectInputRef.current) {
+        const suggestionList = subjectInputRef.current.querySelector('.' + styles.suggestions);
+        const selectedItem = suggestionList?.children[selectedSuggestionIndex];
+    
+        if (selectedItem) {
+          // Scroll to the selected item
+          selectedItem.scrollIntoView({
+            behavior: 'smooth',
+            block: 'nearest', // Ensures smooth scrolling without jumping
+          });
+        }
+      }
+    }, [selectedSuggestionIndex]);
+
+  const handleBookClick = (book) => {
+    router.push({
+      pathname: `/component/library/clglibrary/admins/${book._id}/bookdetails`,
+    });
+  };
+
   return (
-    <div className="books-container">
-      <div className="search-bar">
-        <input
-          type="text"
-          placeholder="Search books by title or author..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-        />
-        <div ref={subjectInputRef} className="subject-input-container">
+    <div className={styles.books_container}>
+      <div className={styles.control_bar}>
+        <h1>All Books</h1>
+        <div className={styles.filter} onClick={toggleMenu}>
+          <Image src="/WhatsApp Image 2025-01-20 at 13.04.13_8901dccb.jpg" alt="Logo" height={40} width={50} className={styles.image} />
+        </div>
+
+        <div className={styles.search_bar}>
           <input
             type="text"
-            placeholder="Search by subject..."
-            value={subject}
-            onChange={handleSubjectChange}
-            onFocus={() => setShowSuggestions(true)}
+            placeholder="Search books by title or author..."
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && searchBooks()}
           />
-          {showSuggestions && (
-            <div className="suggestions">
-              {subjects
-                .filter((s) =>
-                  typeof s === 'string' && s.toLowerCase().includes(subject.toLowerCase())
-                )
-                .map((suggestion, index) => (
-                  <div
-                    key={index}
-                    onClick={() => handleSubjectSelect(suggestion)}
-                    className="suggestion-item"
-                  >
-                    {suggestion}
-                  </div>
-                ))}
-            </div>
-          )}
+          <div ref={subjectInputRef} className={styles.subject_input_container}>
+            <input
+              type="text"
+              placeholder="Search by subject..."
+              value={subject}
+              onChange={handleSubjectChange}
+              onFocus={() => setShowSuggestions(true)}
+              onKeyDown={handleKeyDown}
+            />
+            {showSuggestions && (
+              <div className={styles.suggestions}>
+                {subjects
+                  .filter((s) => s.toLowerCase().includes(subject.toLowerCase()))
+                  .map((suggestion, index) => (
+                    <div
+                      key={index}
+                      onClick={() => handleSubjectSelect(suggestion)}
+                      className={`${styles.suggestion_item} ${
+                        index === selectedSuggestionIndex ? styles.selected : ''
+                      }`}
+                    >
+                      {suggestion}
+                    </div>
+                  ))}
+              </div>
+            )}
+          </div>
         </div>
-        <button
-          className="submit-button"
-          onClick={searchBooks}
-        >
+        <button className={styles.submit_button} onClick={searchBooks}>
           Search
         </button>
       </div>
-      {loading && <p>Loading...</p>}
+      {loading && <div className={styles.loadingOverlay}>
+        
+        <Lottie
+          animationData={booksrch}
+          loop={true}
+          style={{ width: '500px', height: '500px', marginLeft:'400px' }}
+        />
+      </div>}
 
-      <div className="books-row">
+      <div className={styles.books_row}>
         {books.length > 0 ? (
           books.map((book) => (
-            <div key={book._id} className="book-card" onClick={() => handleBookClick(book)}>
-              <Image
-                src={isValidURL(book.PHOTO) ? book.PHOTO : defaultimage}
-                alt={book.TITLE}
-                className="book-image"
-              />
-              <h2 className="book-title">{book.TITLE}</h2>
-              <p className="book-author">by {book.authorName || 'Unknown Author'}</p>
-              <p className="book-quantity">Available: {book.TOTAL_VOL}</p>
+            <div key={book._id} className={styles.book_card} onClick={() => handleBookClick(book)}>
+              <div className={styles.book_image}>
+                <Image
+                  src={isValidURL(book.PHOTO) ? book.PHOTO : defaultimage}
+                  alt={book.TITLE}
+                  layout="fill"
+                  objectFit="contain"
+                />
+              </div>
+              <h2 className={styles.book_title}>{book.TITLE}</h2>
+              <p className={styles.book_author}>by {book.authorName || 'Unknown Author'}</p>
+              <p className={styles.book_quantity}>Available: {book.TOTAL_VOL}</p>
             </div>
           ))
         ) : (
           <p>No Book found</p>
         )}
-
-        <div className="pagination">
-          <button
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1}
-          >
-            Prev
-          </button>
-          <span>Page {currentPage} of {totalPages}</span>
-          <button
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === totalPages}
-          >
-            Next
-          </button>
-        </div>
       </div>
-      <style jsx>{`
-        .books-container {
-          padding: 20px;
-          max-width: 1400px;
-          margin: 0 auto;
-        }
 
-        .search-bar {
-          margin-bottom: 20px;
-          text-align: center;
-          position: relative;
-        }
-
-        .search-bar input {
-          padding: 10px;
-          width: 100%;
-          max-width: 600px;
-          border: 1px solid #ddd;
-          border-radius: 4px;
-          font-size: 16px;
-          margin-bottom: 10px;
-        }
-
-        .submit-button {
-          padding: 10px 20px;
-          background: #007bff;
-          color: #fff;
-          border: none;
-          border-radius: 4px;
-          cursor: pointer;
-          font-size: 16px;
-        }
-
-        .submit-button:hover {
-          background: #0056b3;
-        }
-
-        .suggestions {
-          position: absolute;
-          background: #fff;
-          border: 1px solid #ddd;
-          border-radius: 4px;
-          width: 100%;
-          max-width: 600px;
-          z-index: 10;
-          max-height: 200px;
-          overflow-y: auto;
-          text-align: left;
-        }
-
-        .suggestion-item {
-          padding: 10px;
-          cursor: pointer;
-          border-bottom: 1px solid #eee;
-        }
-
-        .suggestion-item:hover {
-          background: #f0f0f0;
-        }
-
-        .books-row {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 20px;
-          justify-content: flex-start;
-        }
-
-        .book-card {
-          background: #fff;
-          border: 1px solid #ddd;
-          border-radius: 8px;
-          padding: 15px;
-          text-align: center;
-          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-          max-width: 300px;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          transition: box-shadow 0.3s ease, transform 0.3s ease;
-        }
-
-        .book-card:hover {
-          box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-          transform: translateY(-5px);
-        }
-
-        .book-image {
-          width: 100%;
-          height: auto;
-          max-height: 300px;
-          object-fit: cover;
-          border-radius: 5px;
-          margin-bottom: 10px;
-        }
-
-        .book-title {
-          font-size: 16px;
-          color: #333;
-          margin: 5px 0;
-          font-weight: bold;
-        }
-
-        .book-author {
-          font-size: 14px;
-          color: #666;
-          margin: 5px 0;
-        }
-
-        .book-quantity {
-          font-size: 14px;
-          color: #444;
-          margin: 5px 0;
-        }
-      `}</style>
+      <div className={styles.pagination}>
+        <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+          Prev
+        </button>
+        <span>
+          Page {currentPage} of {totalPages}
+        </span>
+        <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
+          Next
+        </button>
+      </div>
     </div>
   );
 }

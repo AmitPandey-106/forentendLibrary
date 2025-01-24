@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import styles from '@/styles/StudentProfileForm.module.css';
 import { useRouter } from 'next/router';
 import { AuthContext } from '@/pages/component/context/authcontext';
+import Userlayout from '@/u_layout';
 
 export default function ProfileForm({ initialError }) {
   const [error, setError] = useState(initialError || '');
@@ -22,12 +23,13 @@ export default function ProfileForm({ initialError }) {
     libraryCardNumber: '',
   });
   const router = useRouter();
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const token = localStorage.getItem('token'); // Make sure the token is stored in localStorage or another secure place
-        const res = await fetch('https://backendlibrary-2.onrender.com/get-user-profile', {
+        const res = await fetch(`https://backendlibrary-2.onrender.com/get-user-profile`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -44,7 +46,7 @@ export default function ProfileForm({ initialError }) {
         if (res.status === 200) {
           setFormData(data.profile); // Pre-fill the form with user data
         } else {
-          setError(data.message || 'Failed to load profile or Not filled data fill form.');
+          setError(data.message || 'Failed to load profile or plz create profile to form operation!');
         }
       } catch (error) {
         console.error("Error fetching profile data:", error);
@@ -53,7 +55,7 @@ export default function ProfileForm({ initialError }) {
     };
 
     fetchData();
-  }, [authUser?.id]);
+  }, [authUser?.id, backendUrl]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -91,30 +93,53 @@ export default function ProfileForm({ initialError }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className={styles.formContainer}>
+    <Userlayout>
+    <div className={styles.body}>
+      <div className={styles.card}>
       <h2 className={styles.h2}>Personal Information</h2>
+    <form onSubmit={handleSubmit} className={styles.formContainer}>
+      
       {success && <p className={styles.successMessage}>{success}</p>}
       {error && <p className={styles.errorMessage}>{error}</p>}
-
+      
+      <div className={styles.user_info}>
+      <div className={styles.first}>
+      <p>First Name</p>  
       <input className={styles.input} type="text" name="firstName" placeholder="First Name" onChange={handleChange} value={formData.firstName} />
+      <p>Middle Name</p> 
       <input className={styles.input} type="text" name="middleName" placeholder="Middle Name" onChange={handleChange} value={formData.middleName} />
+      <p>Last Name</p> 
       <input className={styles.input} type="text" name="lastName" placeholder="Last Name" onChange={handleChange} value={formData.lastName} />
+      <p>DOB</p> 
       <input className={styles.input} type="date" name="dob" placeholder="Date of Birth" onChange={handleChange} value={formData.dob} />
+      <p>Gender</p> 
       <select className={styles.input} name="gender" onChange={handleChange} value={formData.gender}>
         <option value="">Select Gender</option>
         <option value="male">Male</option>
         <option value="female">Female</option>
         <option value="nonbinary">Non-binary</option>
       </select>
+      </div>
 
+      <div className={styles.second}>
+      <p>Email Address</p>   
       <input className={styles.input} type="email" name="email" placeholder="Email Address" onChange={handleChange} value={formData.email} />
+      <p>Phone Number</p> 
       <input className={styles.input} type="tel" name="phoneNumber" placeholder="Phone Number" onChange={handleChange} value={formData.phoneNumber} />
+      <p>Student ID</p> 
       <input className={styles.input} type="text" name="studentID" placeholder="Student ID" onChange={handleChange} value={formData.studentID} />
+      <p>Department</p> 
       <input className={styles.input} type="text" name="department" placeholder="Department" onChange={handleChange} value={formData.department} />
+      <p>Current Year</p> 
       <input className={styles.input} type="text" name="yearLevel" placeholder="Year Level" onChange={handleChange} value={formData.yearLevel} />
+      <p>Library Card Number  </p> 
       <input className={styles.input} type="text" name="libraryCardNumber" placeholder="Library Card Number" onChange={handleChange} value={formData.libraryCardNumber} />
-
+      </div>
+      </div>
       <button className={styles.button} type="submit">Submit Profile</button>
     </form>
+    </div>
+    </div>
+    </Userlayout>
   );
 }

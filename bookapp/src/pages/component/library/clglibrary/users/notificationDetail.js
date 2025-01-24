@@ -11,11 +11,21 @@ export default function NotificationDetails() {
   const router = useRouter();
   const { id } = router.query; // Get the notification ID from the query
   const [notification, setNotification] = useState(null);
+  const defaultImage = 'https://th.bing.com/th/id/OIP.3J5xifaktO5AjxKJFHH7oAAAAA?rs=1&pid=ImgDetMain';
+
+  const isValidURL = (url) => {
+    try {
+      new URL(url);
+      return true;
+    } catch {
+      return false;
+    }
+  };
 
   useEffect(() => {
-    const fetchNotificationDetails = async () => {
-      if (!id) return;
+    if (!id) return;
 
+    const fetchNotificationDetails = async () => {
       try {
         const response = await fetch(`https://backendlibrary-2.onrender.com/notifications/details/${id}`, {
           method: 'GET',
@@ -29,7 +39,7 @@ export default function NotificationDetails() {
 
         const data = await response.json();
         setNotification(data);
-        console.log(data)
+        console.log(data);
       } catch (error) {
         console.error('Error fetching notification details:', error);
       }
@@ -38,6 +48,10 @@ export default function NotificationDetails() {
     fetchNotificationDetails();
   }, [id]);
 
+  if (!id) {
+    return <p>Loading notification details...</p>;
+  }
+
   if (!notification) {
     return <p>Loading notification details...</p>;
   }
@@ -45,13 +59,40 @@ export default function NotificationDetails() {
   return (
     <div>
       <h2>Notification Details</h2>
-      <p><strong>Title:</strong> {notification.title}</p>
-      <Image src={notification.book.bookimage} alt={notification.book.title} className="book-image" style={{width:'100px'}}/>
-      <p><strong>Message:</strong> {notification.message}</p>
-      <p><strong>Book Title:</strong> {notification.book?.title || 'N/A'}</p>
-      <p><strong>Author:</strong> {notification.book?.author || 'N/A'}</p>
-      <p><strong>User:</strong> {notification.user?.firstName|| 'N/A'} {notification.user?.lastName|| 'N/A'}</p>
-      <p><strong>Return Date:</strong> {new Date(notification.dueDate).toLocaleString()}</p>
+      {/* Title */}
+      <p><strong>Title:</strong> {notification.detailedNotification?.title || 'N/A'}</p>
+
+      {/* Book Image */}
+      <Image
+        src={
+          isValidURL(notification.detailedNotification?.book?.PHOTO) &&
+          notification.detailedNotification?.book?.PHOTO !== 'NULL'
+            ? notification.detailedNotification.book.PHOTO
+            : defaultImage
+        }
+        alt={notification.detailedNotification?.book?.TITLE || 'Book Image'}
+        width={150}
+        height={150}
+      />
+
+      {/* Message */}
+      <p><strong>Message:</strong> {notification.detailedNotification?.message || 'N/A'}</p>
+
+      {/* Book Details */}
+      <p><strong>Book Title:</strong> {notification.detailedNotification?.book?.TITLE || 'N/A'}</p>
+      <p><strong>Author:</strong> {notification.author || 'N/A'}</p>
+
+      {/* User Details */}
+      <p>
+        <strong>User:</strong>{' '}
+        {notification.user?.firstName || 'N/A'} {notification.user?.lastName || 'N/A'}
+      </p>
+
+      {/* Return Date and Penalty */}
+      <p>
+        <strong>Return Date:</strong>{' '}
+        {notification.dueDate ? new Date(notification.dueDate).toLocaleString() : 'N/A'}
+      </p>
       <p><strong>Penalty:</strong> {notification.penalty || 'None'}</p>
     </div>
   );

@@ -31,6 +31,7 @@ export default function Notification() {
 
         const data = await response.json();
         setNotifications(data.notifications);
+        console.log(data.notifications)
       } catch (error) {
         console.error('Error fetching notifications:', error);
       }
@@ -44,6 +45,21 @@ export default function Notification() {
     router.push(`/component/library/clglibrary/users/notificationDetail?id=${notificationId}`);
   };
 
+  const formatDate = (dateString) => {
+    if (!dateString) {
+      return 'Date not available'; // Fallback text if the date is invalid or missing
+    }
+  
+    try {
+      const options = { hour: '2-digit', minute: '2-digit' };
+      return new Intl.DateTimeFormat('en-US', options).format(new Date(dateString));
+    } catch (error) {
+      console.error('Error formatting date:', error);
+      return 'Invalid date'; // Fallback in case of formatting errors
+    }
+  };
+  
+
   return (
     <div>
       <h2>Notification</h2>
@@ -53,8 +69,9 @@ export default function Notification() {
         <ul>
           {notifications.map((notif) => (
             <div key={notif._id} onClick={() => handleNotificationClick(notif._id)} style={{ cursor: 'pointer' }}>
-              <li>{notif.title}</li>
+              <li><strong>{notif.title}</strong></li>
               <li>{notif.message}</li>
+              <li><small>{formatDate(notif.timestamp)}</small></li>
               <hr />
             </div>
           ))}

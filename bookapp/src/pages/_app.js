@@ -5,6 +5,7 @@ import { AuthProvider } from "./component/context/authcontext";
 export default function App({ Component, pageProps }) {
   // Check if the page has a custom layout. If not, use a default layout.
   const getLayout = Component.getLayout || ((page) => page);
+  
 
   return getLayout(
   <AuthProvider>

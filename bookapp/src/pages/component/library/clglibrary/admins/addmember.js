@@ -1,6 +1,9 @@
 'use client';
 import { useState } from 'react';
 import AdminLayout from './layout';
+import Lottie from 'lottie-react';
+import booknotewithpen from "./../../../../../../public/booknotewithpen.json";
+
 
 export default function AdminAddMember() {
     const [emails, setEmails] = useState('');
@@ -34,7 +37,17 @@ export default function AdminAddMember() {
             });
 
             const result = await response.json();
-            setResponseMessage(result.msg || result.error);
+            if (result.results) {
+                const successEmails = result.results.filter(r => r.status === 'Success').map(r => r.email).join(', ');
+                const failedEmails = result.results.filter(r => r.status === 'Failed').map(r => `${r.email} (${r.message})`).join(', ');
+                setResponseMessage(`
+                    Success: ${successEmails || 'None'}
+                    Failed: ${failedEmails || 'None'}
+                `);
+            } else {
+                setResponseMessage(result.msg || result.error);
+            }
+              
         } catch (error) {
             console.error('Error:', error);
             setResponseMessage('Error: Unable to send emails.');
@@ -77,29 +90,17 @@ export default function AdminAddMember() {
             </form>
             {loading && (
                 <div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0' }}>
-                    <div
-                        style={{
-                            border: '4px solid #f3f3f3',
-                            borderTop: '4px solid #3498db',
-                            borderRadius: '50%',
-                            width: '30px',
-                            height: '30px',
-                            animation: 'spin 1s linear infinite',
-                        }}
-                    />
+                    <div>
+                        <Lottie
+                        animationData={booknotewithpen}
+                        loop={true}
+                        style={{ width: '100px', height: '100px' }} 
+                        />
+                    </div>
                 </div>
             )}
             {responseMessage && <p>{responseMessage}</p>}
-            <style jsx>{`
-                @keyframes spin {
-                    0% {
-                        transform: rotate(0deg);
-                    }
-                    100% {
-                        transform: rotate(360deg);
-                    }
-                }
-            `}</style>
+
         </div>
     );
 }

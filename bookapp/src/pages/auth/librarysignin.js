@@ -55,15 +55,21 @@ export default function LibrarySignin({ initialError }) {
   };
 
   return (
+    <div className={styles.libsign}>
     <div className={styles.container}>
-      <h1 className={styles.h1}>Sign In</h1>
+      <div className={styles.form_container}>
       <form className={styles.form} onSubmit={handleSubmit}>
+      <h1 className={styles.h1}>Sign In</h1>
+      <Link className={styles.link} href={"/component/library/publiclibrary/publiclibrary"}>Or skip to public library ...</Link>
         {error && <p style={{ color: 'red' }}>{error}</p>}
         {success && <p style={{ color: 'green' }}>{success}</p>}
-        <div className={styles.element}>
-          <label className={styles.title}>Member Number</label>
+
+      <div className={styles.element}>
+        <div className={styles.element1}>
+          <label className={styles.title}></label>
           <input
             className={styles.input}
+            placeholder='Member Number'
             type="text"
             name="email"
             value={form.email}
@@ -71,24 +77,38 @@ export default function LibrarySignin({ initialError }) {
             required
           />
         </div>
-        <div className={styles.element}>
-          <label className={styles.title}>Password</label>
+        <div className={styles.element2}>
+          <label className={styles.title}></label>
           <input
             className={styles.input}
+            placeholder='Password'
             type="password"
             name="password"
             value={form.password}
             onChange={handleChange}
+            required
           />
         </div>
-        <button className={styles.button} type="submit">Sign In</button>
-        <Link href={"/component/library/publiclibrary/publiclibrary"}>Skip to public library ...</Link>
-        <p>
-        <a href="#" onClick={() => router.push('/component/library/clglibrary/users/forgetpass')} style={{color:'blue'}}>
+        </div>
+        <p className={styles.forp}>
+        <a href="#" onClick={() => router.push('/component/library/clglibrary/users/forgetpass')}>
           Forgot Password?
         </a>
       </p>
-      </form>
+        <button className={styles.button} type="submit">Sign In</button>
+        </form>
+        </div>
+
+        <div className={styles.toggle_container}>
+          <div className={styles.toggle}>
+            <div className={styles.toggle_pannel}>
+          <h1>Welcome Back!</h1>
+          <p>Enter your personal details to use all of library features</p>
+      </div>
+      </div>
+      </div>
+      
+    </div>
     </div>
   );
 }

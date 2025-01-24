@@ -1,12 +1,13 @@
 import { createContext, useState, useEffect, useContext } from 'react';
 import { useRouter } from 'next/router';
-import jwtDecode from 'jwt-decode'; // Correct import
+import {jwtDecode} from 'jwt-decode'; // Correct import
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authUser, setAuthUser] = useState({});
+  const [profile, setProfile] = useState(null);
   const [profileId, setProfileId] = useState(null);
   const [query, setQuery] = useState(""); // Search query
   const [results, setResults] = useState([]);
@@ -27,6 +28,7 @@ export const AuthProvider = ({ children }) => {
       }
     }
   }, []);
+  // console.log(authUser)
 
   const signOut = () => {
     localStorage.removeItem('token');
@@ -41,7 +43,7 @@ export const AuthProvider = ({ children }) => {
       const token = localStorage.getItem('token');
       if (token) {
         try {
-          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/get-user-profile`, {
+          const response = await fetch(`https://backendlibrary-2.onrender.com/get-user-profile`, {
             method: 'GET',
             headers: { 
               'Authorization': `Bearer ${token}`,
@@ -71,6 +73,8 @@ export const AuthProvider = ({ children }) => {
       signOut, 
       setAuthUser, 
       authUser, 
+      profile,
+      setProfile,
       profileId, 
       setProfileId, 
       query, 

@@ -1,13 +1,30 @@
 /* Styling for the Header */
-.header {
+/* .header {
     background-color: #dc3535;
     padding: 15px 0;
+  } */
+  .header {
+    background-color: #4A90E2;
+    color: white;
+    padding: 10px;
+    text-align: center;
   }
-
   .navbar {
     display: flex;
     justify-content: center; 
     align-items: center;
+    top: 0px;
+  }
+  .navbar::before{
+    content: "";
+    background-color: black;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 18%;
+    width: 100%;
+    z-index: -1;
+    opacity: 0.9;
   }
   
   .navList {
@@ -53,13 +70,6 @@
   height: 100vh;
 }
 
-.header {
-  background-color: #4A90E2;
-  color: white;
-  padding: 10px;
-  text-align: center;
-}
-
 .body {
   display: flex; /* Flexbox for the sidebar and main content */
   flex: 1;
@@ -67,12 +77,9 @@
 
 .sidebar {
   background-color: #f4f4f4;
-  width: 220px; /* Fixed width for the sidebar */
-  height: 700px;
+  width: 250px; /* Fixed width for the sidebar */
   padding: 20px;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-  position: sticky;
-  top: 0;
 }
 
 .sidebar ul {
@@ -111,13 +118,11 @@
 
 .main {
   flex: 1; /* Takes remaining space */
-  padding: 10px;
+  padding: 20px;
 }
 
 .footer {
   text-align: center;
-  padding: 10px;
-  background-color: #f1f1f1;
 }
 
 .blueDot {

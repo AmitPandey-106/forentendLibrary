@@ -8,6 +8,15 @@ export default function History() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { authUser } = useContext(AuthContext);
+  const defaultimage = 'https://th.bing.com/th/id/OIP.3J5xifaktO5AjxKJFHH7oAAAAA?rs=1&pid=ImgDetMain';
+  const isValidURL = (url) => {
+    try {
+      new URL(url);
+      return true;
+    } catch {
+      return false;
+    }
+  };
 
   useEffect(() => {
     if (!authUser || !authUser.id) {
@@ -59,11 +68,12 @@ export default function History() {
           {history.map((entry, index) => (
             <li key={index}>
               <Image
-                    src={entry.book.bookimage}
-                    alt={entry.book.title}
-                    style={{ width: '100px', height: '150px' }}
+                    src={defaultimage}
+                    alt={entry.TITLE}
+                    width={100}
+                    height={100}
                   />
-              <strong>Title:</strong> {entry.title || 'Unknown'} <br />
+              <strong>Title:</strong> {entry.book.TITLE || 'Unknown'} <br />
               <strong>Borrow Date:</strong> {entry.borrowDate ? new Date(entry.borrowDate).toLocaleDateString() : 'N/A'} <br />
               <strong>Due Date:</strong> {entry.dueDate ? new Date(entry.dueDate).toLocaleDateString() : 'N/A'} <br />
               <strong>Return Date:</strong>{' '}

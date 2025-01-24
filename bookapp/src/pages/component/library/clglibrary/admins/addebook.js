@@ -48,19 +48,21 @@ export default function UploadEBook() {
       }
 
       const data = await response.json();
-      setMessage(data.message || 'eBook uploaded successfully!');
-      setFormData({
-        title: '',
-        author: '',
-        category: '',
-        language: '',
-        description: '',
-        price: '',
-        isbn: '',
-        fileType: '',
-      });
-      setFile(null);
-      if (e.target.reset) e.target.reset();
+      if(response.status === 200){
+        setMessage(data.message || 'eBook uploaded successfully!');
+        setFormData({
+          title: '',
+          author: '',
+          category: '',
+          language: '',
+          description: '',
+          price: '',
+          isbn: '',
+          fileType: '',
+        });
+        setFile(null);
+        if (e.target.reset) e.target.reset();
+      }
     } catch (err) {
       setError(err.message || 'Something went wrong. Please try again.');
     }
