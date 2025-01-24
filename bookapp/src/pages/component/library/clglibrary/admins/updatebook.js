@@ -1,9 +1,6 @@
 import AdminLayout from './layout';
 import React, { useEffect, useState, useContext } from 'react';
 import Image from 'next/image';
-import { AuthContext } from '@/pages/component/context/authcontext';
-import Lottie from 'lottie-react';
-import booksrch from "./../../../../../../public/booksrch.json";
 
 export default function AdminUpdateBook() {
   const [borrowedBooks, setBorrowedBooks] = useState([]);
@@ -89,15 +86,7 @@ export default function AdminUpdateBook() {
 
   if (loading) {
     return <div>
-      <Lottie
-        animationData={booksrch}
-        loop={true}
-        style={{
-          width: '500px', height: '500px', display: 'flex', marginLeft: '300px',
-          justifyContent: 'center',
-          alignItems: 'center'
-        }}
-      />
+      Loading...
     </div>
   }
 
