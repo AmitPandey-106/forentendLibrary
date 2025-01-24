@@ -4,8 +4,6 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { useCallback } from 'react';
 import styles from '../../../../../styles/allbooks.module.css';
-import Lottie from 'lottie-react';
-import booksrch from "./../../../../../../public/booksrch.json";
 
 export default function ClgBooks() {
   const router = useRouter();
@@ -202,12 +200,7 @@ export default function ClgBooks() {
         </button>
       </div>
       {loading && <div className={styles.loadingOverlay}>
-        
-        <Lottie
-          animationData={booksrch}
-          loop={true}
-          style={{ width: '500px', height: '500px', marginLeft:'400px' }}
-        />
+        Loading...
       </div>}
 
       <div className={styles.books_row}>
