@@ -5,8 +5,6 @@ import AdminLayout from '../layout';
 import Userlayout from '@/u_layout';
 import Image from 'next/image';
 import styles from "@/styles/bookdetails.module.css";
-import Lottie from 'lottie-react';
-import booksrch from "./../../../../../../../public/booksrch.json";
 
 const ConfirmationModal = ({ title, message, onConfirm, onCancel }) => (
   <div className="modal-overlay">
@@ -307,11 +305,7 @@ export default function BookDetails() {
             </div>
           </>
         ) : (
-          <Lottie
-          animationData={booksrch}
-          loop={true}
-          style={{ width: '500px', height: '500px' }}
-        />
+          <p>Loading....</p>
         )}
       
       </div>
