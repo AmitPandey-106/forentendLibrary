@@ -38,7 +38,7 @@ export default function Home() {
     };
 
     fetchBooks();
-  }, [backendUrl]);
+  }, []);
 
   const handleBookClick = (book) => {
     router.push({
