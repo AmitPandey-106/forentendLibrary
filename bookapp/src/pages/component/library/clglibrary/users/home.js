@@ -18,12 +18,12 @@ export default function Home() {
       return false;
     }
   };
-  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
+  // const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
   useEffect(() => {
     const fetchBooks = async () => {
       setLoading(true); // Show loading until data is fetched
       try {
-        const response = await fetch(`${backendUrl}/get-clg-books?startIndex=10&endIndex=20`); // Adjust the API endpoint as needed
+        const response = await fetch(`https://backendlibrary-2.onrender.com/get-clg-books?startIndex=10&endIndex=20`); // Adjust the API endpoint as needed
         if (!response.ok) {
           const errorData = await response.json();
           throw new Error(errorData.msg || 'Failed to fetch books');
