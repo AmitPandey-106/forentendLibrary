@@ -11,7 +11,7 @@ export default function LibrarySignin({ initialError }) {
   const [success, setSuccess] = useState('');
   const { setProfile } = useContext(AuthContext);
   const router = useRouter();
-  const backendUrl = "http://localhost:8001"
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
