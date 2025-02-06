@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
   const [results, setResults] = useState([]);
   const [error, setError] = useState(null); // To handle errors
   const router = useRouter();
-  const backendUrl = "http://localhost:8001"
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
 
   // Check for token in localStorage on page load
   useEffect(() => {
