@@ -11,32 +11,6 @@ export default function PDFViewerPage({ fileUrl }) {
   const [renderingTask, setRenderingTask] = useState(null);
   const [viewportSize, setViewportSize] = useState(null);
 
-  useEffect(() => {
-    const loadingTask = pdfjsLib.getDocument(fileUrl);
-    loadingTask.promise
-      .then((loadedPdfDoc) => {
-        setPdfDoc(loadedPdfDoc);
-        loadFirstPage(loadedPdfDoc);
-      })
-      .catch((error) => {
-        console.error("Error loading PDF document:", error);
-      });
-
-    return () => {
-      if (renderingTask) {
-        renderingTask.cancel();
-      }
-    };
-  }, [fileUrl, loadFirstPage, renderingTask]);
-
-  const loadFirstPage = useCallback((pdfDocument) => {
-    pdfDocument.getPage(1).then((page) => {
-      const viewport = page.getViewport({ scale: 1.0 });
-      setViewportSize({ width: viewport.width, height: viewport.height });
-      renderPage(1, pdfDocument, viewport.width, viewport.height);
-    });
-  }, [renderPage]);
-  
 
   const renderPage = useCallback((pageNumber, pdfDocument, width, height) => {
     if (!pdfDocument) return;
@@ -70,6 +44,35 @@ export default function PDFViewerPage({ fileUrl }) {
       });
     });
   }, [renderingTask]);
+
+  const loadFirstPage = useCallback((pdfDocument) => {
+    pdfDocument.getPage(1).then((page) => {
+      const viewport = page.getViewport({ scale: 1.0 });
+      setViewportSize({ width: viewport.width, height: viewport.height });
+      renderPage(1, pdfDocument, viewport.width, viewport.height);
+    });
+  }, [renderPage]);
+
+  
+
+  useEffect(() => {
+    const loadingTask = pdfjsLib.getDocument(fileUrl);
+    loadingTask.promise
+      .then((loadedPdfDoc) => {
+        setPdfDoc(loadedPdfDoc);
+        loadFirstPage(loadedPdfDoc);
+      })
+      .catch((error) => {
+        console.error("Error loading PDF document:", error);
+      });
+
+    return () => {
+      if (renderingTask) {
+        renderingTask.cancel();
+      }
+    };
+  }, [fileUrl, loadFirstPage, renderingTask]);
+  
 
   const handleNextPage = () => {
     if (currentPage < pdfDoc.numPages) {
@@ -138,11 +141,11 @@ const styles = {
 
 PDFViewerPage.getInitialProps = async (ctx) => {
   const { id } = ctx.query;
-  const res = await fetch(`https://backendlibrary-2.onrender.com/get-ebook/${id}`);
+  const res = await fetch(`http://localhost:8001/get-ebook/${id}`);
   const data = await res.json();
 
   return {
-    fileUrl: `https://backendlibrary-2.onrender.com/${data.book.file}`,
+    fileUrl: `http://localhost:8001/${data.book.file}`,
   };
 };
 

@@ -5,6 +5,7 @@ import styles from '@/styles/bookform.module.css';
 export default function AdminAddBook() {
   const [success, setSuccess]= useState('')
   const [error, setError]= useState('')
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
   const [formData, setFormData] = useState({
     isbn: '',
     title: '',
@@ -66,7 +67,7 @@ export default function AdminAddBook() {
     };
 
     try {
-      const res = await fetch('https://backendlibrary-2.onrender.com/add-books', {
+      const res = await fetch(`${backendUrl}/add-books`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(bookData), // Send the specific fields
@@ -88,10 +89,15 @@ export default function AdminAddBook() {
 
   return (
     <div className={styles.container}>
+      <div className={styles.card}>
       <h1 className={styles.title}>Add Books</h1>
+      <div className={styles.tp}>
+      {success && <p style={{ color:'green'}}>{success}</p>}
+      {error && <p style={{ color:'red'}}>{error}</p>}
+      </div>
+      
       <form className={styles.form} onSubmit={handleSubmit}>
-        {success && <p style={{ color:'green'}}>{success}</p>}
-        {error && <p style={{ color:'red'}}>{error}</p>}
+        <div className={styles.user_info}>
         <label className={styles.label}>
           ISBN:
           <input
@@ -162,8 +168,10 @@ export default function AdminAddBook() {
             onChange={handleFileChange}
           />
         </label>
+        </div>
         <button className={styles.button} type="submit">Add Book</button>
       </form>
+    </div>
     </div>
   );
 }

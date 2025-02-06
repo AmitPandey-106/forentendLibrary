@@ -4,11 +4,14 @@ import { AuthContext } from '@/pages/component/context/authcontext'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import styles from '@/styles/userinfo.module.css';
+import NextNProgress from 'nextjs-progressbar';
+
 
 export default function Userinfo() {
   const [profileData, setProfileData] = useState(null);
   const [error, setError] = useState('');
   const router = useRouter();
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -20,7 +23,7 @@ export default function Userinfo() {
           return;
         }
 
-        const res = await fetch('https://backendlibrary-2.onrender.com/get-user-profile', {
+        const res = await fetch(`${backendUrl}/get-user-profile`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -41,10 +44,17 @@ export default function Userinfo() {
     };
 
     fetchProfileData();
-  }, [router]);
+  }, [router, backendUrl]);
 
   return (
     <div>
+      <NextNProgress
+        color="#32CD32"       
+        startPosition={0.3} 
+        stopDelayMs={200}   
+        height={3}          
+        showOnShallow={true} 
+      />
       <div className={styles.profile}>
         {profileData ? (
           <div className={styles.uinfo}>

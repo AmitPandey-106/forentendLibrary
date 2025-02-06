@@ -5,6 +5,7 @@ import { AuthContext } from '@/pages/component/context/authcontext'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import styles from '@/styles/profile.module.css';
+import NextNProgress from 'nextjs-progressbar';
 
 
 export default function Profile() {
@@ -13,6 +14,7 @@ export default function Profile() {
   const [showPopup, setShowPopup] = useState(false); // For logout confirmation
   const router = useRouter();
   const { authUser, signOut } = useContext(AuthContext);
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -24,7 +26,7 @@ export default function Profile() {
           return;
         }
 
-        const res = await fetch('https://backendlibrary-2.onrender.com/get-user-profile', {
+        const res = await fetch(`${backendUrl}/get-user-profile`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -44,24 +46,31 @@ export default function Profile() {
     };
 
     fetchProfileData();
-  }, [router]);
+  }, [router, backendUrl]);
 
   const handleLogout = () => {
     signOut(); // Call signOut from AuthContext
   };
 
   return (
-<div className={styles.body}>
+    <div className={styles.body}>
+      <NextNProgress
+        color="#32CD32"
+        startPosition={0.3}
+        stopDelayMs={200}
+        height={3}
+        showOnShallow={true}
+      />
       <h1 className={styles.h1}>Profile</h1>
 
       <div className={styles.profile}>
         {/* <Image src="" alt="oops" /> */}
         {profileData ? (
           <div>
-            <h2 style={{color:'black'}}>Name: {profileData.firstName} {profileData.lastName}</h2>
+            <h2 style={{ color: 'black' }}>Name: {profileData.firstName} {profileData.lastName}</h2>
             <div className={styles.edit}>
-        <Link href={`/component/library/clglibrary/users/profileform`}>Edit</Link>
-      </div>
+              <Link href={`/component/library/clglibrary/users/profileform`}>Edit</Link>
+            </div>
           </div>
         ) : (
           <p></p>

@@ -1,3 +1,8 @@
+.container{
+    margin: 0px;
+    padding: 0px;
+}
+
 .backgroundVideo {
     position: absolute;
     top: 0;
@@ -15,6 +20,7 @@
     color: white;
     justify-content: center;
     align-items: center;
+    text-align: center;
     margin-top: 150px;
     font-family: 'Courier New', Courier, monospace;
 }
@@ -22,4 +28,15 @@
     font-size: 3rem;
     margin-top: 20px;
     margin-bottom: 10px;
+}
+.text p{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+@media (max-width: 600px){
+    .text{
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+    }
 }

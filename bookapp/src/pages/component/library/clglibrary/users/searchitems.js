@@ -1,12 +1,15 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import Image from 'next/image';
 import Router, { useRouter } from 'next/router';
+import NextNProgress from 'nextjs-progressbar';
+
 
 export default function SearchItems() {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
   const defaultimage = 'https://th.bing.com/th/id/OIP.3J5xifaktO5AjxKJFHH7oAAAAA?rs=1&pid=ImgDetMain';
   const isValidURL = (url) => {
     try {
@@ -20,7 +23,7 @@ export default function SearchItems() {
   const fetchBooks = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await fetch(`https://backendlibrary-2.onrender.com/get-clg-books`);
+      const response = await fetch(`${backendUrl}/get-clg-books`);
       if (!response.ok) {
         throw new Error('Failed to fetch books');
       }
@@ -31,7 +34,7 @@ export default function SearchItems() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [backendUrl]);
 
   useEffect(() => {
     fetchBooks();
@@ -49,7 +52,7 @@ export default function SearchItems() {
     setLoading(true);
 
     try {
-      const response = await fetch(`https://backendlibrary-2.onrender.com/search-books?query=${query}`);
+      const response = await fetch(`${backendUrl}/search-books?query=${query}`);
       if (!response.ok) {
         throw new Error('Failed to fetch search results');
       }
@@ -71,6 +74,13 @@ export default function SearchItems() {
 
   return (
     <div className="search-container">
+      <NextNProgress
+        color="#32CD32"       
+        startPosition={0.3} 
+        stopDelayMs={200}   
+        height={3}          
+        showOnShallow={true} 
+      />
       <div className="search-bar">
         <input
           type="text"

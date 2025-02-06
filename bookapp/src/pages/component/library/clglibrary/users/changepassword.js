@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Userlayout from '../../../../../u_layout';
 import { useRouter } from 'next/router';
 import styles from '@/styles/changepassword.module.css';
-
+import NextNProgress from 'nextjs-progressbar';
 
 ChangePassword.getLayout = function getLayout(page) {
   return <Userlayout>{page}</Userlayout>;
@@ -14,6 +14,7 @@ export default function ChangePassword() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState('');
   const router = useRouter();
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
 
   useEffect(() => {
     // Check for token on component mount
@@ -40,7 +41,7 @@ export default function ChangePassword() {
             return;
         }
 
-        const response = await fetch('https://backendlibrary-2.onrender.com/change-user/password', {
+        const response = await fetch(`${backendUrl}/change-user/password`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -67,6 +68,13 @@ export default function ChangePassword() {
 
   return (
     <div className={styles.fg_pass}>
+      <NextNProgress
+        color="#32CD32"       
+        startPosition={0.3} 
+        stopDelayMs={200}   
+        height={3}          
+        showOnShallow={true} 
+      />
       <h1>Change Password</h1>
       <form onSubmit={handleSubmit}>
         {message && <p>{message}</p>}

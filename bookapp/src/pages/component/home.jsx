@@ -5,7 +5,7 @@ import styles from '@/styles/mHome.module.css';
 export default function Home() {
   return (
     <Layout>
-      <div >
+      <div className={styles.container}>
         <video className={styles.backgroundVideo} autoPlay muted loop>
             <source src="/background/mainbg.mp4" type="video/mp4" />
                Your browser does not support the video tag.

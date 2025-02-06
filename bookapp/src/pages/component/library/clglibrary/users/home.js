@@ -4,6 +4,8 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import styles from '@/styles/Home.module.css';
 import Link from 'next/link';
+import NextNProgress from 'nextjs-progressbar';
+
 
 export default function Home() {
   const router = useRouter();
@@ -18,12 +20,12 @@ export default function Home() {
       return false;
     }
   };
-  // const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
   useEffect(() => {
     const fetchBooks = async () => {
       setLoading(true); // Show loading until data is fetched
       try {
-        const response = await fetch(`https://backendlibrary-2.onrender.com/get-clg-books?startIndex=10&endIndex=20`); // Adjust the API endpoint as needed
+        const response = await fetch(`${backendUrl}/get-clg-books?startIndex=10&endIndex=20`); // Adjust the API endpoint as needed
         if (!response.ok) {
           const errorData = await response.json();
           throw new Error(errorData.msg || 'Failed to fetch books');
@@ -38,7 +40,7 @@ export default function Home() {
     };
 
     fetchBooks();
-  }, []);
+  }, [backendUrl]);
 
   const handleBookClick = (book) => {
     router.push({
@@ -70,6 +72,13 @@ export default function Home() {
 
   return (
     <div className={styles.books_container}>
+      <NextNProgress
+        color="#32CD32"       
+        startPosition={0.3} 
+        stopDelayMs={200}   
+        height={3}          
+        showOnShallow={true} 
+      />
       <div className={styles.home}>
       <div className={styles.text}>
         <h1>The more that you read, the more things you know.</h1>
@@ -79,27 +88,33 @@ export default function Home() {
         <div className={styles.slide}>
     <div className={styles.conteudo}>
         <div className={styles.carrousel}>
-            <article className={styles.card}>
-              <Image src='/lib1.jpg' alt='1' height={200} width={300} style={{borderRadius: '30px'}}></Image>
-            </article>
-            <article className={styles.card}> 
-            <Image src='/lib2.jpg' alt='2' height={200} width={300} style={{borderRadius: '30px'}}></Image>
-            </article>
-            <article className={styles.card}>  
-            <Image src='/lib3.jpg' alt='3' height={200} width={300} style={{borderRadius: '30px'}}></Image> 
-            </article>
-            <article className={styles.card}> 
-            <Image src='/lib4.jpg' alt='4' height={200} width={300} style={{borderRadius: '30px'}}></Image>              
-            </article>
-            <article className={styles.card}>  
-            <Image src='/lib5.jpg' alt='5' height={200} width={300} style={{borderRadius: '30px'}}></Image>   
-            </article>
-            <article className={styles.card}>  
-            <Image src='/lib6.jpg' alt='1' height={200} width={300} style={{borderRadius: '30px'}}></Image>            
-            </article>
-            <article className={styles.card}>   
-            <Image src='/lib7.jpg' alt='1' height={200} width={300} style={{borderRadius: '30px'}}></Image>              
-            </article>
+         
+            <Image className={styles.card} src="/background/LIB.jpeg" alt="Example Image" width={400} height={220} style={{borderRadius:'30px'}}></Image>
+      
+            <Image className={styles.card} src="/background/lib1.jpeg" alt="Example Image" width={400} height={220} style={{borderRadius:'30px'}}></Image>
+         
+            <Image className={styles.card} src="/background/lib2.jpeg" alt="Example Image" width={400} height={220} style={{borderRadius:'30px'}}></Image>
+          
+            <Image className={styles.card} src="/background/lib3.jpeg" alt="Example Image" width={400} height={220} style={{borderRadius:'30px'}}></Image>
+         
+            <Image className={styles.card} src="/background/lib4.jpeg" alt="Example Image" width={400} height={220} style={{borderRadius:'30px'}}></Image>
+        
+            <Image className={styles.card} src="/background/lib5.jpeg" alt="Example Image" width={400} height={220} style={{borderRadius:'30px'}}></Image>
+         
+
+            {/* <!-- Duplicate cards for seamless looping --> */}
+
+            <Image className={styles.card} src="/background/lib6.jpeg" alt="Example Image" width={400} height={220} style={{borderRadius:'30px'}}></Image>
+             
+            <Image className={styles.card} src="/background/lib7.jpeg" alt="Example Image" width={400} height={220} style={{borderRadius:'30px'}}></Image>
+         
+            <Image className={styles.card} src="/background/lib8.jpeg" alt="Example Image" width={400} height={220} style={{borderRadius:'30px'}}></Image>
+      
+            <Image className={styles.card} src="/background/lib9.jpeg" alt="Example Image" width={400} height={220} style={{borderRadius:'30px'}}></Image>
+     
+            <Image className={styles.card} src="/background/lib10.jpeg" alt="Example Image" width={400} height={220} style={{borderRadius:'30px'}}></Image>
+            <Image className={styles.card} src="/background/lib11.jpeg" alt="Example Image" width={400} height={220} style={{borderRadius:'30px'}}></Image>
+            
         </div>
         </div> 
      </div>

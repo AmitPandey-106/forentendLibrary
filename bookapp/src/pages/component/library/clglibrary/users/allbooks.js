@@ -11,11 +11,12 @@ export default function Allbooks() {
   const [filteredBooks, setFilteredBooks] = useState([]);
   const [streamFilter, setStreamFilter] = useState('');
   const [streams, setStreams] = useState([]);
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
 
   useEffect(() => {
     const fetchBooks = async () => {
       try {
-        const res = await fetch('https://backendlibrary-2.onrender.com/all-books');
+        const res = await fetch(`${backendUrl}/all-books`);
         const data = await res.json();
 
         if (res.status === 200) {
@@ -31,7 +32,7 @@ export default function Allbooks() {
 
     const fetchStreams = async () => {
       try {
-        const res = await fetch('https://backendlibrary-2.onrender.com/all-streams'); // Endpoint for available streams
+        const res = await fetch(`${backendUrl}/all-streams`); // Endpoint for available streams
         const data = await res.json();
 
         if (res.status === 200) {
@@ -46,7 +47,7 @@ export default function Allbooks() {
 
     fetchBooks();
     fetchStreams();
-  }, []);
+  }, [backendUrl]);
 
   // Unified filter logic
   const applyFilters = useCallback(() => {

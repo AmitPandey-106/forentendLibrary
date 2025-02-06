@@ -8,11 +8,12 @@ export default function AdminBorrowRequests() {
   const [showRequests, setShowRequests] = useState(true);
   const [pendingRequestsCount, setPendingRequestsCount] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
 
   useEffect(() => {
     const fetchRequests = async () => {
       try {
-        const response = await fetch("https://backendlibrary-2.onrender.com/borrow-requests/pending");
+        const response = await fetch(`${backendUrl}/borrow-requests/pending`);
         const data = await response.json();
         setRequests(data);
       } catch (error) {
@@ -22,7 +23,7 @@ export default function AdminBorrowRequests() {
 
     const fetchWaitlist = async () => {
       try {
-        const response = await fetch("https://backendlibrary-2.onrender.com/get-waitlist");
+        const response = await fetch(`${backendUrl}/get-waitlist`);
         const data = await response.json();
         setWaitlist(data);
       } catch (error) {
@@ -32,7 +33,7 @@ export default function AdminBorrowRequests() {
 
     const markRequestsViewed = async () => {
       try {
-        await fetch("https://backendlibrary-2.onrender.com/borrow-requests/mark-viewed", { method: "POST" });
+        await fetch(`${backendUrl}/borrow-requests/mark-viewed`, { method: "POST" });
         setPendingRequestsCount(0);
       } catch (error) {
         console.error("Error marking requests as viewed:", error);
@@ -42,11 +43,11 @@ export default function AdminBorrowRequests() {
     fetchRequests();
     fetchWaitlist();
     markRequestsViewed();
-  }, []);
+  }, [backendUrl]);
 
   const handleRequestAction = async (requestId, action) => {
     try {
-      const response = await fetch("https://backendlibrary-2.onrender.com/user-borrow/request", {
+      const response = await fetch(`${backendUrl}/user-borrow/request`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ requestId, action }),

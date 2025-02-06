@@ -6,7 +6,7 @@ import NextNProgress from 'nextjs-progressbar';
 export default function AdminLayout({ children }) {
   const [showDot, setShowDot] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
   const reloadPage = () => {
     window.location.reload();
   };
@@ -15,7 +15,7 @@ export default function AdminLayout({ children }) {
   useEffect(() => {
     const fetchRequestCount = async () => {
       try {
-        const response = await fetch("https://backendlibrary-2.onrender.com/borrow-requests/count-pending");
+        const response = await fetch(`${backendUrl}/borrow-requests/count-pending`);
         const data = await response.json();
         setShowDot(data.count);  // Set the member count
       } catch (error) {
@@ -24,7 +24,7 @@ export default function AdminLayout({ children }) {
     };
     const fetchWaitCount = async () => {
       try {
-        const response = await fetch("https://backendlibrary-2.onrender.com/waitlist-requests/count-pending");
+        const response = await fetch(`${backendUrl}/waitlist-requests/count-pending`);
         const data = await response.json();
         setShowDot(data.count);  // Set the member count
       } catch (error) {
@@ -38,7 +38,7 @@ export default function AdminLayout({ children }) {
     // Poll for updates every 60 seconds (for the pending requests count)
     const interval = setInterval([fetchRequestCount, fetchWaitCount], 60000);
     return () => clearInterval(interval);  // Cleanup interval on unmount
-  }, []);
+  }, [backendUrl]);
 
   // Toggle dropdown visibility
   const toggleDropdown = () => {

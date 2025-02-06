@@ -1,5 +1,6 @@
 import AdminLayout from './layout';
 import { useState } from 'react';
+import styles from '@/styles/adminborrow.module.css'
 
 export default function AdminBorrow() {
   const [formData, setFormData] = useState({
@@ -12,6 +13,7 @@ export default function AdminBorrow() {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [responseMessage, setResponseMessage] = useState('');
   const [loading, setLoading] = useState(false); // Add loading state
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,7 +30,7 @@ export default function AdminBorrow() {
   const BorrowbyAdmin = async () => {
     setLoading(true);
     try {
-      const response = await fetch('https://backendlibrary-2.onrender.com/borrow-by-admin', {
+      const response = await fetch(`${backendUrl}/borrow-by-admin`, {
         method: 'POST',
         headers: {
           'Content-type': 'application/json',
@@ -51,7 +53,7 @@ export default function AdminBorrow() {
 
   const fetchBookSuggestions = async (query) => {
     try {
-      const response = await fetch(`https://backendlibrary-2.onrender.com/api/autocomplete-books?q=${query}`);
+      const response = await fetch(`${backendUrl}/api/autocomplete-books?q=${query}`);
       const data = await response.json();
 
       if (data.success) {
@@ -93,14 +95,19 @@ export default function AdminBorrow() {
   };
 
   return (
-    <div style={{ maxWidth: '400px', margin: '0 auto', padding: '20px' }}>
-      <h2>Borrow a Book</h2>
+    <div className={styles.container}>
+      <div className={styles.card}>
+      <h2 className={styles.tittle}>Borrow a Book</h2>
+      <div className={styles.tp}>
       {responseMessage && (
         <p style={{ color: responseMessage.includes('Success') ? 'green' : 'red' }}>
           {responseMessage}
         </p>
       )}
+      </div>
+
       <form onSubmit={handleSubmit}>
+        <div className={styles.user_info}>
         <div>
           <label htmlFor="userId">User ID:</label>
           <input
@@ -109,7 +116,6 @@ export default function AdminBorrow() {
             name="userId"
             value={formData.userId}
             onChange={handleChange}
-            style={{ width: '100%', padding: '8px', margin: '8px 0' }}
           />
           {errors.userId && <span style={{ color: 'red' }}>{errors.userId}</span>}
         </div>
@@ -122,7 +128,6 @@ export default function AdminBorrow() {
             value={formData.bookName}
             onChange={handleChange}
             autoComplete="off"
-            style={{ width: '100%', padding: '8px', margin: '8px 0' }}
           />
           {showSuggestions && (
             <ul
@@ -160,26 +165,22 @@ export default function AdminBorrow() {
             name="email"
             value={formData.email}
             onChange={handleChange}
-            style={{ width: '100%', padding: '8px', margin: '8px 0' }}
+           
           />
           {errors.email && <span style={{ color: 'red' }}>{errors.email}</span>}
         </div>
+        </div>
+
         <button
           type="submit"
           disabled={loading}
-          style={{
-            backgroundColor: loading ? '#ccc' : '#4CAF50',
-            color: 'white',
-            padding: '10px 15px',
-            border: 'none',
-            cursor: 'pointer',
-            marginTop: '10px',
-          }}
         >
           {loading ? 'Submitting...' : 'Submit'}
         </button>
       </form>
     </div>
+    </div>
+    
   );
 }
 

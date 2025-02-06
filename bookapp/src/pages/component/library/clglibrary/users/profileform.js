@@ -3,6 +3,8 @@ import styles from '@/styles/StudentProfileForm.module.css';
 import { useRouter } from 'next/router';
 import { AuthContext } from '@/pages/component/context/authcontext';
 import Userlayout from '@/u_layout';
+import NextNProgress from 'nextjs-progressbar';
+
 
 export default function ProfileForm({ initialError }) {
   const [error, setError] = useState(initialError || '');
@@ -24,12 +26,11 @@ export default function ProfileForm({ initialError }) {
   });
   const router = useRouter();
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
-
   useEffect(() => {
     const fetchData = async () => {
       try {
         const token = localStorage.getItem('token'); // Make sure the token is stored in localStorage or another secure place
-        const res = await fetch(`https://backendlibrary-2.onrender.com/get-user-profile`, {
+        const res = await fetch(`${backendUrl}/get-user-profile`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -74,7 +75,7 @@ export default function ProfileForm({ initialError }) {
     setSuccess(''); // Reset success message
 
     try {
-      const res = await fetch('https://backendlibrary-2.onrender.com/user-profile-edit', {
+      const res = await fetch(`${backendUrl}/user-profile-edit`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
@@ -94,14 +95,23 @@ export default function ProfileForm({ initialError }) {
 
   return (
     <Userlayout>
-    <div className={styles.body}>
+     <div className={styles.body}>
+     <NextNProgress
+        color="#32CD32"       
+        startPosition={0.3} 
+        stopDelayMs={200}   
+        height={3}          
+        showOnShallow={true} 
+      />
       <div className={styles.card}>
       <h2 className={styles.h2}>Personal Information</h2>
+      <div className={styles.tp}>
+        <p>tp</p>
+        {success && <p className={styles.successMessage}>{success}</p>}
+        {error && <p className={styles.errorMessage}>{error}</p>}
+      </div>
+
     <form onSubmit={handleSubmit} className={styles.formContainer}>
-      
-      {success && <p className={styles.successMessage}>{success}</p>}
-      {error && <p className={styles.errorMessage}>{error}</p>}
-      
       <div className={styles.user_info}>
       <div className={styles.first}>
       <p>First Name</p>  

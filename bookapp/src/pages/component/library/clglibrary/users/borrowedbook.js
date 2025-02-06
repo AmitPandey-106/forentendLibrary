@@ -3,7 +3,7 @@ import Userlayout from '../../../../../u_layout';
 import { AuthContext } from '@/pages/component/context/authcontext';
 import styles from '@/styles/borrowedbooks.module.css';
 import Image from 'next/image';
-
+import NextNProgress from 'nextjs-progressbar';
 
 Borrowedbook.getLayout = function getLayout(page) {
   return <Userlayout>{page}</Userlayout>;
@@ -13,6 +13,7 @@ export default function Borrowedbook() {
   const { authUser, profileId } = useContext(AuthContext); // Get the authenticated user
   const [borrowedBooks, setBorrowedBooks] = useState([]);
   const [loading, setLoading] = useState(true);
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL  
   const defaultimage = 'https://th.bing.com/th/id/OIP.3J5xifaktO5AjxKJFHH7oAAAAA?rs=1&pid=ImgDetMain';
   const isValidURL = (url) => {
     try {
@@ -28,7 +29,7 @@ export default function Borrowedbook() {
       // Now authUser is available, make the fetch request
       const fetchBorrowedBooks = async () => {
         try {
-          const res = await fetch(`https://backendlibrary-2.onrender.com/user/${authUser.id}/borrowed-books`, { 
+          const res = await fetch(`${backendUrl}/user/${authUser.id}/borrowed-books`, { 
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
@@ -52,7 +53,7 @@ export default function Borrowedbook() {
 
       fetchBorrowedBooks();
     }
-  }, [authUser]);  // Dependency on authUser to ensure it only runs when available
+  }, [authUser, backendUrl]);  // Dependency on authUser to ensure it only runs when available
 
   if (loading) {
     return <div>Loading borrowed books...</div>;
@@ -60,6 +61,13 @@ export default function Borrowedbook() {
 
   return (
     <div className={styles.borr_book}>
+      <NextNProgress
+        color="#32CD32"       
+        startPosition={0.3} 
+        stopDelayMs={200}   
+        height={3}          
+        showOnShallow={true} 
+      />
       <h2>Borrowed Books</h2>
 
       {borrowedBooks.length > 0 ? (

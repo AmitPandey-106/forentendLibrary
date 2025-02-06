@@ -8,12 +8,13 @@ export default function History() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
 
   useEffect(() => {
     // Fetch history data from the API
     const fetchHistory = async () => {
       try {
-        const response = await fetch('https://backendlibrary-2.onrender.com/admin-history'); // Adjust API endpoint as per your backend
+        const response = await fetch(`${backendUrl}/admin-history`); // Adjust API endpoint as per your backend
         if (!response.ok) {
           throw new Error('Failed to fetch history records.');
         }
@@ -28,7 +29,7 @@ export default function History() {
     };
 
     fetchHistory();
-  }, []);
+  }, [backendUrl]);
 
   const onSearch = () => {
     const query = searchQuery.toLowerCase();
@@ -51,7 +52,7 @@ export default function History() {
   return (
     <div className={styles.history_container}>
       <h1 className={styles.history_title}>Admin History</h1>
-      <div>
+      <div className={styles.searchbar}>
         <input
           type="text"
           placeholder="Search"

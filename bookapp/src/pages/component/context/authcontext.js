@@ -13,6 +13,7 @@ export const AuthProvider = ({ children }) => {
   const [results, setResults] = useState([]);
   const [error, setError] = useState(null); // To handle errors
   const router = useRouter();
+  const backendUrl = "http://localhost:8001"
 
   // Check for token in localStorage on page load
   useEffect(() => {
@@ -43,7 +44,7 @@ export const AuthProvider = ({ children }) => {
       const token = localStorage.getItem('token');
       if (token) {
         try {
-          const response = await fetch(`https://backendlibrary-2.onrender.com/get-user-profile`, {
+          const response = await fetch(`${backendUrl}/get-user-profile`, {
             method: 'GET',
             headers: { 
               'Authorization': `Bearer ${token}`,

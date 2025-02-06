@@ -13,6 +13,7 @@ export default function Editbook() {
   const [success, setSuccess] = useState('')  
   const [error, setError] = useState('')  
   const { id } = router.query;
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
   const [bookdetails, setBookdetails] = useState({
     CAT_NO:'',
     AUTH_ID1:'',
@@ -27,7 +28,7 @@ export default function Editbook() {
 
     const fetchBookDetails = async () => {
       try {
-        const res = await fetch(`https://backendlibrary-2.onrender.com/book/${id}`);
+        const res = await fetch(`${backendUrl}/book/${id}`);
         const data = await res.json();
 
         if (res.status === 200) {
@@ -41,7 +42,7 @@ export default function Editbook() {
     };
 
     fetchBookDetails();
-  }, [router.isReady, id]);
+  }, [router.isReady, id, backendUrl]);
 
   const handleFileChange = (e) => {
     setBookdetails({ ...bookdetails, PHOTO: e.target.files[0] });
@@ -78,7 +79,7 @@ export default function Editbook() {
     };
   
     try {
-      const res = await fetch(`https://backendlibrary-2.onrender.com/update-book/${id}`, {
+      const res = await fetch(`${backendUrl}/update-book/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedBook),

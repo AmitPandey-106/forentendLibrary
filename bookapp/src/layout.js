@@ -3,6 +3,8 @@ import Image from "next/image";
 import styles from "./styles/layout.module.css"
 import Home from "./pages";
 import { useRouter } from "next/navigation";
+import NextNProgress from 'nextjs-progressbar';
+
 
 export default function Layout({ children }){
     // const router = useRouter();
@@ -13,6 +15,13 @@ export default function Layout({ children }){
     // };
     return(
         <>
+        <NextNProgress
+        color="#32CD32"       
+        startPosition={0.3} 
+        stopDelayMs={200}   
+        height={3}          
+        showOnShallow={true} 
+      />
         <header className={styles.header}>
           <nav className={styles.navbar}>
             <Image className={styles.logoImage} src = "/logo.jpg" alt = "Logo" height={50} width={50}/>

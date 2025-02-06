@@ -14,14 +14,14 @@ export default function ViewEBook() {
   const [error, setError] = useState('');
   const [selectedOption, setSelectedOption] = useState('viewbook');
   const router = useRouter();
-
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
   const Layout = authUser.role === 'user' ? Userlayout : AdminLayout;
 
   // Fetch eBooks from the backend API
   useEffect(() => {
     const fetchEBooks = async () => {
       try {
-        const response = await fetch('https://backendlibrary-2.onrender.com/all-ebooks'); // Adjust the URL based on your backend
+        const response = await fetch(`${backendUrl}/all-ebooks`); // Adjust the URL based on your backend
         if (!response.ok) {
           throw new Error('Failed to fetch eBooks.');
         }
@@ -35,7 +35,7 @@ export default function ViewEBook() {
     };
 
     fetchEBooks();
-  }, []);
+  }, [backendUrl]);
 
   const handleComponent = (value) => {
     setSelectedOption(value); // Update the selected option in state
@@ -84,7 +84,7 @@ export default function ViewEBook() {
         </p>
         {/* Check file type and render accordingly */}
         <a
-          href={`https://backendlibrary-2.onrender.com/${ebook.file}`} 
+          href={`http://localhost:8001/${ebook.file}`} 
           target="_blank" 
           rel="noopener noreferrer" 
           style={{ color: 'blue' }}

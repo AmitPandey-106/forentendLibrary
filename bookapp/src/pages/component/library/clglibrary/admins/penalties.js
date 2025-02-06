@@ -4,11 +4,12 @@ import AdminLayout from './layout';
 export default function AdminPenaltySection() {
   const [penalties, setPenalties] = useState([]);
   const [loading, setLoading] = useState(true);
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
 
   useEffect(() => {
     const fetchPenalties = async () => {
       try {
-        const res = await fetch('https://backendlibrary-2.onrender.com/user-penalties', {
+        const res = await fetch(`${backendUrl}/user-penalties`, {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
         });
@@ -29,7 +30,7 @@ export default function AdminPenaltySection() {
     };
 
     fetchPenalties();
-  }, []);
+  }, [backendUrl]);
 
   if (loading) {
     return <div>Loading penalties...</div>;
@@ -37,9 +38,9 @@ export default function AdminPenaltySection() {
 
   return (
     <div>
-      <h2>Penalty Details</h2>
+      <h1 style={{margin: '10px 10px 20px'}}>Penalty Details</h1>
       {penalties.length > 0 ? (
-        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse', backgroundColor:'white' }}>
           <thead>
             <tr>
               <th style={{ padding: '8px', border: '1px solid #ddd' }}>Student</th>

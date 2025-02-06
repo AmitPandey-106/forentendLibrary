@@ -17,6 +17,7 @@ export default function UploadEBook() {
   const [file, setFile] = useState(null);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -38,7 +39,7 @@ export default function UploadEBook() {
         form.append(key, formData[key]);
       });
 
-      const response = await fetch('https://backendlibrary-2.onrender.com/upload-ebook', {
+      const response = await fetch(`${backendUrl}/upload-ebook`, {
         method: 'POST',
         body: form,
       });

@@ -5,19 +5,19 @@ import { useRouter } from 'next/router';
 export default function SingleEbook() {
     const router = useRouter();
     const { id } = router.query;
-    const [ebook, setEbook] = useState()
+    const [ebook, setEbook] = useState();
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
 
     useEffect(() => {
         if (!router.isReady || !id) return;
 
         const fetchBookDetails = async () => {
             try {
-                const res = await fetch(`https://backendlibrary-2.onrender.com/get-ebook/${id}`);
+                const res = await fetch(`${backendUrl}/get-ebook/${id}`);
                 const data = await res.json();
 
                 if (res.status === 200) {
                     setEbook(data.book);
-                    //   setRecommendations(data.recommendations)
                 } else {
                     console.error(data.message || "Failed to fetch book details");
                 }
@@ -27,39 +27,77 @@ export default function SingleEbook() {
         };
 
         fetchBookDetails();
-    }, [router.isReady, id]);
+    }, [router.isReady, id, backendUrl]);
 
     const handleViewPDF = () => {
         router.push(`/component/library/clglibrary/admins/pdf-viewer/${id}`);
-      };
+    };
 
     return (
-        <div className='container'>
+        <div style={{
+            display: 'flex', 
+            flexDirection: 'column', 
+            alignItems: 'center', 
+            justifyContent: 'center', 
+            minHeight: '100vh', 
+            padding: '16px', 
+            backgroundColor: '#f3f4f6'
+        }}>
             {ebook ? (
-                <div className='container'>
-                    <h1 className="book-title">{ebook.title}</h1>
-                    <div className="book-details">
-                        {/* <Image src={isValidURL(bookdetails.book.PHOTO) ? bookdetails.book.PHOTO : defaultimage} alt={bookdetails.book.TITLE} className="book-image" width={200} height={200} /> */}
-                        <div className="book-info">
-                            <p><strong>Title:</strong> {ebook.title}</p>
-                            <p><strong>Author:</strong> {ebook.author}</p>
-                            <p><strong>Description:</strong> {ebook.description}</p>
+                <div style={{
+                    backgroundColor: '#ffffff',
+                    boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
+                    borderRadius: '10px',
+                    padding: '24px',
+                    maxWidth: '600px',
+                    width: '100%',
+                    textAlign: 'center'
+                }}>
+                    <h1 style={{
+                        fontSize: '24px',
+                        fontWeight: 'bold',
+                        color: '#333',
+                        marginBottom: '16px'
+                    }}>{ebook.title}</h1>
+                    <div style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        gap: '16px'
+                    }}>
+                        <div style={{ textAlign: 'left', width: '100%' }}>
+                            <p style={{ fontSize: '18px', marginBottom: '6px' }}><strong>Title:</strong> {ebook.title}</p>
+                            <p style={{ fontSize: '18px', marginBottom: '6px' }}><strong>Author:</strong> {ebook.author}</p>
+                            <p style={{ fontSize: '16px', color: '#666' }}>{ebook.description}</p>
                         </div>
-                        <button
-                            className={'button'}
-                            onClick={handleViewPDF}
-                        >
-                            View PDF
-                        </button>
                     </div>
+                    <button
+                        onClick={handleViewPDF}
+                        style={{
+                            marginTop: '20px',
+                            width: '100%',
+                            backgroundColor: '#2563eb',
+                            color: 'white',
+                            fontWeight: 'bold',
+                            padding: '12px',
+                            borderRadius: '6px',
+                            border: 'none',
+                            cursor: 'pointer',
+                            transition: 'background 0.3s ease-in-out'
+                        }}
+                        onMouseOver={(e) => e.target.style.backgroundColor = '#1d4ed8'}
+                        onMouseOut={(e) => e.target.style.backgroundColor = '#2563eb'}
+                    >
+                        View PDF
+                    </button>
                 </div>
             ) : (
-                <p>Loading book details...</p>
+                <p style={{ fontSize: '18px', color: '#555' }}>Loading book details...</p>
             )}
         </div>
-    )
+    );
 }
 
 SingleEbook.getLayout = function getLayout(page) {
-  return <Userlayout>{page}</Userlayout>;
+    return <Userlayout>{page}</Userlayout>;
 };

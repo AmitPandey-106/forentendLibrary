@@ -7,6 +7,7 @@ export default function AdminAddMember() {
     const [isStaff, setIsStaff] = useState(false); // Track if the role is staff
     const [responseMessage, setResponseMessage] = useState('');
     const [loading, setLoading] = useState(false);
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -25,7 +26,7 @@ export default function AdminAddMember() {
         }
 
         try {
-            const response = await fetch('https://backendlibrary-2.onrender.com/api/addmember', {
+            const response = await fetch(`${backendUrl}/api/addmember`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

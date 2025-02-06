@@ -28,6 +28,8 @@
 }
 
 .slide{
+  margin-bottom: -50px;
+  margin-top: -40px;
   margin-right: -10px;
   display: flex;
   justify-content: center;
@@ -35,38 +37,35 @@
 }
 
 .conteudo{
-  width:400px;
+  width:550px;
   display: flex;
   align-items: center;
+  border-radius: 30px;
 }
 .carrousel{
-  display: grid;
-  grid-auto-flow:column;
-  scroll-behavior: auto;
-  gap: 1.2rem;
+  display: inline-flex;
+  width: max-content;
+  scroll-behavior: smooth;
+  gap: 2.2rem;
+  overflow-x: auto;
   overflow-y: auto;
   overscroll-behavior-x: contain;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
+  border-radius: 30px;
+  padding: 20px 30px 50px;
 }
 .carrousel::-webkit-scrollbar{
   display: none;
 }
 .card{
-  scroll-snap-align: start;
-  position: relative;
+  scroll-snap-align: center;
   border-radius: 30px;
-  min-height: 200px;
-  min-width: 300px;
+  /* min-height: 220px;
+  min-width: 400px; */
   display: flex;
   align-items: center;
   justify-content: center; 
-}
-.card:nth-child(odd){
-  background: linear-gradient(-229deg, #fbd52d, #ef3a7b);
-}
-.card:nth-child(even){
-  background: linear-gradient(-229deg, #ff70af, #5fa8);
 }
 
 
@@ -415,23 +414,28 @@ a.secondary {
   }
   
   .slide{
+    margin-top: -10px;
     margin-right: 0px;
+    margin-bottom: -30px;
     display: flex;
     justify-content: center;
     align-items: center;
   }
 
   .conteudo{
-    width:250px;
+    width:340px;
     display: flex;
     align-items: center;
   }
 
+  .carrousel{
+    gap: 1.5rem;
+  }
   .card{
-    scroll-snap-align: start;
+    scroll-snap-align: center;
     border-radius: 30px;
-    min-height: 150px;
-    min-width: 200px;
+    height: 160px;
+    min-width: 250px;
     display: flex;
     align-items: center;
     justify-content: center; 
@@ -510,7 +514,7 @@ a.secondary {
   }
 
   .conteudo{
-    width:250px;
+    width:300px;
     display: flex;
     align-items: center;
   }
@@ -518,8 +522,8 @@ a.secondary {
   .card{
     scroll-snap-align: start;
     border-radius: 30px;
-    min-height: 150px;
-    min-width: 200px;
+    height: 190px;
+    min-width: 290px;
     display: flex;
     align-items: center;
     justify-content: center; 
@@ -540,7 +544,7 @@ a.secondary {
     /* flex-direction: column; */
     background-color: #d8ebfb;
     padding: 90px 30px 75px;
-    gap: 100px;
+    gap: 70px;
   }
   .text{
     margin: 0px 0px 10px;

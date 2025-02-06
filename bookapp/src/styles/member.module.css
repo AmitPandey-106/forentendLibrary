@@ -16,7 +16,7 @@
     margin-bottom: 30px;
 }
 .h1{
-    font-size: 25px;
+    font-size: 2rem;
     margin: 5px 0;
 }
 .divider{
@@ -32,6 +32,7 @@
     padding: 18px 15px;
     font-size: medium;
     border-radius: 50px;
+    border: 1px solid black;
 }
 .member_button{
     font-size: medium;
@@ -40,6 +41,7 @@
     background-color: rgb(5, 153, 5);
     color: white;
     cursor: pointer;
+    border: none;
 }
 .button{
     font-size: medium;
@@ -48,10 +50,12 @@
     background-color: gray;
     color: white;
     cursor: pointer;
+    border: none;
 }
 
 .filterButton {
   margin-right: 8px;
+  margin-bottom: 10px;
   padding: 8px 12px;
   border: 1px solid #ccc;
   background-color: #f9f9f9;
@@ -106,6 +110,8 @@
     padding: 6px 12px;
     border-radius: 4px;
     transition: background-color 0.3s ease;
+    border: none;
+    margin: 0px 5px;
   }
   
   .buttonEdit:hover {
@@ -118,6 +124,7 @@
     padding: 6px 12px;
     border-radius: 4px;
     transition: background-color 0.3s ease;
+    border: none;
   }
   
   .buttonCancel:hover {

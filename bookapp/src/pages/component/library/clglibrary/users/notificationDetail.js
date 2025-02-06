@@ -2,6 +2,8 @@ import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import Userlayout from '../../../../../u_layout';
 import Image from 'next/image';
+import NextNProgress from 'nextjs-progressbar';
+
 
 NotificationDetails.getLayout = function getLayout(page) {
   return <Userlayout>{page}</Userlayout>;
@@ -12,7 +14,7 @@ export default function NotificationDetails() {
   const { id } = router.query; // Get the notification ID from the query
   const [notification, setNotification] = useState(null);
   const defaultImage = 'https://th.bing.com/th/id/OIP.3J5xifaktO5AjxKJFHH7oAAAAA?rs=1&pid=ImgDetMain';
-
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
   const isValidURL = (url) => {
     try {
       new URL(url);
@@ -27,8 +29,8 @@ export default function NotificationDetails() {
 
     const fetchNotificationDetails = async () => {
       try {
-        const response = await fetch(`https://backendlibrary-2.onrender.com/notifications/details/${id}`, {
-          method: 'GET',
+        const response = await fetch(`${backendUrl}/notifications/details/${id}`, {
+          method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
           },
@@ -46,10 +48,10 @@ export default function NotificationDetails() {
     };
 
     fetchNotificationDetails();
-  }, [id]);
+  }, [id, backendUrl]);
 
   if (!id) {
-    return <p>Loading notification details...</p>;
+    return <p>Loading notification id...</p>;
   }
 
   if (!notification) {
@@ -58,6 +60,13 @@ export default function NotificationDetails() {
 
   return (
     <div>
+      <NextNProgress
+        color="#32CD32"       
+        startPosition={0.3} 
+        stopDelayMs={200}   
+        height={3}          
+        showOnShallow={true} 
+      />
       <h2>Notification Details</h2>
       {/* Title */}
       <p><strong>Title:</strong> {notification.detailedNotification?.title || 'N/A'}</p>
@@ -85,15 +94,15 @@ export default function NotificationDetails() {
       {/* User Details */}
       <p>
         <strong>User:</strong>{' '}
-        {notification.user?.firstName || 'N/A'} {notification.user?.lastName || 'N/A'}
+        {notification.detailedNotification.user?.firstName || 'N/A'} {notification.detailedNotification.user?.lastName || 'N/A'}
       </p>
 
       {/* Return Date and Penalty */}
       <p>
         <strong>Return Date:</strong>{' '}
-        {notification.dueDate ? new Date(notification.dueDate).toLocaleString() : 'N/A'}
+        {notification.detailedNotification.user.userId ? new Date(notification.detailedNotification.user.userId).toLocaleString() : 'N/A'}
       </p>
-      <p><strong>Penalty:</strong> {notification.penalty || 'None'}</p>
+      <p><strong>Penalty:</strong> {notification.detailedNotification.user.penalty || 'None'}</p>
     </div>
   );
 }

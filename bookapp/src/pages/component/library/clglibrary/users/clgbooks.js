@@ -4,22 +4,30 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { useCallback } from 'react';
 import styles from '../../../../../styles/allbooks.module.css';
+import booksrch from "./../../../../../../public/booksrch.json";
+import { FaSearch } from 'react-icons/fa';
+import SearchPopup from './searchpop';
+import { faL } from '@fortawesome/free-solid-svg-icons';
+import NextNProgress from 'nextjs-progressbar'
 
 export default function ClgBooks() {
   const router = useRouter();
-  const [menuOpen, setMenuOpen] = useState([]);
+  const [searchType, setSearchType] = useState(''); // Tracks which input is clicked
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [subject, setSubject] = useState('');
   const [subjects, setSubjects] = useState([]);
   const [query, setQuery] = useState('');
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [showSearchFilter, setShowSearchFilter] = useState(true); 
   const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(-1);
   const defaultimage = 'https://th.bing.com/th/id/OIP.3J5xifaktO5AjxKJFHH7oAAAAA?rs=1&pid=ImgDetMain';
   const subjectInputRef = useRef(null);
-
+  const popupRef = useRef();
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
   const isValidURL = (url) => {
     try {
       new URL(url);
@@ -29,10 +37,11 @@ export default function ClgBooks() {
     }
   };
 
+
   const fetchBooks = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await fetch(`https://backendlibrary-2.onrender.com/get-clg-books?page=${currentPage}`);
+      const response = await fetch(`${backendUrl}/get-clg-books?page=${currentPage}`);
       if (!response.ok) {
         throw new Error('Failed to fetch books');
       }
@@ -44,11 +53,87 @@ export default function ClgBooks() {
     } finally {
       setLoading(false);
     }
-  }, [currentPage]);
+  }, [currentPage, backendUrl]);
 
+  // popup for search
+  const togglePopup = () => {
+    setIsPopupOpen(!isPopupOpen);
+  };
+  const handleSearchResults = (results) => {
+    setBooks(results);
+    // console.log("main component ",results)
+  }
+
+  const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
+
+  const handleCloseSearchFilter = () => {
+    setShowSearchFilter(false); // Set to false to hide the SearchFilterBooks component
+  };
+
+  const handleClosePopup = (e) => {
+    if (popupRef.current && !popupRef.current.contains(e.target)) {
+      setIsPopupOpen(false); // Close popup if clicked outside
+      setSearchType(''); // reset search
+    }
+  };
+
+  useEffect(() => {
+    if (isPopupOpen) {
+      document.addEventListener('mousedown', handleClosePopup);
+    } else {
+      document.removeEventListener('mousedown', handleClosePopup);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClosePopup);
+    };
+  }, [isPopupOpen]);
+
+  useEffect(()=>{
+    const handleBack = () => {
+      if (window.history.length > 2) {
+        router.replace("/component/library/clglibrary/users/home"); // Redirect to a safe fallback page
+      } else {
+        router.back();
+      }
+    }
+    window.addEventListener('popstate', handleBack);
+
+  return () => {
+    window.removeEventListener('popstate', handleBack);
+  };
+  },[router])
+
+  const handleInputFocus = (type) => {
+    setSearchType(type);
+    setShowSearchFilter(true)
+    setIsPopupOpen(false)
+  };
+
+  // useEffect(() => {
+  //   const handleBackButton = () => {
+  //     if (showSearchFilter) {
+  //       setShowSearchFilter(false); // Close popup when back button is clicked
+  //       window.history.pushState(null, null, window.location.href);
+  //     }
+  //   };
+
+  //   window.addEventListener("popstate", handleBackButton);
+  //   return () => {
+  //     window.removeEventListener("popstate", handleBackButton);
+  //   };
+  // }, [showSearchFilter]);
+
+  const openPopup = () => {
+    setIsPopupOpen(false);
+    setShowSearchFilter(true);
+    // router.replace("/component/library/clglibrary/users/clgbooks");
+  };
+
+  // subject filter
   const fetchSubjects = useCallback(async () => {
     try {
-      const response = await fetch('https://backendlibrary-2.onrender.com/subjects');
+      const response = await fetch(`${backendUrl}/subjects`);
       if (!response.ok) {
         throw new Error('Failed to fetch subjects');
       }
@@ -57,7 +142,7 @@ export default function ClgBooks() {
     } catch (error) {
       console.error('Error fetching subjects:', error);
     }
-  }, []);
+  }, [backendUrl]);
 
   const handleSubjectChange = (e) => {
     const value = e.target.value;
@@ -74,14 +159,13 @@ export default function ClgBooks() {
   const handleSubjectSelect = (selectedSubject) => {
     setSubject(selectedSubject);
     setShowSuggestions(false);
-  };
-
-  const toggleMenu = () => setMenuOpen(!menuOpen);
+  }
 
   const searchBooks = async () => {
+
     setLoading(true);
     try {
-      const url = `https://backendlibrary-2.onrender.com/search-by-filter?subname=${subject}&query=${query}`;
+      const url = `${backendUrl}/search-by-filter?subname=${subject}&query=${query}`;
       const response = await fetch(url);
       if (!response.ok) {
         throw new Error('Failed to search books');
@@ -100,7 +184,6 @@ export default function ClgBooks() {
     fetchSubjects();
   }, [currentPage, fetchBooks, fetchSubjects]);
 
-  const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -114,36 +197,37 @@ export default function ClgBooks() {
 
   const handleKeyDown = (e) => {
 
-      if (e.key === 'ArrowDown') {
-        // Move selection down
-        setSelectedSuggestionIndex((prevIndex) =>
-          prevIndex < subjects.length - 1 ? prevIndex + 1 : prevIndex
-        );
-      } else if (e.key === 'ArrowUp') {
-        // Move selection up
-        setSelectedSuggestionIndex((prevIndex) =>
-          prevIndex > 0 ? prevIndex - 1 : 0
-        );
-      } else if (e.key === 'Enter' && selectedSuggestionIndex >= 0) {
-        // Select the highlighted suggestion
-        handleSubjectSelect(subjects[selectedSuggestionIndex]);
-        e.preventDefault(); // Prevent form submission on Enter
+    if (e.key === 'ArrowDown') {
+      // Move selection down
+      setSelectedSuggestionIndex((prevIndex) =>
+        prevIndex < subjects.length - 1 ? prevIndex + 1 : prevIndex
+      );
+    } else if (e.key === 'ArrowUp') {
+      // Move selection up
+      setSelectedSuggestionIndex((prevIndex) =>
+        prevIndex > 0 ? prevIndex - 1 : 0
+      );
+    } else if (e.key === 'Enter' && selectedSuggestionIndex >= 0) {
+      // Select the highlighted suggestion
+      handleSubjectSelect(subjects[selectedSuggestionIndex]);
+      e.preventDefault(); // Prevent form submission on Enter
+    }
+  };
+
+  useEffect(() => {
+    if (selectedSuggestionIndex >= 0 && subjectInputRef.current) {
+      const suggestionList = subjectInputRef.current.querySelector('.' + styles.suggestions);
+      const selectedItem = suggestionList?.children[selectedSuggestionIndex];
+
+      if (selectedItem) {
+        // Scroll to the selected item
+        selectedItem.scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest', // Ensures smooth scrolling without jumping
+        });
       }
-    };
-    useEffect(() => {
-      if (selectedSuggestionIndex >= 0 && subjectInputRef.current) {
-        const suggestionList = subjectInputRef.current.querySelector('.' + styles.suggestions);
-        const selectedItem = suggestionList?.children[selectedSuggestionIndex];
-    
-        if (selectedItem) {
-          // Scroll to the selected item
-          selectedItem.scrollIntoView({
-            behavior: 'smooth',
-            block: 'nearest', // Ensures smooth scrolling without jumping
-          });
-        }
-      }
-    }, [selectedSuggestionIndex]);
+    }
+  }, [selectedSuggestionIndex]);
 
   const handleBookClick = (book) => {
     router.push({
@@ -153,12 +237,80 @@ export default function ClgBooks() {
 
   return (
     <div className={styles.books_container}>
+      <NextNProgress
+        color="#32CD32"       
+        startPosition={0.3} 
+        stopDelayMs={200}   
+        height={3}          
+        showOnShallow={true} 
+      />
       <div className={styles.control_bar}>
         <h1>All Books</h1>
-        <div className={styles.filter} onClick={toggleMenu}>
-          <Image src="/WhatsApp Image 2025-01-20 at 13.04.13_8901dccb.jpg" alt="Logo" height={40} width={50} className={styles.image} />
+        <div>
+          {/* Search Icon */}
+          <div className={styles.filter} onClick={togglePopup}>
+            <FaSearch className={styles.search_icon} />
+          </div>
+
+          {/* Initial Popup */}
+          {isPopupOpen && (
+            <div className={styles.popup_backdrop}>
+              <div ref={popupRef} className={styles.popup}>
+                <div
+                  className="type_of_search"
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    gap: '5px',
+                  }}
+                >
+                  <div>
+                    <label className="label" style={{ fontSize: '12px' }}>
+                      Title
+                    </label>
+                    <input onClick={openPopup}
+                      type="text"
+                      placeholder="Search book by title"
+                      className={styles.popup_input}
+                      onFocus={() => handleInputFocus('title')}
+                    />
+                  </div>
+                  <span style={{ marginTop: '13px' }}>or</span>
+                  <div>
+                    <label className="label" style={{ fontSize: '12px' }}>
+                      Author
+                    </label>
+                    <input onClick={openPopup}
+                      type="text"
+                      placeholder="Search book by author"
+                      className={styles.popup_input}
+                      onFocus={() => handleInputFocus('author')}
+                    />
+                  </div>
+                </div>
+                <label className="label" style={{ fontSize: '12px' }}>
+                  Subject filter
+                </label>
+                <input onClick={openPopup}
+                  type="text"
+                  placeholder="Filter books by subject..."
+                  className={styles.popup_input}
+                  onFocus={() => handleInputFocus('subject')}
+                />
+                <button
+                  onClick={togglePopup}
+                  className={styles.popup_button}
+                >
+                  Search
+                </button>
+              </div>
+            </div>
+          )}
+
         </div>
 
+        <div className={styles.search}>
         <div className={styles.search_bar}>
           <input
             type="text"
@@ -184,9 +336,8 @@ export default function ClgBooks() {
                     <div
                       key={index}
                       onClick={() => handleSubjectSelect(suggestion)}
-                      className={`${styles.suggestion_item} ${
-                        index === selectedSuggestionIndex ? styles.selected : ''
-                      }`}
+                      className={`${styles.suggestion_item} ${index === selectedSuggestionIndex ? styles.selected : ''
+                        }`}
                     >
                       {suggestion}
                     </div>
@@ -198,9 +349,12 @@ export default function ClgBooks() {
         <button className={styles.submit_button} onClick={searchBooks}>
           Search
         </button>
+        </div>
+
       </div>
       {loading && <div className={styles.loadingOverlay}>
-        Loading...
+
+        <p>Loading...</p>
       </div>}
 
       <div className={styles.books_row}>
@@ -213,6 +367,7 @@ export default function ClgBooks() {
                   alt={book.TITLE}
                   layout="fill"
                   objectFit="contain"
+                  
                 />
               </div>
               <h2 className={styles.book_title}>{book.TITLE}</h2>
@@ -226,16 +381,27 @@ export default function ClgBooks() {
       </div>
 
       <div className={styles.pagination}>
-        <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
-          Prev
-        </button>
-        <span>
-          Page {currentPage} of {totalPages}
-        </span>
-        <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
-          Next
-        </button>
+      <button
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            Prev
+          </button>
+          <span>Page {currentPage} of {totalPages}</span>
+          <button
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </button>
       </div>
+      {searchType && showSearchFilter && (
+        <div className={styles.single_input}>
+          <SearchPopup type={searchType} onClose={()=> {
+            setShowSearchFilter(false)
+            }}/>
+        </div>
+      )}
     </div>
   );
 }

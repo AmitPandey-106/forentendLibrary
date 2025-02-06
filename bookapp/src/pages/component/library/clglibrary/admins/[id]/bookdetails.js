@@ -64,6 +64,7 @@ export default function BookDetails() {
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState('');
   const [recommendations, setRecommendations] = useState([])
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
   const defaultimage = 'https://th.bing.com/th/id/OIP.3J5xifaktO5AjxKJFHH7oAAAAA?rs=1&pid=ImgDetMain';
   const isValidURL = (url) => {
     try {
@@ -94,7 +95,7 @@ export default function BookDetails() {
     }
     try {
       // Sending a POST request to borrow the book
-      const response = await fetch(`https://backendlibrary-2.onrender.com/borrow/${profileId}/${id}`, {
+      const response = await fetch(`${backendUrl}/borrow/${profileId}/${id}`, {
         method: "POST",
         headers: { 
           "Content-Type": "application/json",
@@ -104,7 +105,6 @@ export default function BookDetails() {
   
       if (response.ok) {
         const data = await response.json();
-        console.log(data)
         setIsBorrowed(true);
 
         // Assuming the API sends back the updated book details (including the dueDate)
@@ -131,10 +131,10 @@ export default function BookDetails() {
       // alert("An unexpected error occurred while trying to borrow the book.");
     }
   }
-  
+
   const handleWaitlist = async () => {
     try {
-      const response = await fetch('https://backendlibrary-2.onrender.com/waitlist', {
+      const response = await fetch(`${backendUrl}/waitlist`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId: profileId, bookId: bookdetails.book._id }),
@@ -165,12 +165,13 @@ export default function BookDetails() {
 
     const fetchBookDetails = async () => {
       try {
-        const res = await fetch(`https://backendlibrary-2.onrender.com/book/${id}`);
+        const res = await fetch(`${backendUrl}/book/${id}`);
         const data = await res.json();
 
         if (res.status === 200) {
           setBookdetails(data);
           setRecommendations(data.recommendations)
+          setIsBorrowed(false)
         } else {
           console.error(data.message || "Failed to fetch book details");
         }
@@ -180,7 +181,7 @@ export default function BookDetails() {
     };
 
     fetchBookDetails();
-  }, [router.isReady, id]);
+  }, [router.isReady, id, backendUrl]);
   // console.log(bookdetails)
   const handleBookClick = (book) => {
     router.push({
@@ -188,12 +189,52 @@ export default function BookDetails() {
     });
   };
 
+  const [flipped, setFlipped] = useState(false);
+
+  const flipPage = () => {
+      setFlipped(!flipped);
+      document.getElementById('page1')?.classList.toggle('flipped', !flipped);
+  };
+
 
   return (
     <Layout>
       
       <div className={styles.book_details_container}>
-        {authUser.role === 'user' ? (
+        <Image src='/bluebackgrnd.jpg' className={styles.backimage} width={100} height={1000} alt="opps"></Image>
+       
+        {bookdetails ? (
+          <>
+                 
+            <div className={styles.bookdetails}>
+            <div className="flex flex-col items-center justify-center h-screen bg-gray-200">
+                  <div className="relative w-72 h-96 perspective">
+                  <div className="book-container relative w-full h-full">
+            
+            <div id="page1" className={`absolute w-full h-full bg-white border border-gray-300 transition-transform duration-1000 origin-left ${flipped ? 'rotate-y-180 z-10' : 'z-20'}`} style={{transformOrigin: 'left', padding:'1px', display:'flex', flexDirection:'column',alignItems:'center' }}>
+            <h1 className={styles.book_title}>{bookdetails.book.TITLE}</h1>
+              <div className={styles.section1}>
+                <div className={styles.sec1_bookname}>
+              <div className={styles.imgCover}>
+                <Image src={isValidURL(bookdetails.book.PHOTO) ? bookdetails.book.PHOTO : defaultimage} alt={bookdetails.book.TITLE} className="book-image" width={200} height={250} />
+                </div>
+                </div>
+              
+                <div className={styles.bookinfo}>
+                  <div className={styles.deepDetails}>
+                  <p><strong>Title:</strong> {bookdetails.book.TITLE}</p>
+                    <div className={styles.top}>
+                  <div className={styles.detailLeft}>
+                  <p><strong>Author:</strong> {bookdetails.author}</p>
+                  </div>
+                  
+                  <div className={styles.detailRight}>
+                  <p><strong>Quantity Available:</strong> {bookdetails.book.TOTAL_VOL}</p>
+                  <p><strong>Published On :</strong> 22/2/2022</p>
+                  </div>
+
+                  
+                  {authUser.role === 'user' ? (
           <div className={styles.buttongroup}>
             <button
               className={styles.collect_button}
@@ -210,38 +251,7 @@ export default function BookDetails() {
             >
               {isWaitlisted ? "Waitlisted" : "Join Waitlist"}
             </button>
-          </div>
-        ) : (
-          <div className={styles.buttongroup}>
-            <button className={styles.collect_button} onClick={() => router.push(`/component/library/clglibrary/admins/${id}/editbook`)}>Edit</button>
-            <button className={styles.waitlistbutton} onClick={() => alert("Delete button clicked")}>Delete</button>
-          </div>
-        )}
-        {bookdetails ? (
-          <>
-            <div className={styles.bookdetails}>
-            <h1 className={styles.book_title}>{bookdetails.book.TITLE}</h1>
-              <div className={styles.section1}>
-                <div className={styles.sec1_bookname}>
-              <div className={styles.imgCover}>
-                <Image src={isValidURL(bookdetails.book.PHOTO) ? bookdetails.book.PHOTO : defaultimage} alt={bookdetails.book.TITLE} className="book-image" width={200} height={200} />
-                </div>
-                </div>
-              
-                <div className={styles.bookinfo}>
-                  <div className={styles.deepDetails}>
-                  <p><strong>Title:</strong> {bookdetails.book.TITLE}</p>
-                    <div className={styles.top}>
-                  <div className={styles.detailLeft}>
-                  <p><strong>Author:</strong> {bookdetails.author}</p>
-                  </div>
-                  
-                  <div className={styles.detailRight}>
-                  <p><strong>Quantity Available:</strong> {bookdetails.book.TOTAL_VOL}</p>
-                  <p><strong>Published On :</strong> 22/2/2022</p>
-                  </div>
-                  </div>
-                  <div className={styles.ratings}>
+            <div className={styles.ratings}>
                     <span className={styles.star}>&#9733;</span>
                     <span className={styles.star}>&#9733;</span>
                     <span className={styles.star}>&#9733;</span>
@@ -249,63 +259,61 @@ export default function BookDetails() {
                     <span className={styles.star}>&#9734;</span>
                     <p className={styles.ratingText}>3.0/5.0</p>
                   </div>
+          </div>
+        ) : (
+          <div className={styles.buttongroup}>
+            <button className={styles.collect_button} onClick={() => router.push(`/component/library/clglibrary/admins/${id}/editbook`)}>Edit</button>
+            <button className={styles.waitlistbutton} onClick={() => alert("Delete button clicked")}>Delete</button>
+          </div>
+        )}
+                  </div>
+                
                   </div>
                 </div>
               </div>
-            
+              </div>
            
+              <div id="page2" className={`absolute w-full h-full bg-white border border-gray-300 transition-transform duration-1000 origin-left ${flipped ? 'z-20' : 'rotate-y-180 z-10'}`} style={{transformOrigin: 'left' }}>
               {recommendations.length > 0 && (
+                
                 <div className={styles.recommendation}>
-                  <h2>Recommended Books :- </h2>
+                  <div className={styles.cat1}>
+                  <h2>Recommended Books :-</h2>
+                  </div>
                 <div className={styles.books_row}>
                   
-                  <div className="recommendation-list">
+                  <div className={styles.recommendation_list}>
                     {recommendations.map((recBook) => (
                       <div
                         key={recBook._id}
                         className={styles.recommendation_item}
                         onClick={()=>handleBookClick(recBook)}
                       >
-                        <Image src={isValidURL(recBook.PHOTO) ? recBook.PHOTO : defaultimage} alt={recBook.TITLE} className="recommendation-image" width={200} height={200}/>
+                        <Image src={isValidURL(recBook.PHOTO) ? recBook.PHOTO : defaultimage} alt={recBook.TITLE} className={styles.recommendation_image} width={200} height={200}/>
                         <p className={styles.recommendation_title}>{recBook.TITLE}</p>
                       </div>
                     ))}
                   </div>
                   
-                  <style jsx>{`
+            
                   
-      .recommendations {
-        margin-top: 20px;
-      }
-      .recommendation-list {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
-      }
-      .recommendation-item {
-        cursor: pointer;
-        text-align: center;
-      }
-      .recommendation-image {
-        width: 100px;
-        height: 150px;
-        object-fit: cover;
-        border-radius: 5px;
-      }
-      .recommendation-title {
-        margin-top: 10px;
-        font-size: 14px;
-        font-weight: bold;
-      }
-    `}</style>
+      
                 </div>
                 </div>
               )}
+              </div>
 
+
+            </div>
+            </div>
+            </div>
+            {/* <div className="mt-5 flex gap-3">
+                <button onClick={flipPage} className="px-4 py-2 bg-blue-500 text-white rounded">Flip</button>
+            </div> */}
             </div>
           </>
         ) : (
-          <p>Loading....</p>
+          <p>Loading...</p>
         )}
       
       </div>

@@ -11,6 +11,7 @@ export default function LibrarySignin({ initialError }) {
   const [success, setSuccess] = useState('');
   const { setProfile } = useContext(AuthContext);
   const router = useRouter();
+  const backendUrl = "http://localhost:8001"
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -21,7 +22,7 @@ export default function LibrarySignin({ initialError }) {
     setError('');
     setSuccess('');
     try {
-      const res = await fetch('https://backendlibrary-2.onrender.com/auth/signin-user', {
+      const res = await fetch(`${backendUrl}/auth/signin-user`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
@@ -60,9 +61,10 @@ export default function LibrarySignin({ initialError }) {
       <div className={styles.form_container}>
       <form className={styles.form} onSubmit={handleSubmit}>
       <h1 className={styles.h1}>Sign In</h1>
-      <Link className={styles.link} href={"/component/library/publiclibrary/publiclibrary"}>Or skip to public library ...</Link>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
+      {error && <p style={{ color: 'red' }}>{error}</p>}
         {success && <p style={{ color: 'green' }}>{success}</p>}
+      <Link className={styles.link} href={"/component/library/publiclibrary/publiclibrary"}>Or skip to public library ...</Link>
+        
 
       <div className={styles.element}>
         <div className={styles.element1}>

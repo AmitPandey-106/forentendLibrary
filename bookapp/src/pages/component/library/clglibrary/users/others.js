@@ -1,8 +1,8 @@
 import Userlayout from '../../../../../u_layout';
 import { useEffect, useState } from 'react';
-import styles from '@/styles/ebook.module.css';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import NextNProgress from 'nextjs-progressbar';
 
 export default function Others() {
   const [ebooks, setEBooks] = useState([]);
@@ -10,12 +10,12 @@ export default function Others() {
   const [error, setError] = useState('');
   const [selectedOption, setSelectedOption] = useState('viewbook');
   const router = useRouter();
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
 
-  // Fetch eBooks from the backend API
   useEffect(() => {
     const fetchEBooks = async () => {
       try {
-        const response = await fetch('https://backendlibrary-2.onrender.com/all-ebooks'); // Adjust the URL based on your backend
+        const response = await fetch(`${backendUrl}/all-ebooks`);
         if (!response.ok) {
           throw new Error('Failed to fetch eBooks.');
         }
@@ -27,29 +27,28 @@ export default function Others() {
         setLoading(false);
       }
     };
-
     fetchEBooks();
-  }, []);
+  }, [backendUrl]);
 
   const handleComponent = (value) => {
-    setSelectedOption(value); // Update the selected option in state
-    router.push(`/component/library/clglibrary/admins/${value}`); // Navigate to the respective page
+    setSelectedOption(value);
+    router.push(`/component/library/clglibrary/admins/${value}`);
   };
 
   useEffect(() => {
-    const currentPath = router.pathname.split('/').pop(); // Get the last part of the path
+    const currentPath = router.pathname.split('/').pop();
     setSelectedOption(currentPath);
   }, [router.pathname]);
 
-  // Render the component
   return (
-    <div className={styles.container}>
-      <h1 className={styles.title}>Uploaded eBooks</h1>
+    <div style={{ width: '100%', padding: '20px', maxWidth: '1400px', margin: '0 auto' }}>
+      <NextNProgress color="#32CD32" startPosition={0.3} stopDelayMs={200} height={3} showOnShallow={true} />
+      <h1 style={{ textAlign: 'center', fontSize: '2rem', fontWeight: 'bold', color: '#333', padding: '20px 0' }}>Uploaded eBooks</h1>
       {loading && <p>Loading eBooks...</p>}
-      {error && <p className={styles.error}>{error}</p>}
+      {error && <p style={{ color: 'red' }}>{error}</p>}
       <div style={{ margin: '10px 0' }}>
         <select
-          style={{ margin: "0px 10px", padding:'5px 10px', fontSize:'20px' }}
+          style={{ margin: "0px 10px", padding: '5px 10px', fontSize: '20px' }}
           value={selectedOption}
           onChange={(e) => handleComponent(e.target.value)}
         >
@@ -57,28 +56,18 @@ export default function Others() {
           <option value="story">Story</option>
         </select>
       </div>
-
-      <div className={styles.booksRow}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '25px', justifyContent: 'center', marginTop: '20px' }}>
         {!loading && !error && ebooks.length === 0 && <p>No eBooks uploaded yet.</p>}
         {!loading && !error && ebooks.length > 0 ? (
           ebooks.map((ebook) => (
-            <div key={ebook._id} className={styles.bookCard}>
-              <Image
-                src={ebook.coverImage} // Placeholder image if no cover image is available
-                alt={ebook.title}
-                className={styles.bookImage}
-              />
-              <h2 className={styles.bookTitle}>{ebook.title}</h2>
-              <p className={styles.bookAuthor}>by {ebook.author}</p>
-              <p className={styles.bookCategory}>Category: {ebook.category}</p>
-              <p className={styles.bookPrice}>
-                Price: {ebook.price === 0 ? 'Free' : `$${ebook.price}`}
-              </p>
-              <a href={`https://backendlibrary-2.onrender.com/${ebook.file}`} target="_blank" rel="noopener noreferrer" style={{ color: 'blue' }}>
-                View PDF
-              </a>
+            <div key={ebook._id} style={{ border: '1px solid #ddd', borderRadius: '8px', padding: '6px', textAlign: 'center', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', maxWidth: '200px', transition: 'transform 0.3s ease' }}>
+              <Image src={ebook.coverImage} alt={ebook.title} width={250} height={350} style={{ borderRadius: '10px', marginBottom: '10px' }} />
+              <h2 style={{ fontSize: '16px', color: '#333', margin: '1px 0', fontWeight: 'bold' }}>{ebook.title}</h2>
+              <p style={{ fontSize: '14px', color: '#666', margin: '5px 0' }}>by {ebook.author}</p>
+              <p style={{ fontSize: '14px', color: '#4CAF50', fontWeight: 'bold' }}>Category: {ebook.category}</p>
+              <p style={{ fontSize: '14px', fontWeight: 'bold' }}>Price: {ebook.price === 0 ? 'Free' : `$${ebook.price}`}</p>
+              <a href={`${backendUrl}/${ebook.file}`} target="_blank" rel="noopener noreferrer" style={{ color: 'blue' }}>View PDF</a>
             </div>
-
           ))
         ) : (
           <p>No eBooks available</p>
@@ -87,8 +76,6 @@ export default function Others() {
     </div>
   );
 }
-
-// Set layout
 
 Others.getLayout = function getLayout(page) {
   return <Userlayout>{page}</Userlayout>;

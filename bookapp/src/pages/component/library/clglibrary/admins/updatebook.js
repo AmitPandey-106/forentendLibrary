@@ -1,12 +1,17 @@
 import AdminLayout from './layout';
 import React, { useEffect, useState, useContext } from 'react';
 import Image from 'next/image';
+import { AuthContext } from '@/pages/component/context/authcontext';
+import booksrch from "./../../../../../../public/booksrch.json";
+import styles from '@/styles/updateebook.module.css';
+
 
 export default function AdminUpdateBook() {
   const [borrowedBooks, setBorrowedBooks] = useState([]);
   const [filterBooks, setFilterBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
   const defaultimage = 'https://th.bing.com/th/id/OIP.3J5xifaktO5AjxKJFHH7oAAAAA?rs=1&pid=ImgDetMain';
   const isValidURL = (url) => {
     try {
@@ -21,7 +26,7 @@ export default function AdminUpdateBook() {
     // Now authUser is available, make the fetch request
     const fetchBorrowedBooks = async () => {
       try {
-        const res = await fetch(`https://backendlibrary-2.onrender.com/all-borrow-books`, {
+        const res = await fetch(`${backendUrl}/all-borrow-books`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -45,13 +50,13 @@ export default function AdminUpdateBook() {
     };
 
     fetchBorrowedBooks();
-  }, []);  // Dependency on authUser to ensure it only runs when available
+  }, [backendUrl]);  // Dependency on authUser to ensure it only runs when available
 
   const handleRemoveBook = async (bookId) => {
     if (!window.confirm("Are you sure you want to remove this book?")) return;
 
     try {
-      const response = await fetch(`https://backendlibrary-2.onrender.com/remove-borrow/${bookId}`, {
+      const response = await fetch(`${backendUrl}/remove-borrow/${bookId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -62,7 +67,7 @@ export default function AdminUpdateBook() {
         throw new Error("Failed to remove book.");
       }
 
-      setBorrowedBooks((prevBooks) =>
+      setFilterBooks((prevBooks) =>
         prevBooks.filter((book) => book._id !== bookId)
       );
 
@@ -86,21 +91,21 @@ export default function AdminUpdateBook() {
 
   if (loading) {
     return <div>
-      Loading...
+     <p>Loading</p>
     </div>
   }
 
   return (
     <div>
-      <h2>Borrowed Books</h2>
-      <div>
+      <h1>Borrowed Books</h1>
+      <div className={styles.searchbar}>
         <input
           type="text"
           placeholder="Search"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && onSearch()}
-          style={{ backgroundColor: "white", color: "black", margin: "10px 0" }}
+          
         />
         <button
           onClick={onSearch}
@@ -108,7 +113,7 @@ export default function AdminUpdateBook() {
       </div>
 
       {filterBooks.length > 0 ? (
-        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse', backgroundColor:'white' }}>
           <thead>
             <tr>
               <th style={{ padding: '8px', border: '1px solid #ddd', textAlign: 'left' }}>Student</th>

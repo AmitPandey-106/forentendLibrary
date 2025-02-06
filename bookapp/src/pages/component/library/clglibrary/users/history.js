@@ -2,12 +2,16 @@ import React, { useContext, useState, useEffect } from 'react';
 import Userlayout from '../../../../../u_layout';
 import { AuthContext } from '@/pages/component/context/authcontext';
 import Image from 'next/image';
+import styles from '@/styles/borrowedbooks.module.css';
+import NextNProgress from 'nextjs-progressbar';
+
 
 export default function History() {
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { authUser } = useContext(AuthContext);
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
   const defaultimage = 'https://th.bing.com/th/id/OIP.3J5xifaktO5AjxKJFHH7oAAAAA?rs=1&pid=ImgDetMain';
   const isValidURL = (url) => {
     try {
@@ -28,7 +32,7 @@ export default function History() {
     const fetchHistory = async () => {
       try {
         console.log(`Fetching history for user ID: ${authUser.id}`);
-        const response = await fetch(`https://backendlibrary-2.onrender.com/users/${authUser.id}/history`, {
+        const response = await fetch(`${backendUrl}/users/${authUser.id}/history`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -52,36 +56,54 @@ export default function History() {
     if (authUser?.id) {
       fetchHistory();
     }
-  }, [authUser]);
+  }, [authUser, backendUrl]);
 
   if (!authUser || !authUser.id) return <p>Loading user information...</p>;
   if (loading) return <p>Loading history...</p>;
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <div>
-      <h2>Book Borrowing History</h2>
-      {history.length === 0 ? (
-        <p>No history available.</p>
+    <div className={styles.borr_book}>
+      <NextNProgress
+        color="#32CD32"       
+        startPosition={0.3} 
+        stopDelayMs={200}   
+        height={3}          
+        showOnShallow={true} 
+      />
+      <h2>Borrowed History</h2>
+
+      {history.length > 0 ? (
+        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+          <thead>
+            <tr>
+              <th style={{ padding: '8px', border: '1px solid #ddd', textAlign: 'left' }}>Title</th>
+              <th style={{ padding: '8px', border: '1px solid #ddd', textAlign: 'left' }}>Author</th>
+              <th style={{ padding: '8px', border: '1px solid #ddd', textAlign: 'left' }}>Book Image</th>
+              <th style={{ padding: '8px', border: '1px solid #ddd', textAlign: 'left' }}>Borrowed On</th>
+              <th style={{ padding: '8px', border: '1px solid #ddd', textAlign: 'left' }}>Due On</th>
+            </tr>
+          </thead>
+          <tbody>
+            {history.map((history) => (
+              <tr key={history._id}>
+                <td style={{ padding: '8px', border: '1px solid #ddd' }}>{history.book.TITLE}</td>
+                <td style={{ padding: '8px', border: '1px solid #ddd' }}>{history.book.author_name || "Unknown Author"}</td>
+                <td style={{ padding: '8px', border: '1px solid #ddd' }}>
+                  <Image src={isValidURL(history.book.PHOTO) ? history.book.PHOTO : defaultimage} alt={history.book.TITLE} className="book-image" width={100} height={100} />
+                </td>
+                <td style={{ padding: '8px', border: '1px solid #ddd' }}>
+                  {new Date(history.borrowDate).toLocaleDateString()}
+                </td>
+                <td style={{ padding: '8px', border: '1px solid #ddd' }}>
+                  {new Date(history.dueDate).toLocaleDateString()}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       ) : (
-        <ul>
-          {history.map((entry, index) => (
-            <li key={index}>
-              <Image
-                    src={defaultimage}
-                    alt={entry.TITLE}
-                    width={100}
-                    height={100}
-                  />
-              <strong>Title:</strong> {entry.book.TITLE || 'Unknown'} <br />
-              <strong>Borrow Date:</strong> {entry.borrowDate ? new Date(entry.borrowDate).toLocaleDateString() : 'N/A'} <br />
-              <strong>Due Date:</strong> {entry.dueDate ? new Date(entry.dueDate).toLocaleDateString() : 'N/A'} <br />
-              <strong>Return Date:</strong>{' '}
-              {entry.returnDate ? new Date(entry.returnDate).toLocaleDateString() : 'Not Returned'} <br />
-              {entry.removedByAdmin && <strong>Removed by Admin</strong>}
-            </li>
-          ))}
-        </ul>
+        <p>You have no borrowed books.</p>
       )}
     </div>
   );

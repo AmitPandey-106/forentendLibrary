@@ -1,11 +1,11 @@
 import React from 'react'
-import AdminLayout from './layout';
+import AdminLayout from '../admins/layout';
 import Userlayout from '@/u_layout';
 import { useRouter } from 'next/router';
 import { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '@/pages/component/context/authcontext';
 
-export default function Story() {
+export default function Novel() {
   const { authUser } = useContext(AuthContext);
   const [selectedOption, setSelectedOption] = useState('');
   const router = useRouter();

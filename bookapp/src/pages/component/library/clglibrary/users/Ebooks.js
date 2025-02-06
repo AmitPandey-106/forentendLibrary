@@ -2,6 +2,7 @@ import Userlayout from '../../../../../u_layout';
 import { useEffect, useState } from 'react';
 import styles from '@/styles/ebook.module.css';
 import { useRouter } from 'next/router';
+// import NextNProgress from 'nextjs-progressbar;'
 
 export default function Others() {
   const [ebooks, setEBooks] = useState([]);
@@ -12,12 +13,13 @@ export default function Others() {
   const [filteredEBooks, setFilteredEBooks] = useState([]);
   const [categoryFilter, setCategoryFilter] = useState('');
   const [categorys, setCategorys] = useState([]);
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
 
   // Fetch eBooks from the backend API
   useEffect(() => {
     const fetchEBooks = async () => {
       try {
-        const response = await fetch('https://backendlibrary-2.onrender.com/all-ebooks'); // Adjust the URL based on your backend
+        const response = await fetch(`${backendUrl}/all-ebooks`); // Adjust the URL based on your backend
         if (!response.ok) {
           throw new Error('Failed to fetch eBooks.');
         }
@@ -33,7 +35,7 @@ export default function Others() {
 
     const fetchCategorys = async () => {
       try {
-        const res = await fetch('https://backendlibrary-2.onrender.com/all-categorys'); // Assume an endpoint to get available categories
+        const res = await fetch(`${backendUrl}/all-categorys`); // Assume an endpoint to get available categories
         const data = await res.json();
 
         if (res.status === 200) {
@@ -48,7 +50,7 @@ export default function Others() {
 
     fetchEBooks();
     fetchCategorys();
-  }, []);
+  }, [backendUrl]);
 
   useEffect(() => {
     const applyFilters = () => {
@@ -92,11 +94,20 @@ export default function Others() {
 
   return (
     <div className={styles.books_container}>
+    {/* <NextNProgress
+        color="#32CD32"       
+        startPosition={0.3} 
+        stopDelayMs={200}   
+        height={3}          
+        showOnShallow={true} 
+      /> */}
       {loading && <p>Loading eBooks...</p>}
       {error && <p className={styles.error}>{error}</p>}
 
       <div className={styles.control_bar}>
         <h1>Uploaded eBooks</h1>
+
+        <div className={styles.search}>
         <div className={styles.filter_bar}>
           <select onChange={onCategorySelect} value={categoryFilter}>
             <option value="">Select Category</option>
@@ -113,8 +124,8 @@ export default function Others() {
             placeholder="Search books by title or author..."
             value={searchQuery}
             onChange={onSearchChange}
-            style={{ width: '215px', padding: '5px 10px' }}
           />
+        </div>
         </div>
       </div>
 
