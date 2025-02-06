@@ -91,7 +91,7 @@ export default function ClgBooks() {
 
   useEffect(()=>{
     const handleBack = () => {
-      if (window.history.length > 2) {
+      if (window.history.length > 1) {
         router.replace("/component/library/clglibrary/users/home"); // Redirect to a safe fallback page
       } else {
         router.back();

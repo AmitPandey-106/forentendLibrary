@@ -125,7 +125,7 @@ useEffect(() => {
   const handleBack = (event) => {
     event.preventDefault();
     
-    if (window.history.state && window.history.state.showSearchFilter) {
+    if (window.history.state) {
       onClose(); // Close the popup first
       window.history.back(); // Remove the extra state
     }
