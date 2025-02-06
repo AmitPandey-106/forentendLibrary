@@ -125,14 +125,14 @@ useEffect(() => {
   const handleBack = (event) => {
     event.preventDefault();
     
-    if (window.history.state) {
+    if (showSearchFilter) {
       onClose(); // Close the popup first
       window.history.back(); // Remove the extra state
     }
   };
 
   // Add a state entry to the history to capture the back event
-  window.history.pushState({ showSearchFilter: true }, '');
+  window.history.replaceState({ showSearchFilter: true }, '');
 
   window.addEventListener('popstate', handleBack);
 
@@ -166,6 +166,12 @@ useEffect(() => {
               placeholder="Search by subject..."
               value={subject}
               onChange={(e) => setSubject(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  handleSubjectSelect(subject);
+                }
+              }}
               onFocus={() => setSubjectShowSuggestions(true)}
             />
             {subjectShowSuggestions && (
@@ -194,7 +200,12 @@ useEffect(() => {
               name="bookName"
               value={formData.bookName}
               onChange={handleChange}
-
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  handleSuggestionClick(formData.bookName);
+                }
+              }}
               autoComplete="off"
             />
             {showSuggestions && suggestions.length > 0 && (
