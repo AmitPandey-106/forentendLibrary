@@ -9,6 +9,7 @@
     color: #333333;
     font-family: Arial, sans-serif;
     overflow: hidden;
+    min-height: 100vh; 
   }
   
   .borr_book h2 {

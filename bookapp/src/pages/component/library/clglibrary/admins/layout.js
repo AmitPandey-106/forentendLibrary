@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styles from "../../../../../styles/layout.module.css";
 import Link from "next/link";
 import NextNProgress from 'nextjs-progressbar';
+import { blue } from "@mui/material/colors";
 
 export default function AdminLayout({ children }) {
   const [showDot, setShowDot] = useState(false);
@@ -54,7 +55,7 @@ export default function AdminLayout({ children }) {
         height={3}          
         showOnShallow={true} 
       />
-      <header className={styles.header}>
+      <header className={styles.header} style={{backgroundColor:"blue"}}>
         <h1>Admin Dashboard</h1>
       </header>
       <div className={styles.body}>
@@ -132,7 +133,7 @@ export default function AdminLayout({ children }) {
       </div>
 
       <footer className={styles.footer}>
-        <p>© 2024 Infinity.technology All rights reserved.</p>
+        <p>© 2025 SunTouch Technology.technology All rights reserved.</p>
       </footer>
     </div>
   );

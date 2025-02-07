@@ -1,7 +1,9 @@
 import Userlayout from '../../../../../u_layout';
 import { useEffect, useState } from 'react';
 import styles from '@/styles/ebook.module.css';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
+import styless from '../../../../../styles/allbooks.module.css';
 // import NextNProgress from 'nextjs-progressbar;'
 
 export default function Others() {
@@ -14,6 +16,15 @@ export default function Others() {
   const [categoryFilter, setCategoryFilter] = useState('');
   const [categorys, setCategorys] = useState([]);
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
+  const defaultimage = 'https://th.bing.com/th/id/OIP.3J5xifaktO5AjxKJFHH7oAAAAA?rs=1&pid=ImgDetMain';
+  const isValidURL = (url) => {
+    try {
+      new URL(url);
+      return true;
+    } catch {
+      return false;
+    }
+  };
 
   // Fetch eBooks from the backend API
   useEffect(() => {
@@ -129,13 +140,17 @@ export default function Others() {
         </div>
       </div>
 
-      <div className={styles.books_row}>
+      <div className={styless.books_row}>
         {!loading && !error && filteredEBooks.length > 0 ? (
           filteredEBooks.map((ebook) => (
-            <div key={ebook._id} className={styles.book_card} onClick={()=> handleBookClick(ebook)}>
-              <h2 className={styles.book_title}>{ebook.title}</h2>
-              <p className={styles.book_author}>by {ebook.author}</p>
-              <p className={styles.bookCategory}>Category: {ebook.category}</p>
+            <div key={ebook._id} className={styless.book_card} onClick={()=> handleBookClick(ebook)}>
+              <div className={styless.book_image}>
+              <Image src={isValidURL(ebook.coverImage) ? ebook.coverImage : defaultimage} alt={ebook.title} layout="fill"
+                  objectFit="contain"/>
+              </div>
+              <h2 className={styless.book_title}>{ebook.title}</h2>
+              <p className={styless.book_author}>by {ebook.author}</p>
+              <p className={styless.bookCategory}>Category: {ebook.category}</p>
 
               {/* <button
                 className={styles.view_pdf_button}

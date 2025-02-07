@@ -65,7 +65,7 @@ export const AuthProvider = ({ children }) => {
     };
     
     fetchUserProfileId();
-  }, []);
+  }, [backendUrl]);
 
   return (
     <AuthContext.Provider value={{

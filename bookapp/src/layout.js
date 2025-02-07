@@ -1,10 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
-import styles from "./styles/layout.module.css"
+import styles from "./styles/first_layout.module.css"
+import { useContext, useEffect, useState } from 'react';
 import Home from "./pages";
 import { useRouter } from "next/navigation";
-import NextNProgress from 'nextjs-progressbar';
-
+import NextNProgress from 'nextjs-progressbar'
 
 export default function Layout({ children }){
     // const router = useRouter();
@@ -13,6 +13,25 @@ export default function Layout({ children }){
     //         router.push(pathname);
     //     }
     // };
+      const [menuOpen, setMenuOpen] = useState(false);
+      const [dropdownOpen, setDropdownOpen] = useState(false);
+
+      const toggleDropdown = () => {
+        setDropdownOpen(!dropdownOpen); // Toggle dropdown state
+      };
+    
+      const closeDorpMenu = () => {
+        setDropdownOpen(false); // Close dropdown when an item is clicked
+      };
+    
+      const toggleMenu = () => {
+        setMenuOpen(!menuOpen);
+      };
+    
+      const closeMenu = () => {
+        setMenuOpen(false);
+        setDropdownOpen(false);
+      };
     return(
         <>
         <NextNProgress
@@ -22,6 +41,10 @@ export default function Layout({ children }){
         height={3}          
         showOnShallow={true} 
       />
+        <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      />
         <header className={styles.header}>
           <nav className={styles.navbar}>
             <Image className={styles.logoImage} src = "/logo.jpg" alt = "Logo" height={50} width={50}/>
@@ -30,7 +53,7 @@ export default function Layout({ children }){
                 <Link href="/">Home</Link>
               </li>
               <li className={styles.navItem}>
-                <Link href="/component/login">Login</Link>
+                <Link href="/auth/librarysignin">Public Library</Link>
               </li>
               <li className={styles.navItem}>
                 <Link href="/component/about">About</Link>
@@ -48,6 +71,55 @@ export default function Layout({ children }){
             <br></br>
             <a onClick={navigate("/about")}>About</a> */}
           </nav>
+
+          {/* Mobile Navbar */}
+        <nav className={styles.mobile_navbar}>
+          <div className={styles.logo}>
+            <Link href="/">Library</Link>
+          </div>
+
+          <div className={styles.hamburger} onClick={toggleMenu}>
+            ☰
+          </div>
+
+          {/* Sidebar Menu for mobile */}
+          <div className={`${styles.sidebar} ${menuOpen ? styles.open : ''}`}>
+            <button className={styles.close_btn} onClick={closeMenu}>×</button>
+
+            <div className={styles.slide}>
+              <div className={styles.upper}>
+                <Image className={styles.slideimage} src='/logo.jpg' alt='user' height={74} width={74}></Image>
+              </div>
+              <ul className={styles.nav_links}>
+                <>
+                  <div className={styles.ic}>
+                    <i className="fas fa-home"></i>
+                    <li onClick={closeMenu}><Link href="/">Home</Link></li>
+                  </div>
+                  {/* <hr className={styles.line}></hr> */}
+                  <div className={styles.ic}>   
+                  <div className={styles.icu}><i class="fas fa-right-left"></i> <i class="fas fa-user"></i></div>
+                    <li onClick={closeMenu}><Link href="https://posts-sigma-eight.vercel.app">UserExchange</Link></li>
+                  </div>
+
+                  <div className={styles.ic}>
+                    <i className="fas fa-book"></i>
+                    <li onClick={closeMenu}><Link href="/auth/librarysignin">Library</Link></li>
+                  </div>
+
+                  <div className={styles.ic}>
+                    <i className="fas fa-info-circle"></i>
+                    <li onClick={closeMenu}><p><Link href="/component/about">About</Link></p></li>
+                  </div>
+                  <div className={styles.ic}>
+                    <i className="fas fa-right-to-bracket"></i>
+                    <li onClick={closeMenu}><Link href="/auth/librarysignin">Public Library</Link></li>
+                  </div>
+                </>
+              </ul>
+            </div>
+          </div>
+        </nav>
         </header>
       <main className={styles.main}>{children}</main>
       </>

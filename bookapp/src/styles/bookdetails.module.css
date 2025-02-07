@@ -325,7 +325,7 @@
 
     .section1 {
         flex-direction: column;
-        width: 119%;
+        width: 111%;
         justify-content: center;
         align-items: center;
     }
@@ -338,7 +338,7 @@
     .ratings {
         align-items: center;
         justify-content: center;
-        padding-right: 150px;
+        /* padding-right: 150px; */
     }
 
     .recommendation {
@@ -466,12 +466,12 @@
     .deepDetails {
         text-align: left;
         padding: 10px 30px;
-        margin-left: 10px;
     }
 
     .ratings {
         align-items: center;
-        justify-content: left;
+        justify-content: center;
+        margin: 0px;
     }
 
 }

@@ -3,6 +3,7 @@
   padding: 45px 195px 85px;
   width: 100%;
     font-family: Arial, sans-serif;
+    min-height: 100vh; 
   }
 
   .card {

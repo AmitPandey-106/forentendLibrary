@@ -1,9 +1,11 @@
 import Layout from "../../layout";
 import styles from '@/styles/about.module.css';
+import styless from '@/styles/usernav.module.css';
 import Head from 'next/head';
 import Image from 'next/image';
 import React, { useState, useEffect } from 'react';
 import NextNProgress from 'nextjs-progressbar';
+import Link from "next/link";
 
 
 export default function About() {
@@ -35,7 +37,7 @@ useEffect(() => {
 }, []);
 
   return (
-    <Layout>
+    <>
       <NextNProgress
         color="#32CD32"       
         startPosition={0.3} 
@@ -194,29 +196,71 @@ useEffect(() => {
         </div>
 
         
-        {/* <div className={styles.contact}>
-          <div className={styles.visit}>
-          <i className="fas fa-home"></i>
-            <h2>VISIT US</h2>
-            <p>We’d love to see you! Visit us at our location and let’s connect.</p>
-            <h4>Chembur, Mumbai</h4>
+        <footer className={styless.footer} style={{backgroundColor:"#242526", marginTop:'60px'}}>
+        <div className={styless.f_div}>
+
+          {/* About Section */}
+          <div className={styless.f_about}>
+            <h3>BooksEra</h3>
+            <p>Suntouch Technology is dedicated to delivering top-notch tech solutions to empower businesses worldwide.</p>
+            <a href="https://www.googlemaps.com" target="_blank" rel="noopener noreferrer">
+              <Image src="/location.png" alt="Facebook" width={24} height={35} />
+            </a>
           </div>
 
-          <div className={styles.call}>
-          <i className="fas fa-phone"></i>
-            <h2>CALL US</h2>
-            <p>Have questions? Call us anytime—we’re here to help!</p>
-            <h4>9876543210</h4>
+          <div className={styless.nav_con}>
+            <div className={styless.navigation}>
+              <h3>Navigation</h3>
+              <p><Link href="/">Home</Link></p>
+              {/* <p><Link href="/component/library/clglibrary/users/clgbooks">All Books</Link></p> */}
+              <p><Link href="/component/about">About Us</Link></p>
+              <p><Link href="https://posts-sigma-eight.vercel.app">UserExchange</Link></p>
+            </div>
+
+            {/* Contact Us Section */}
+            <div className={styless.contact}>
+              <h3>Contact Us</h3>
+              <p>Email: suntouchtechnology01@gmail.com</p>
+              <p>Phone: +91 7506541325</p>
+              <p>Address: 295, Chembur, Maharashtra - 74</p>
+            </div>
           </div>
 
-          <div className={styles.email}>
-          <i className="fas fa-envelope"></i>
-            <h2>EMAIL US</h2>
-            <p>Email us for inquiries, and we’ll respond promptly to assist you.</p>
-            <h4>abcd@gmail.com</h4>
+
+          {/* Services Section */}
+          <div className={styless.ser_foll}>
+            <div className={styless.f_services}>
+              <h3>Services</h3>
+              <ul>
+                <li>Web Development</li>
+                <li>App Development</li>
+                <li>Cloud Services</li>
+              </ul>
+            </div>
+
+            {/* Social Media Links */}
+            <div className={styless.social_media}>
+              <h3>Follow Us</h3>
+              <div className={styless.icons}>
+                <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
+                  <Image src="/facebook.png" alt="Facebook" width={24} height={24} /> Facebook
+                </a>
+                <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer">
+                  <Image src="/twitter.png" alt="Twitter" width={24} height={24} /> Twitter
+                </a>
+                <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">
+                  <Image src="/linkedin-logo.png" alt="LinkedIn" width={24} height={24} /> LinkedIn
+                </a>
+                <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
+                  <Image src="/instagram.png" alt="Instagram" width={24} height={24} /> Instagram
+                </a>
+              </div>
+            </div>
           </div>
-        </div> */}
         </div>
-    </Layout>
+        <p>© 2025 SunTouch Technology All rights reserved.</p>
+      </footer>
+        </div>
+    </>
   );
 }

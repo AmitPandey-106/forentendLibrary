@@ -25,7 +25,7 @@ export default function Novel() {
   return (
     <Layout>
     <div>
-      <div style={{ margin: '10px 0' }}>
+      <div style={{ margin: '10px 0' , minHeight:'100vh'}}>
         <select
           style={{ margin: "0px 10px", padding:'5px 10px', fontSize:'20px' }}
           value={selectedOption}
@@ -33,7 +33,9 @@ export default function Novel() {
         >
           <option value="novel">Novel</option>
           <option value="story">Story</option>
+          <option value="others">All</option>
         </select>
+        <p style={{display:'flex', alignItems:'center', justifyContent:'center'}}>Novel Part is Under Construction</p>
       </div>
     </div>
     </Layout>

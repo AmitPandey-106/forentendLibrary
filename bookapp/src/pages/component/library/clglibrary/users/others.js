@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import NextNProgress from 'nextjs-progressbar';
+import styles from '../../../../../styles/allbooks.module.css';
 
 export default function Others() {
   const [ebooks, setEBooks] = useState([]);
@@ -11,6 +12,15 @@ export default function Others() {
   const [selectedOption, setSelectedOption] = useState('viewbook');
   const router = useRouter();
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
+  const defaultimage = 'https://th.bing.com/th/id/OIP.3J5xifaktO5AjxKJFHH7oAAAAA?rs=1&pid=ImgDetMain';
+  const isValidURL = (url) => {
+    try {
+      new URL(url);
+      return true;
+    } catch {
+      return false;
+    }
+  };
 
   useEffect(() => {
     const fetchEBooks = async () => {
@@ -32,7 +42,7 @@ export default function Others() {
 
   const handleComponent = (value) => {
     setSelectedOption(value);
-    router.push(`/component/library/clglibrary/admins/${value}`);
+    router.push(`/component/library/clglibrary/users/${value}`);
   };
 
   useEffect(() => {
@@ -41,7 +51,7 @@ export default function Others() {
   }, [router.pathname]);
 
   return (
-    <div style={{ width: '100%', padding: '20px', maxWidth: '1400px', margin: '0 auto' }}>
+    <div style={{ width: '100%', padding: '20px', maxWidth: '1400px', margin: '0 auto', minHeight: '100vh'}}>
       <NextNProgress color="#32CD32" startPosition={0.3} stopDelayMs={200} height={3} showOnShallow={true} />
       <h1 style={{ textAlign: 'center', fontSize: '2rem', fontWeight: 'bold', color: '#333', padding: '20px 0' }}>Uploaded eBooks</h1>
       {loading && <p>Loading eBooks...</p>}
@@ -54,18 +64,22 @@ export default function Others() {
         >
           <option value="novel">Novel</option>
           <option value="story">Story</option>
+          <option value="others">All</option>
         </select>
       </div>
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '25px', justifyContent: 'center', marginTop: '20px' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '25px', justifyContent: 'center', marginTop: '20px'}}>
         {!loading && !error && ebooks.length === 0 && <p>No eBooks uploaded yet.</p>}
         {!loading && !error && ebooks.length > 0 ? (
           ebooks.map((ebook) => (
-            <div key={ebook._id} style={{ border: '1px solid #ddd', borderRadius: '8px', padding: '6px', textAlign: 'center', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', maxWidth: '200px', transition: 'transform 0.3s ease' }}>
-              <Image src={ebook.coverImage} alt={ebook.title} width={250} height={350} style={{ borderRadius: '10px', marginBottom: '10px' }} />
-              <h2 style={{ fontSize: '16px', color: '#333', margin: '1px 0', fontWeight: 'bold' }}>{ebook.title}</h2>
-              <p style={{ fontSize: '14px', color: '#666', margin: '5px 0' }}>by {ebook.author}</p>
-              <p style={{ fontSize: '14px', color: '#4CAF50', fontWeight: 'bold' }}>Category: {ebook.category}</p>
-              <p style={{ fontSize: '14px', fontWeight: 'bold' }}>Price: {ebook.price === 0 ? 'Free' : `$${ebook.price}`}</p>
+            <div className={styles.book_card} key={ebook._id} >
+              <div className={styles.book_image}>
+              <Image src={isValidURL(ebook.coverImage) ? ebook.coverImage : defaultimage} alt={ebook.title} layout="fill"
+                  objectFit="contain"/>
+              </div>
+              <h2>{ebook.title}</h2>
+              <p>by {ebook.author}</p>
+              <p>Category: {ebook.category}</p>
+              <p>Price: {ebook.price === 0 ? 'Free' : `$${ebook.price}`}</p>
               <a href={`${backendUrl}/${ebook.file}`} target="_blank" rel="noopener noreferrer" style={{ color: 'blue' }}>View PDF</a>
             </div>
           ))
