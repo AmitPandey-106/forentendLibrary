@@ -38,7 +38,7 @@ export default function HomePage({ memberLength, bookslen, allborrowed }) {
   const router = useRouter()
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 2;
-  const backendUrl = "http://localhost:8001"
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
 
   const [barData, setBarData] = useState({
     labels: [],

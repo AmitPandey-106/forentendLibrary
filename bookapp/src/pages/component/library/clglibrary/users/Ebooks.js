@@ -4,6 +4,7 @@ import styles from '@/styles/ebook.module.css';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import styless from '../../../../../styles/allbooks.module.css';
+import SearchAnimation from './SearchAnimation';
 // import NextNProgress from 'nextjs-progressbar;'
 
 export default function Others() {
@@ -112,7 +113,7 @@ export default function Others() {
         height={3}          
         showOnShallow={true} 
       /> */}
-      {loading && <p>Loading eBooks...</p>}
+      {loading && <SearchAnimation/>}
       {error && <p className={styles.error}>{error}</p>}
 
       <div className={styles.control_bar}>

@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { AuthContext } from '@/pages/component/context/authcontext';
 import booksrch from "./../../../../../../public/booksrch.json";
 import styles from '@/styles/updateebook.module.css';
+import SearchAnimation from '../users/SearchAnimation';
 
 
 export default function AdminUpdateBook() {
@@ -91,7 +92,7 @@ export default function AdminUpdateBook() {
 
   if (loading) {
     return <div>
-     <p>Loading</p>
+     <SearchAnimation/>
     </div>
   }
 

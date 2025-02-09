@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import styles from '@/styles/userinfo.module.css';
 import NextNProgress from 'nextjs-progressbar';
+import SearchAnimation from './SearchAnimation'
 
 
 export default function Userinfo() {
@@ -47,7 +48,7 @@ export default function Userinfo() {
   }, [router, backendUrl]);
 
   return (
-    <div>
+    <div style={{minHeight:'100vh'}}>
       <NextNProgress
         color="#32CD32"       
         startPosition={0.3} 
@@ -157,7 +158,7 @@ export default function Userinfo() {
 
         </div>
         ):(
-          <p>Loading profile...</p>
+          <SearchAnimation/>
         )}
       </div>
       {/* <hr></hr> */}

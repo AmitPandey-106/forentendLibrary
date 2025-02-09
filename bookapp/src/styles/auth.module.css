@@ -164,11 +164,19 @@
      background: linear-gradient(to right, #e5f1fd, #b2dffc);
     }
 
+    @media (max-width: 768px) {
+      .container {
+        margin: 10px; /* Reduce margin on smaller screens */
+        max-width: 90%; /* Allow more width usage */
+      }
+    }
+
     .container form{
        background: linear-gradient(to right, #e5f1fd, #b2dffc);
     }
 
     .libsign{
+      
       background: rgb(199, 229, 247);
     }
   }

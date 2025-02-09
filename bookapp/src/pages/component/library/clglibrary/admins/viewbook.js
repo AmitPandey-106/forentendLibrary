@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { AuthContext } from '@/pages/component/context/authcontext';
 import styles from "@/styles/allbooks.module.css";
+import SearchAnimation from '../users/SearchAnimation';
 
 export default function AdminViewBook() {
   const { authUser } = useContext(AuthContext)
@@ -262,7 +263,7 @@ export default function AdminViewBook() {
           </button>
         </div>
         {loading && <div className={styles.loadingOverlay}>
-          Loading...
+          <SearchAnimation/>
         </div>}
 
         <div className={styles.books_row}>

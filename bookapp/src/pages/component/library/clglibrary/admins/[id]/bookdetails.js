@@ -6,6 +6,7 @@ import Userlayout from '@/u_layout';
 import Image from 'next/image';
 import styles from "@/styles/bookdetails.module.css";
 import { CircularProgress } from "@mui/material";
+import SearchAnimation from '../../users/SearchAnimation';
 
 const ConfirmationModal = ({ title, message, onConfirm, onCancel }) => (
   <div className="modal-overlay">
@@ -212,7 +213,6 @@ export default function BookDetails() {
 
   return (
     <Layout>
-
       <div className={styles.book_details_container}>
         <Image src='/bluebackgrnd.jpg' className={styles.backimage} width={100} height={1000} alt="opps"></Image>
 
@@ -326,7 +326,7 @@ export default function BookDetails() {
             </div>
           </>
         ) : (
-          <p>Loading...</p>
+          <SearchAnimation></SearchAnimation>
         )}
 
       </div>

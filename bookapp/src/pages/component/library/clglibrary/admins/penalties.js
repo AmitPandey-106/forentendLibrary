@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import AdminLayout from './layout';
+import SearchAnimation from '../users/SearchAnimation';
 
 export default function AdminPenaltySection() {
   const [penalties, setPenalties] = useState([]);
@@ -33,7 +34,7 @@ export default function AdminPenaltySection() {
   }, [backendUrl]);
 
   if (loading) {
-    return <div>Loading penalties...</div>;
+    return <SearchAnimation/>;
   }
 
   return (

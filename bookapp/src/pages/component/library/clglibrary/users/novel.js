@@ -1,6 +1,6 @@
 import React from 'react'
 import AdminLayout from '../admins/layout';
-import Userlayout from '@/u_layout';
+import Userlayout from '../../../../../u_layout'
 import { useRouter } from 'next/router';
 import { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '@/pages/component/context/authcontext';

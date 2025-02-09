@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import Userlayout from '../../../../../u_layout';
+import Userlayout from '../../../../../u_layout'
 import { useRouter } from 'next/router';
 import styles from '@/styles/changepassword.module.css';
 import NextNProgress from 'nextjs-progressbar';
@@ -67,6 +67,7 @@ export default function ChangePassword() {
 
 
   return (
+    <div className='full_container' style={{minHeight:'100vh', display:'flex', justifyContent:'center', alignContent:'center', alignItems:'center'}}>
     <div className={styles.fg_pass}>
       <NextNProgress
         color="#32CD32"       
@@ -107,6 +108,7 @@ export default function ChangePassword() {
         </div>
         <button type="submit">Change Password</button>
       </form>
+    </div>
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import Userlayout from '../../../../../u_layout';
+import Userlayout from '../../../../../u_layout'
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { useCallback } from 'react';
@@ -9,12 +9,13 @@ import { FaSearch } from 'react-icons/fa';
 import SearchPopup from './searchpop';
 import { faL } from '@fortawesome/free-solid-svg-icons';
 import NextNProgress from 'nextjs-progressbar'
+import SearchAnimation from './SearchAnimation';
 
 export default function ClgBooks() {
   const router = useRouter();
   const [searchType, setSearchType] = useState(''); // Tracks which input is clicked
   const [books, setBooks] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [subject, setSubject] = useState('');
   const [subjects, setSubjects] = useState([]);
   const [query, setQuery] = useState('');
@@ -89,20 +90,36 @@ export default function ClgBooks() {
     };
   }, [isPopupOpen]);
 
-  useEffect(()=>{
-    const handleBack = () => {
-      if (window.history.length > 1) {
-        router.replace("/component/library/clglibrary/users/home"); // Redirect to a safe fallback page
-      } else {
-        router.back();
-      }
-    }
-    window.addEventListener('popstate', handleBack);
+  // useEffect(()=>{
+  //   const handleBack = () => {
+  //     if (window.history.length > 1) {
+  //       router.replace("/component/library/clglibrary/users/home"); // Redirect to a safe fallback page
+  //     } else {
+  //       router.back();
+  //     }
+  //   }
+  //   window.addEventListener('popstate', handleBack);
 
-  return () => {
-    window.removeEventListener('popstate', handleBack);
-  };
-  },[router])
+  // return () => {
+  //   window.removeEventListener('popstate', handleBack);
+  // };
+  // },[router])
+
+  // useEffect(() => {
+  //   const handleBackButton = () => {
+  //     if (searchType && showSearchFilter) {
+  //       setShowSearchFilter(false);
+  //       window.history.pushState(null, null, window.location.pathname); // Prevent navigation
+  //     }
+  //   };
+  
+  //   window.history.pushState(null, null, window.location.pathname); // Initial push
+  //   window.addEventListener("popstate", handleBackButton);
+  
+  //   return () => {
+  //     window.removeEventListener("popstate", handleBackButton);
+  //   };
+  // }, [searchType, showSearchFilter]);
 
   const handleInputFocus = (type) => {
     setSearchType(type);
@@ -354,7 +371,9 @@ export default function ClgBooks() {
       </div>
       {loading && <div className={styles.loadingOverlay}>
 
-        <p>Loading...</p>
+        <div style={{ display: 'flex', marginLeft:'50px', height: '100%', width: '100%' }}>
+                  <SearchAnimation />
+                </div>
       </div>}
 
       <div className={styles.books_row}>

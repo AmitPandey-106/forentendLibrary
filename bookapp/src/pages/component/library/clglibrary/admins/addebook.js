@@ -71,11 +71,14 @@ export default function UploadEBook() {
 
   return (
     <div className={styles.container}>
+      <div className={styles.card}>
       <h1 className={styles.title}>Upload an eBook</h1>
+      <div className={styles.tp}>
       {message && <p className={styles.success}>{message}</p>}
       {error && <p className={styles.error}>{error}</p>}
+      </div>
       <form onSubmit={handleSubmit} className={styles.form}>
-        <div className={styles.field}>
+        <div className={styles.user_info}>
           <label htmlFor="title" className={styles.label}>Title</label>
           <input className={styles.input}
             type="text"
@@ -85,8 +88,7 @@ export default function UploadEBook() {
             onChange={handleChange}
             required
           />
-        </div>
-        <div className={styles.field}>
+        
           <label htmlFor="author" className={styles.label}>Author</label>
           <input className={styles.input}
             type="text"
@@ -96,8 +98,7 @@ export default function UploadEBook() {
             onChange={handleChange}
             required
           />
-        </div>
-        <div className={styles.field}>
+        
           <label htmlFor="category" className={styles.label}>Category</label>
           <input className={styles.input}
             type="text"
@@ -107,8 +108,7 @@ export default function UploadEBook() {
             onChange={handleChange}
             required
           />
-        </div>
-        <div className={styles.field}>
+      
           <label htmlFor="language" className={styles.label}>Language</label>
           <input className={styles.input}
             type="text"
@@ -118,8 +118,7 @@ export default function UploadEBook() {
             onChange={handleChange}
             required
           />
-        </div>
-        <div className={styles.field}>
+        
           <label htmlFor="description" className={styles.label}>Description</label>
           <textarea className={styles.textarea}
             id="description"
@@ -128,8 +127,7 @@ export default function UploadEBook() {
             onChange={handleChange}
             required
           ></textarea>
-        </div>
-        <div className={styles.field}>
+        
           <label htmlFor="price" className={styles.label}>Price (0 for free)</label>
           <input className={styles.input}
             type="number"
@@ -139,8 +137,7 @@ export default function UploadEBook() {
             onChange={handleChange}
             required
           />
-        </div>
-        <div className={styles.field}>
+       
           <label htmlFor="isbn" className={styles.label}>ISBN</label>
           <input className={styles.input}
             type="text"
@@ -149,8 +146,7 @@ export default function UploadEBook() {
             value={formData.isbn}
             onChange={handleChange}
           />
-        </div>
-        <div className={styles.field}>
+        
           <label htmlFor="fileType" className={styles.label}>File Type (PDF/word)</label>
           <input className={styles.input}
             type="text"
@@ -160,15 +156,17 @@ export default function UploadEBook() {
             onChange={handleChange}
             required
           />
-        </div>
-        <div className={styles.field}>
+        
           <label htmlFor="file" className={styles.label}>Upload File</label>
           <input type="file" id="file" className={styles.input} onChange={handleFileChange} required />
+          
         </div>
         <button type="submit" className={styles.submitButton}>
           Upload eBook
         </button>
       </form>
+      
+      </div>
     </div>
   );
 }

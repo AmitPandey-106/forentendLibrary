@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import Userlayout from '../../../../../u_layout';
+import Userlayout from '../../../../../u_layout'
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import styles from '@/styles/Home.module.css';
 import Link from 'next/link';
 import NextNProgress from 'nextjs-progressbar';
+import SearchAnimation from './SearchAnimation';
 
 
 export default function Home() {
@@ -135,7 +136,9 @@ export default function Home() {
       <div className={styles.books}>
       <div className={styles.books_row}>
         {loading ? (
-          <p>Loading books...</p> // Show loading while fetching
+          <div style={{ display: 'flex', height: '100%', width: '100%' }}>
+          <SearchAnimation />
+        </div> // Show loading while fetching
         ) : books.length > 0 ? (
           books.map((book) => (
             <div

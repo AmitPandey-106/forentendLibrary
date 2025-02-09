@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
-import Userlayout from '../../../../../u_layout';
+import Userlayout from '../../../../../u_layout'
 import Image from 'next/image';
 import NextNProgress from 'nextjs-progressbar';
 

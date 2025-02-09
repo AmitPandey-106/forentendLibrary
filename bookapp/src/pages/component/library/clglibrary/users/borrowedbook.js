@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useContext } from 'react';
-import Userlayout from '../../../../../u_layout';
+import Userlayout from '../../../../../u_layout'
 import { AuthContext } from '@/pages/component/context/authcontext';
 import styles from '@/styles/borrowedbooks.module.css';
 import Image from 'next/image';
 import NextNProgress from 'nextjs-progressbar';
+import SearchAnimation from './SearchAnimation';
 
 Borrowedbook.getLayout = function getLayout(page) {
   return <Userlayout>{page}</Userlayout>;
@@ -56,7 +57,9 @@ export default function Borrowedbook() {
   }, [authUser, backendUrl]);  // Dependency on authUser to ensure it only runs when available
 
   if (loading) {
-    return <div>Loading borrowed books...</div>;
+    return <div style={{ display: 'flex', marginLeft:'50px', height: '100%', width: '100%' }}>
+              <SearchAnimation />
+            </div>;
   }
 
   return (
@@ -100,7 +103,9 @@ export default function Borrowedbook() {
           </tbody>
         </table>
       ) : (
-        <p>You have no borrowed books.</p>
+        <div className={styles.borr_book}>
+        <p style={{display:'flex', alignItems:'center', justifyContent:'center' , height:'100%', width:'100%'}}>You have no borrowed books.</p>
+        </div>
       )}
     </div>
   );

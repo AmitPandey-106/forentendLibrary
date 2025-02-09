@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import styles from '@/styles/profile.module.css';
 import NextNProgress from 'nextjs-progressbar';
+import SearchAnimation from './SearchAnimation'
 
 
 export default function Profile() {
@@ -73,7 +74,7 @@ export default function Profile() {
             </div>
           </div>
         ) : (
-          <p></p>
+          <SearchAnimation/>
         )}
       </div>
       <hr />

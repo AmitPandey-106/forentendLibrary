@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Userlayout from '@/u_layout';
+import SearchAnimation from '../../users/SearchAnimation';
 
 export default function PDFViewer() {
   const router = useRouter();
@@ -43,7 +44,7 @@ export default function PDFViewer() {
           // style={{ border: 'none' }}
         ></iframe>
       ) : (
-        <p>Loading PDF...</p>
+        <SearchAnimation/>
       )}
     </div>
   );

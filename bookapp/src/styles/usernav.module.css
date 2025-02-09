@@ -400,8 +400,9 @@
   .ic {
     display: flex;
     flex-direction: row;
+    width: 280px;
     align-items: center;
-    justify-content: center;
+    justify-content: left;
     text-align: center;
     gap: 15px;
   }

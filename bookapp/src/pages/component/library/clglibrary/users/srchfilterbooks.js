@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
-import Userlayout from '../../../../../u_layout';
+import Userlayout from '../../../../../u_layout'
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { useCallback } from 'react';

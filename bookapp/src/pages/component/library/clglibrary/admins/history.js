@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import AdminLayout from './layout';
 import styles from '@/styles/adminhistory.module.css';
+import SearchAnimation from '../users/SearchAnimation';
 
 export default function History() {
   const [historyData, setHistoryData] = useState([]);
@@ -42,7 +43,7 @@ export default function History() {
   };
 
   if (loading) {
-    return <div className="loading">Loading...</div>;
+    return <SearchAnimation/>;
   }
 
   if (error) {

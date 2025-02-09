@@ -1,9 +1,10 @@
 import React, { useContext, useState, useEffect } from 'react';
-import Userlayout from '../../../../../u_layout';
+import Userlayout from '../../../../../u_layout'
 import { AuthContext } from '@/pages/component/context/authcontext';
 import Image from 'next/image';
 import styles from '@/styles/borrowedbooks.module.css';
 import NextNProgress from 'nextjs-progressbar';
+import SearchAnimation from './SearchAnimation';
 
 
 export default function History() {
@@ -59,7 +60,9 @@ export default function History() {
   }, [authUser, backendUrl]);
 
   if (!authUser || !authUser.id) return <p>Loading user information...</p>;
-  if (loading) return <p>Loading history...</p>;
+  if (loading) return <div style={{ display: 'flex', marginLeft:'50px', height: '100%', width: '100%' }}>
+            <SearchAnimation />
+          </div>;
   if (error) return <p>Error: {error}</p>;
 
   return (

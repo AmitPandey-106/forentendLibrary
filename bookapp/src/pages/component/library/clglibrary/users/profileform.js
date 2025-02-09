@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import styles from '@/styles/StudentProfileForm.module.css';
 import { useRouter } from 'next/router';
 import { AuthContext } from '@/pages/component/context/authcontext';
-import Userlayout from '@/u_layout';
+import Userlayout from '../../../../../u_layout'
 import NextNProgress from 'nextjs-progressbar';
 
 

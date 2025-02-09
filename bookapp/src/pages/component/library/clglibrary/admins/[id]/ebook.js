@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Userlayout from '@/u_layout';
 import { useRouter } from 'next/router';
+import NextNProgress from 'nextjs-progressbar'
+import SearchAnimation from '../../users/SearchAnimation';
 
 export default function SingleEbook() {
     const router = useRouter();
@@ -43,6 +45,13 @@ export default function SingleEbook() {
             padding: '16px', 
             backgroundColor: '#f3f4f6'
         }}>
+            <NextNProgress
+        color="#32CD32"       
+        startPosition={0.3} 
+        stopDelayMs={200}   
+        height={3}          
+        showOnShallow={true} 
+      />
             {ebook ? (
                 <div style={{
                     backgroundColor: '#ffffff',
@@ -92,7 +101,7 @@ export default function SingleEbook() {
                     </button>
                 </div>
             ) : (
-                <p style={{ fontSize: '18px', color: '#555' }}>Loading book details...</p>
+                <SearchAnimation/>
             )}
         </div>
     );

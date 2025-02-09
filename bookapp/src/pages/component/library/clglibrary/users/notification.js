@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
-import Userlayout from '../../../../../u_layout';
+import Userlayout from '../../../../../u_layout'
 import { AuthContext } from '@/pages/component/context/authcontext';
 import { useRouter } from 'next/router';
 import NextNProgress from 'nextjs-progressbar';
@@ -63,7 +63,7 @@ export default function Notification() {
   };
 
   return (
-    <div>
+    <div style={{minHeight:'100vh'}}>
       <NextNProgress
         color="#32CD32"       
         startPosition={0.3} 
@@ -77,7 +77,7 @@ export default function Notification() {
       ) : (
         <ul>
           {notifications.map((notif) => (
-            <div key={notif._id} onClick={() => handleNotificationClick(notif._id)} style={{ cursor: 'pointer', margin: '10px', cursor:'pointer', backgroundColor:notif.read? 'transparent': 'gray' }}>
+            <div key={notif._id} onClick={() => handleNotificationClick(notif._id)} style={{ cursor: 'pointer', margin: '10px', cursor:'pointer', backgroundColor:notif.read? 'transparent': '#E5F3FD' }}>
               <li><strong>{notif.title}</strong></li>
               <li>{notif.message}</li>
               <li><small>{formatDate(notif.timestamp)}</small></li>

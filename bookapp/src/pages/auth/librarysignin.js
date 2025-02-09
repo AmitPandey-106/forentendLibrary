@@ -3,12 +3,15 @@ import { useRouter } from 'next/router';
 import styles from '@/styles/auth.module.css';
 import Link from 'next/link';
 import { AuthContext } from '../component/context/authcontext';
+import NextNProgress from 'nextjs-progressbar'
+import SearchAnimation from '../component/library/clglibrary/users/SearchAnimation';
 
 
 export default function LibrarySignin({ initialError }) {
   const [form, setForm] = useState({ email: '', password: '' });
   const [error, setError] = useState(initialError || '');
   const [success, setSuccess] = useState('');
+  const [loading, setLoading] = useState(false); 
   const { setProfile } = useContext(AuthContext);
   const router = useRouter();
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
@@ -21,6 +24,7 @@ export default function LibrarySignin({ initialError }) {
     e.preventDefault();
     setError('');
     setSuccess('');
+    setLoading(true);
     try {
       const res = await fetch(`${backendUrl}/auth/signin-user`, {
         method: 'POST',
@@ -34,16 +38,17 @@ export default function LibrarySignin({ initialError }) {
 
         // Save the token in localStorage
         localStorage.setItem('token', token);
+        localStorage.setItem('role', role);
 
         // Route based on user role
         if (role === 'user') {
           // console.log(data.profile)
           setSuccess(data.msg);
           setProfile(data.profile)
-          router.push("/component/library/clglibrary/users/home");
+          router.replace("/component/library/clglibrary/users/home");
         } else if (role === 'admin') {
           setSuccess(data.msg);
-          router.push("/component/library/clglibrary/admins/home");
+          router.replace("/component/library/clglibrary/admins/home");
         } else {
           setError("Invalid role.");
         }
@@ -52,12 +57,21 @@ export default function LibrarySignin({ initialError }) {
       }
     } catch (err) {
       setError('An error occurred. Please try again.');
+    } finally{
+      setLoading(false)
     }
   };
 
   return (
     <div className={styles.libsign}>
-    <div className={styles.container}>
+      <NextNProgress
+        color="#32CD32"       
+        startPosition={0.3} 
+        stopDelayMs={200}   
+        height={3}          
+        showOnShallow={true} 
+      />
+    <div className={styles.container }>
       <div className={styles.form_container}>
       <form className={styles.form} onSubmit={handleSubmit}>
       <h1 className={styles.h1}>Sign In</h1>
@@ -97,7 +111,13 @@ export default function LibrarySignin({ initialError }) {
           Forgot Password?
         </a>
       </p>
-        <button className={styles.button} type="submit">Sign In</button>
+        <button className={styles.button} type="submit" disabled={loading}>{loading ? 'Signing in...' : 'Sign In'}</button>
+        {loading && <div className={styles.loadingOverlay}>
+
+        <div style={{ display: 'flex', marginLeft:'50px', height: '100%', width: '100%' }}>
+                  <SearchAnimation />
+                </div>
+      </div>}
         </form>
         </div>
 

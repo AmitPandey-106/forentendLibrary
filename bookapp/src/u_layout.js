@@ -1,7 +1,8 @@
 import Link from 'next/link';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/router';
 import styles from '@/styles/usernav.module.css'
+import { AuthContext } from '@/pages/component/context/authcontext';
 import Image from 'next/image';
 import NextNProgress from 'nextjs-progressbar';
 
@@ -10,7 +11,10 @@ export default function Userlayout({ children }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [results, setResults] = useState([]);
+  const [showPopup, setShowPopup] = useState(false);
   const router = useRouter();
+  const menuRef = useRef(null);
+  // const { authUser, signOut } = useContext(AuthContext);
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen); // Toggle dropdown state
   };
@@ -31,6 +35,30 @@ export default function Userlayout({ children }) {
   const handleSearch = async (e) => {
     setQuery(e.target.value)
   };
+
+  const handleLogout = () => {
+    signOut(); // Call signOut from AuthContext
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        menuRef.current && !menuRef.current.contains(event.target)
+      ) {
+        closeMenu();
+      }
+    };
+  
+    if (menuOpen || dropdownOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+  
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [menuOpen, dropdownOpen]);
+  
+
 
   return (
     <div className={styles.container}>
@@ -67,7 +95,7 @@ export default function Userlayout({ children }) {
               </li>
 
               <li><Link href="/component/library/clglibrary/users/profile">Profile</Link></li>
-              <li><Link href="/component/library/clglibrary/users/history">History</Link></li>
+              <li><Link href="/component/about">About Us</Link></li>
             </>
           </ul>
 
@@ -84,7 +112,7 @@ export default function Userlayout({ children }) {
           </div>
 
           {/* Sidebar Menu for mobile */}
-          <div className={`${styles.sidebar} ${menuOpen ? styles.open : ''}`}>
+          <div ref={menuRef} className={`${styles.sidebar} ${menuOpen ? styles.open : ''}`}>
             <button className={styles.close_btn} onClick={closeMenu}>×</button>
 
             <div className={styles.slide}>
@@ -93,17 +121,17 @@ export default function Userlayout({ children }) {
               </div>
               <ul className={styles.nav_links}>
                 <>
-                  <div className={styles.ic}>
+                  <div className={styles.ic} onClick={() => { closeMenu(); window.location.href = "/component/library/clglibrary/users/home"; }}>
                     <i className="fas fa-home"></i>
                     <li onClick={closeMenu}><Link href="/component/library/clglibrary/users/home">Home</Link></li>
                   </div>
                   {/* <hr className={styles.line}></hr> */}
-                  <div className={styles.ic}>
+                  <div className={styles.ic} onClick={() => { closeMenu(); window.location.href = "/component/library/clglibrary/users/profile"; }}>
                     <i className="fas fa-user"></i>
                     <li onClick={closeMenu}><Link href="/component/library/clglibrary/users/profile">Profile</Link></li>
                   </div>
 
-                  <div className={styles.icb}>
+                  <div className={styles.icb} onClick={() => { toggleDropdown }}>
                     <i className="fas fa-book"></i>
                     <li
                       className={styles.M_dropdown}
@@ -122,19 +150,19 @@ export default function Userlayout({ children }) {
                             <Link href="/component/library/clglibrary/users/borrowedbook">Borrowed Books</Link>
                           </li>
                           <li onClick={closeMenu}>
-                            <Link href="/component/library/clglibrary/users/history">History</Link>
+                            <Link href="/component/about">About Us</Link>
                           </li>
                         </ul>
                       )}
                     </li>
                   </div>
-                  <div className={styles.ic}>
+                  <div className={styles.ic} onClick={() => { closeMenu(); window.location.href = "/component/about"; }}>
                     <i className="fas fa-info-circle"></i>
                     <li onClick={closeMenu}><p><Link href="/component/about">About Us</Link></p></li>
                   </div>
-                  <div className={styles.ic}>
+                  <div className={styles.ic} onClick={() => { setShowPopup(true) }}>
                     <i className="fas fa-right-to-bracket"></i>
-                    <li onClick={closeMenu}><Link href="/auth/librarysignin">Signin</Link></li>
+                    <li onClick={() => setShowPopup(true)}>Logo Out</li>
                   </div>
                 </>
               </ul>
@@ -142,6 +170,52 @@ export default function Userlayout({ children }) {
           </div>
         </nav>
       </>
+      {/* Logout Confirmation Popup */}
+      {showPopup && (
+        <div
+          style={{
+            position: 'fixed',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            backgroundColor: 'white',
+            padding: '20px',
+            boxShadow: '0 0 10px rgba(0, 0, 0, 0.25)',
+            borderRadius: '5px',
+            zIndex: 1000,
+          }}
+        >
+          <h3>Are you sure you want to logout?</h3>
+          <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '10px' }}>
+            <button
+              onClick={handleLogout}
+              style={{
+                backgroundColor: 'red',
+                color: 'white',
+                padding: '5px 20px',
+                border: 'none',
+                cursor: 'pointer',
+                borderRadius: '3px',
+              }}
+            >
+              Yes
+            </button>
+            <button
+              onClick={() => setShowPopup(false)}
+              style={{
+                backgroundColor: 'gray',
+                color: 'white',
+                padding: '5px 20px',
+                border: 'none',
+                cursor: 'pointer',
+                borderRadius: '3px',
+              }}
+            >
+              No
+            </button>
+          </div>
+        </div>
+      )}
       {/* <main className={styles.main}> */}
       {children}
       {/* </main> */}

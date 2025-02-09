@@ -2,6 +2,7 @@
 .body {
   background-color: #dfecf6;
   padding: 45px 195px 85px;
+  min-height: 100vh;
 }
 
 .card {

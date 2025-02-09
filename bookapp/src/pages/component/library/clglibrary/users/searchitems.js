@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import Image from 'next/image';
 import Router, { useRouter } from 'next/router';
 import NextNProgress from 'nextjs-progressbar';
+import SearchAnimation from './SearchAnimation';
 
 
 export default function SearchItems() {
@@ -91,7 +92,7 @@ export default function SearchItems() {
       </div>
       <div className="search-results">
         {loading ? (
-          <p>Loading...</p>
+          <SearchAnimation/>
         ) : searchResults.length > 0 ? (
           searchResults.map((book) => (
             <div key={book._id} className="search-result" onClick={()=> {handleBookClick(book)}}>

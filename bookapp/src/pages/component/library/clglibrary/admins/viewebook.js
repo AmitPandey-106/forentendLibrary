@@ -5,6 +5,7 @@ import styles from '@/styles/ebook.module.css';
 import { useRouter } from 'next/router';
 import { AuthContext } from '@/pages/component/context/authcontext';
 import Image from 'next/image';
+import SearchAnimation from '../users/SearchAnimation';
 
 
 export default function ViewEBook() {
@@ -51,7 +52,7 @@ export default function ViewEBook() {
     <Layout>
     <div className={styles.container}>
       <h1 className={styles.title}>Uploaded eBooks</h1>
-      {loading && <p>Loading eBooks...</p>}
+      {loading && <SearchAnimation/>}
       {error && <p className={styles.error}>{error}</p>}
       <div style={{ margin: '10px 0' }}>
         <select
@@ -84,7 +85,7 @@ export default function ViewEBook() {
         </p>
         {/* Check file type and render accordingly */}
         <a
-          href={`http://localhost:8001/${ebook.file}`} 
+          href={`${backendUrl}/${ebook.file}`} 
           target="_blank" 
           rel="noopener noreferrer" 
           style={{ color: 'blue' }}

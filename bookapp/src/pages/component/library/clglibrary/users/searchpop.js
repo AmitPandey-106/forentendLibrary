@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useContext, useCallback, useRef } from 'react';
 import { useRouter } from 'next/router';
 import styles from '@/styles/searchfilter.module.css';
-import Userlayout from '@/u_layout';
+import Userlayout from '../../../../../u_layout'
+import ClgBooks from './clgbooks';
 
 const SearchPopup = ({ type, onClose }) => {
   const router = useRouter();
@@ -14,6 +15,7 @@ const SearchPopup = ({ type, onClose }) => {
   const [loading, setLoading] = useState(false);
   const subjectInputRef = useRef(null);
   const inputRef = useRef(null);
+  const containerRef = useRef(null);
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
 
   // Fetch available subjects
@@ -101,7 +103,7 @@ const SearchPopup = ({ type, onClose }) => {
 
         // If user is already on the search results page, update URL instead of pushing a new route
         if (router.pathname === searchPagePath) {
-            router.replace({
+            router.push({
                 pathname: searchPagePath,
                 query: { searched: true, subname: subject, title: query },
             }, undefined, { shallow: true });
@@ -120,26 +122,6 @@ const SearchPopup = ({ type, onClose }) => {
         setLoading(false);
     }
 };
-
-useEffect(() => {
-  const handleBack = (event) => {
-    event.preventDefault();
-    
-    if (showSearchFilter) {
-      onClose(); // Close the popup first
-      window.history.back(); // Remove the extra state
-    }
-  };
-
-  // Add a state entry to the history to capture the back event
-  window.history.replaceState({ showSearchFilter: true }, '');
-
-  window.addEventListener('popstate', handleBack);
-
-  return () => {
-    window.removeEventListener('popstate', handleBack);
-  };
-}, [onClose]);
 
 useEffect(() => {
   if (inputRef.current) {

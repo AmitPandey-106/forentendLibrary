@@ -125,6 +125,7 @@
     justify-content: center;
     align-items: center;
     color: #333333;
+    min-height: 100vh;
     /* background-color: rgb(213, 234, 245); */
 }
 

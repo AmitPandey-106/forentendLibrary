@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import AdminLayout from './layout';
+import SearchAnimation from '../users/SearchAnimation';
 
 export default function AdminAddMember() {
     const [emails, setEmails] = useState('');
@@ -89,7 +90,7 @@ export default function AdminAddMember() {
             {loading && (
                 <div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0' }}>
                     <div>
-                        Loading...
+                        <SearchAnimation/>
                     </div>
                 </div>
             )}

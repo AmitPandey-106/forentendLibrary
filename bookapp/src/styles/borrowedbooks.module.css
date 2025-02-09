@@ -1,6 +1,7 @@
 .borr_book {
     width: 90%;
     max-width: 1200px;
+    min-height: 100vh;
     margin: 50px auto;
     padding: 20px;
     background-size: cover;

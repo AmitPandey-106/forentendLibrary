@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import Userlayout from "../../../../../u_layout"
+import Userlayout from '../../../../../u_layout'
 import styles from "@/styles/forgetpass.module.css";
 import NextNProgress from 'nextjs-progressbar';
 
@@ -34,6 +34,7 @@ ForgotPassword.getLayout = function getLayout(page) {
     };
   
     return (
+      <div className='full_container' style={{minHeight:'100vh', display:'flex', justifyContent:'center', alignContent:'center', alignItems:'center'}}>
       <div className={styles.fg_pass}>
       <NextNProgress
         color="#32CD32"       
@@ -56,6 +57,7 @@ ForgotPassword.getLayout = function getLayout(page) {
           </div>
           <button type="submit">Send Reset Link</button>
         </form>
+      </div>
       </div>
     );
   }
