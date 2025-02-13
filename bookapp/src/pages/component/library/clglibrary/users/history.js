@@ -106,7 +106,7 @@ export default function History() {
           </tbody>
         </table>
       ) : (
-        <p>You have no borrowed books.</p>
+        <SearchAnimation/>
       )}
     </div>
   );

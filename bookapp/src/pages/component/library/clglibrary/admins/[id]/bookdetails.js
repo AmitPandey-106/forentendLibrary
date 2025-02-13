@@ -79,6 +79,22 @@ export default function BookDetails() {
 
   const [isProcessing, setIsProcessing] = useState(false); // Loading state
 
+  const handleReportClick = () => {
+    if (!bookdetails.book) {
+      console.error("Error: No lost books data available!");
+      return;
+    }
+  
+    // Convert object to string and base64 encode it
+    const encodedData = Buffer.from(JSON.stringify(bookdetails.book)).toString('base64');
+  
+    router.push({
+      pathname: '/component/library/clglibrary/admins/booksreport',
+      query: { reports: encodedData },
+    });
+  };
+  
+
   const handleBorrow = () => {
     setIsProcessing(true); // Start processing
 
@@ -147,10 +163,18 @@ export default function BookDetails() {
   }
 
   const handleWaitlist = async () => {
+    const token = localStorage.getItem('token')
+    if (!token) {
+      router.push('../../../../auth/librarysignin'); // Redirect to signin
+      return;
+    }
     try {
       const response = await fetch(`${backendUrl}/waitlist`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+         },
         body: JSON.stringify({ userId: profileId, bookId: bookdetails.book._id }),
       });
 
@@ -273,21 +297,32 @@ export default function BookDetails() {
                                     <p className={styles.ratingText}>3.0/5.0</p>
                                   </div>
                                 </div>
+                  
                               ) : (
                                 <div className={styles.buttongroup}>
                                   <button className={styles.collect_button} onClick={() => router.push(`/component/library/clglibrary/admins/${id}/editbook`)}>Edit</button>
+                                  <button className={styles.dl_button} onClick={() => router.push(`/component/library/clglibrary/admins/${id}/editbook?mode=dl`)}>D & L</button>
                                   <button className={styles.waitlistbutton} onClick={() => alert("Delete button clicked")}>Delete</button>
+                                  {authUser.role === 'admin' ? (
+                                  <div>
+                                    <button className={styles.report_button} onClick={handleReportClick}>
+                                      Report
+                                    </button>
+                                  </div>
+                                ) : (
+                                  ''
+                                )}
                                 </div>
                               )}
                             </div>
-
+                           
                           </div>
                         </div>
                       </div>
                     </div>
 
                     <div id="page2" className={`absolute w-full h-full bg-white border border-gray-300 transition-transform duration-1000 origin-left ${flipped ? 'z-20' : 'rotate-y-180 z-10'}`} style={{ transformOrigin: 'left' }}>
-                      {recommendations.length > 0 && (
+                      {recommendations.length > 0 && authUser.role === 'user' && (
 
                         <div className={styles.recommendation}>
                           <div className={styles.cat1}>

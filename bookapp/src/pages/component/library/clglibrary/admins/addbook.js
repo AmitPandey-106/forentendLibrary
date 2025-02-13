@@ -1,10 +1,13 @@
 import AdminLayout from './layout';
 import { useState } from 'react';
 import styles from '@/styles/bookform.module.css';
+import SearchAnimation from '../users/SearchAnimation';
+
 
 export default function AdminAddBook() {
   const [success, setSuccess]= useState('')
   const [error, setError]= useState('')
+  const [loading, setLoading] = useState(false);
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
   const [formData, setFormData] = useState({
     isbn: '',
@@ -42,16 +45,9 @@ export default function AdminAddBook() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setFormData({
-    isbn: '',
-    title: '',
-    author: '',
-    quantity: '',
-    stream:'',
-    bookImage: null,
-    })
     setSuccess('')
     setError('')
+    setLoading(true)
 
     // Upload the image to Cloudinary and get the URL
     const photoUrl = await uploadImage();
@@ -85,15 +81,33 @@ export default function AdminAddBook() {
     } catch (error) {
       console.error("Fetch error:", error);
     }
+    finally {
+      setLoading(false); // Stop loading
+      setFormData({
+        isbn: "",
+        title: "",
+        author: "",
+        quantity: "",
+        stream: "",
+        bookImage: null,
+      });
+    }
   };
 
   return (
     <div className={styles.container}>
+      {loading && (
+        <div className={styles.popupOverlay}>
+          <div className={styles.popupContent}>
+            <SearchAnimation/>
+          </div>
+        </div>
+      )}
       <div className={styles.card}>
       <h1 className={styles.title}>Add Books</h1>
       <div className={styles.tp}>
-      {success && <p style={{ color:'green'}}>{success}</p>}
-      {error && <p style={{ color:'red'}}>{error}</p>}
+      {success && <p style={{ color:'green', display:'flex', justifyContent:'center', alignItems:'center', textAlign:'center', marginTop:'10px'}}>{success}</p>}
+      {error && <p style={{ color:'red', display:'flex', justifyContent:'center', alignItems:'center', textAlign:'center', marginTop:'10px'}}>{error}</p>}
       </div>
       
       <form className={styles.form} onSubmit={handleSubmit}>
@@ -169,7 +183,7 @@ export default function AdminAddBook() {
           />
         </label>
         </div>
-        <button className={styles.button} type="submit">Add Book</button>
+        <button className={styles.button} type="submit" disabled={loading}>{loading ? "Submitting..." : "Add Book"}</button>
       </form>
     </div>
     </div>

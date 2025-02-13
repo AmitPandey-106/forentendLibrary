@@ -1,6 +1,8 @@
 import AdminLayout from './layout';
 import { useState } from 'react';
+import SearchAnimation from '../users/SearchAnimation';
 import styles from '@/styles/adminborrow.module.css'
+import styless from '@/styles/bookform.module.css';
 
 export default function AdminBorrow() {
   const [formData, setFormData] = useState({
@@ -96,6 +98,13 @@ export default function AdminBorrow() {
 
   return (
     <div className={styles.container}>
+      {loading && (
+        <div className={styless.popupOverlay}>
+          <div className={styless.popupContent}>
+            <SearchAnimation/>
+          </div>
+        </div>
+      )}
       <div className={styles.card}>
       <h2 className={styles.tittle}>Borrow a Book</h2>
       <div className={styles.tp}>

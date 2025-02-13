@@ -5,6 +5,7 @@ import AdminLayout from './layout';
 import styles from '@/styles/member.module.css';
 import { useRouter } from 'next/router';
 
+
 const ConfirmationModal = ({ title, message, onCancel, onConfirm }) => (
   <div className="modal-overlay">
     <div className="modal-content">
@@ -64,7 +65,9 @@ export default function Member() {
   const router = useRouter();
   const [showModal, setShowModal] = useState(false);
   const [selectedMemberId, setSelectedMemberId] = useState(null);
+
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
+
   const openModal = (memberId) => {
     setSelectedMemberId(memberId);
     setShowModal(true);
@@ -75,19 +78,35 @@ export default function Member() {
     setShowModal(false);
   };
 
+  const studentDetails = async (member) => {
+
+    router.push({
+      pathname: '/component/library/clglibrary/admins/studentsdetails',
+      query: {
+      userImpId: member._id,  
+      userid: member.userid,
+      firstName: member.studentProfile?.firstName || 'No Name',
+      lastName: member.studentProfile?.lastName || '',
+      email: member.studentProfile?.email || 'No Email',
+      role: member.role || 'No Role',
+      },
+    });
+  };
+
+
   const handleRemoveMember = async (memberId) => {
     try {
       const response = await fetch(`${backendUrl}/remove-member/${memberId}`, {
         method: 'DELETE',
       });
-  
+
       if (!response.ok) {
         throw new Error('Failed to remove member');
       }
-  
+
       const result = await response.json();
       alert(result.message);
-  
+
       // Refresh the member list
       setMembers((prev) => prev.filter((member) => member._id !== memberId));
       closeModal();
@@ -96,7 +115,7 @@ export default function Member() {
       alert('An error occurred while removing the member.');
     }
   };
-  
+
 
   useEffect(() => {
     const fetchMembers = async () => {
@@ -160,25 +179,22 @@ export default function Member() {
           <div className={styles.filterButtons}>
             <button
               onClick={() => setFilterRole('All')}
-              className={`${styles.filterButton} ${
-                filterRole === 'All' ? styles.activeButton : ''
-              }`}
+              className={`${styles.filterButton} ${filterRole === 'All' ? styles.activeButton : ''
+                }`}
             >
               All
             </button>
             <button
               onClick={() => setFilterRole('Staff')}
-              className={`${styles.filterButton} ${
-                filterRole === 'Staff' ? styles.activeButton : ''
-              }`}
+              className={`${styles.filterButton} ${filterRole === 'Staff' ? styles.activeButton : ''
+                }`}
             >
               Staff
             </button>
             <button
               onClick={() => setFilterRole('User')}
-              className={`${styles.filterButton} ${
-                filterRole === 'User' ? styles.activeButton : ''
-              }`}
+              className={`${styles.filterButton} ${filterRole === 'User' ? styles.activeButton : ''
+                }`}
             >
               Users
             </button>
@@ -214,6 +230,12 @@ export default function Member() {
                       onClick={() => openModal(member._id)}
                     >
                       Remove
+                    </button>
+                    <button
+                      className={styles.buttonViewDetails}
+                      onClick={() => studentDetails(member)}
+                    >
+                      View
                     </button>
                   </td>
                 </tr>

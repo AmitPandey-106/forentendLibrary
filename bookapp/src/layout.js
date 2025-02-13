@@ -161,6 +161,7 @@ export default function Layout({ children }) {
           </div>
         </nav>
       </header>
+      
       <main className={styles.main}>{children}</main>
     </>
 

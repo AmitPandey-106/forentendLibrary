@@ -7,16 +7,28 @@ export default function Home() {
     <Layout>
       <div className={styles.container}>
         <video className={styles.backgroundVideo} autoPlay muted loop>
-            <source src="/background/mainbg.mp4" type="video/mp4" />
-               Your browser does not support the video tag.
+          <source src="/background/mainbg.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
         </video>
-      {/* Text Overlay */}
-      <div className={styles.text}>
-        <h1>WELCOME TO THE BOOKSERA</h1>
-        <p>Explore our collection of books and resources</p>
+        {/* Text Overlay */}
+        <div className={styles.text}>
+          <h1>WELCOME TO THE BOOKSERA</h1>
+          <p>Explore our collection of books and resources</p>
+        </div>
+        <div className={styles.boxLibrary}>
+          Library
+        </div>
+        <div className={styles.boxLibrary}>
+          Public Library
+        </div>
+        <div className={styles.boxLibrary}>
+          User Exchange
+        </div>
+        <div className={styles.boxLibrary}>
+          Book Store
+        </div>
+        
       </div>
-    </div>
     </Layout>
   );
 }
-  

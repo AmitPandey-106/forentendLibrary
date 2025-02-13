@@ -74,7 +74,7 @@ export default function Profile() {
             </div>
           </div>
         ) : (
-          <SearchAnimation/>
+          <p>Loading...</p>
         )}
       </div>
       <hr />

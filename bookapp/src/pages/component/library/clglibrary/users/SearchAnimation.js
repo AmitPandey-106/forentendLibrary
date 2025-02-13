@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Image from "next/image";
 
 export default function SearchAnimation() {
   const [showLogo, setShowLogo] = useState(false);
@@ -44,7 +45,7 @@ export default function SearchAnimation() {
             height: "100px",
           }}
         >
-          <img
+          <Image
             src="/the_book1.jpg"
             alt="Book"
             style={{

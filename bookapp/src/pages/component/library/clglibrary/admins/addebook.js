@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import styles from '@/styles/ebookform.module.css'
+import SearchAnimation from '../users/SearchAnimation';
 import AdminLayout from './layout';
+import styless from '@/styles/bookform.module.css';
 
 export default function UploadEBook() {
   const [formData, setFormData] = useState({
@@ -17,6 +19,7 @@ export default function UploadEBook() {
   const [file, setFile] = useState(null);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
 
   const handleChange = (e) => {
@@ -31,6 +34,7 @@ export default function UploadEBook() {
     e.preventDefault();
     setMessage('');
     setError('');
+    setLoading(true);
 
     try {
       const form = new FormData();
@@ -67,15 +71,33 @@ export default function UploadEBook() {
     } catch (err) {
       setError(err.message || 'Something went wrong. Please try again.');
     }
+    finally {
+      setLoading(false); // Stop loading
+      setFormData({
+        isbn: "",
+        title: "",
+        author: "",
+        quantity: "",
+        stream: "",
+        bookImage: null,
+      });
+    }
   };
 
   return (
     <div className={styles.container}>
+      {loading && (
+        <div className={styless.popupOverlay}>
+          <div className={styless.popupContent}>
+            <SearchAnimation/>
+          </div>
+        </div>
+      )}
       <div className={styles.card}>
       <h1 className={styles.title}>Upload an eBook</h1>
       <div className={styles.tp}>
-      {message && <p className={styles.success}>{message}</p>}
-      {error && <p className={styles.error}>{error}</p>}
+      {message && <p className={styles.success} style={{ color:'green', display:'flex', justifyContent:'center', alignItems:'center', textAlign:'center', marginTop:'10px'}}>{message}</p>}
+      {error && <p className={styles.error} style={{ color:'red', display:'flex', justifyContent:'center', alignItems:'center', textAlign:'center', marginTop:'10px'}}>{error}</p>}
       </div>
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.user_info}>
@@ -161,8 +183,8 @@ export default function UploadEBook() {
           <input type="file" id="file" className={styles.input} onChange={handleFileChange} required />
           
         </div>
-        <button type="submit" className={styles.submitButton}>
-          Upload eBook
+        <button type="submit" className={styles.submitButton} disabled={loading}>
+        {loading ? "Submitting..." : "Add E-Book"}
         </button>
       </form>
       

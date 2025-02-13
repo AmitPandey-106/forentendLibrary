@@ -105,7 +105,7 @@ export default function HomePage({ memberLength, bookslen, allborrowed }) {
     };
 
     fetchMostBorrowedBooks();
-  }, []);
+  }, [backendUrl]);
 
 
   const doughnutData = {
@@ -118,7 +118,8 @@ export default function HomePage({ memberLength, bookslen, allborrowed }) {
       },
     ],
   };
-
+  
+  useEffect(() => {
   const fetchTommorow = async () => {
     try {
       setLoading(true);
@@ -157,14 +158,12 @@ export default function HomePage({ memberLength, bookslen, allborrowed }) {
     }
   };
 
-  useEffect(() => {
     fetchDueBooks();
     fetchTommorow();
-
     // Optionally refresh every minute
     const interval = setInterval(fetchDueBooks, 60000);
     return () => clearInterval(interval); // Clean up interval on unmount
-  }, []);
+  }, [backendUrl]);
 
   const handleRouting = (path) => {
     router.push(`/component/library/clglibrary/admins/${path}`)

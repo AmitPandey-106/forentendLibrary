@@ -11,6 +11,7 @@ export default function Userlayout({ children }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [results, setResults] = useState([]);
+  const [role, setRole] = useState("");
   const [showPopup, setShowPopup] = useState(false);
   const router = useRouter();
   const menuRef = useRef(null);
@@ -36,8 +37,26 @@ export default function Userlayout({ children }) {
     setQuery(e.target.value)
   };
 
+  useEffect(() => {
+    const checkRole = () => {
+      if (typeof window !== "undefined") {
+        const storedRole = localStorage.getItem("role") || "";
+        setRole(storedRole);
+
+        if (!storedRole) {
+          router.push("/");
+        }
+      }
+    };
+
+    checkRole(); // Initial check
+    const interval = setInterval(checkRole, 2000); // Check every 2 seconds
+
+    return () => clearInterval(interval); // Cleanup on unmount
+  }, [router]);
+
   const handleLogout = () => {
-    signOut(); // Call signOut from AuthContext
+    localStorage.setItem('role', '')
   };
 
   useEffect(() => {

@@ -43,6 +43,11 @@
     cursor: pointer;
     border: none;
 }
+
+.member_button:hover{
+  background-color: rgb(75, 215, 75);
+}
+
 .button{
     font-size: medium;
     padding: 13px 20px;
@@ -128,6 +133,19 @@
   }
   
   .buttonCancel:hover {
-    background-color: #dc2626;
+    background-color: #c10f0f;
+  }
+
+  .buttonViewDetails{
+    background-color: rgb(5, 153, 5);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 4px;
+    margin-left: 5px;
+    transition: background-color 0.3s ease;
+    border: none;
+  }
+  .buttonViewDetails:hover {
+    background-color: rgb(75, 215, 75);
   }
   

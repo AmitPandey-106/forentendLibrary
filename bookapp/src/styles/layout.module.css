@@ -103,8 +103,35 @@
 }
 
 .footer {
+  width: 100%;
+  background: #4A90E8; /* Light blue theme */
+  color: white; /* Darker blue for contrast */
   text-align: center;
+  padding: 15px 10px;
+  font-size: 16px;
+  font-weight: 500;
+  position: relative;
+  bottom: 0;
+  left: 0;
+  border-top: 3px solid #4A90E8; /* Soft blue border */
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
 }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .footer {
+    font-size: 14px;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer {
+    font-size: 12px;
+    padding: 8px;
+  }
+}
+
 
 .blueDot {
   display: inline-block;
