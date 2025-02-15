@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useContext, useEffect, useState, useRef } from 'react';
 import NextNProgress from 'nextjs-progressbar'
 import { FaFacebook, FaTwitter, FaLinkedin, FaInstagram } from "react-icons/fa";
+import Link from 'next/link';
 
 export default function Home() {
   const router = useRouter();
@@ -115,10 +116,10 @@ export default function Home() {
           <div className={styles.footerSection}>
             <h3>Quick Links</h3>
             <ul>
-              <li><a href="/">Home</a></li>
-              <li><a href="/component/about">About Us</a></li>
-              <li onClick={loginCheck}><a href="#">College Library</a></li>
-              <li><a href="https://posts-sigma-eight.vercel.app">Book Exchange</a></li>
+              <li><Link href="/">Home</Link></li>
+              <li><Link href="/component/about">About Us</Link></li>
+              <li onClick={loginCheck}><Link href="#">College Library</Link></li>
+              <li><Link href="https://posts-sigma-eight.vercel.app">Book Exchange</Link></li>
             </ul>
           </div>
 
