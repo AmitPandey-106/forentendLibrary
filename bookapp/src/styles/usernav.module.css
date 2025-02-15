@@ -22,7 +22,8 @@
 
 /* Desktop Navbar */
 .desktop_navbar {
-  background-color: #2c5d95;
+  background: linear-gradient(45deg, #5a9bd5, #2c5d95, #1b3a6f); 
+  /* background-color: #2c5d95; */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -325,7 +326,9 @@
     justify-content: space-between;
     align-items: center;
     padding: 10px 0;
-    background-color: #4A90E2;
+    /* background-color: #4A90E2; */
+    background: linear-gradient(45deg, #5a9bd5, #2c5d95, #1b3a6f);
+    /* background-image: url('/vppcoe.jpeg'); */
     color: black;
   }
 
@@ -358,14 +361,17 @@
     /* background-color: #2c4561; */
   }
 
-  .upper{
+  .upper {
     display: flex;
     align-items: center;
     justify-content: left;
-     width: 97%;
-     height: 200px;
-     background-color: lightblue;
+    width: 97%;
+    height: 200px;
+    background-image: url('/vppcoe.jpeg');
+    background-size: cover;
+    background-position: center;
   }
+  
 
   .slideimage{
     border-radius: 50%;

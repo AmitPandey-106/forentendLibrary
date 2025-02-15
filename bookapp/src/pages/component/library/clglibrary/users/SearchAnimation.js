@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Image from "next/image";
+import { FaBook } from "react-icons/fa";
 
 export default function SearchAnimation() {
   const [showLogo, setShowLogo] = useState(false);
@@ -37,25 +37,21 @@ export default function SearchAnimation() {
           height: "200px",
         }}
       >
-        {/* Book Image */}
+        {/* Book Icon */}
         <div
           style={{
             position: "absolute",
             width: "100px",
             height: "100px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            background: "linear-gradient(45deg, #1E90FF, #FFA500, #4169E1)", // Green gradient
+            borderRadius: "10px",
+            boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.3)",
           }}
         >
-          <Image
-            src="/the_book1.jpg"
-            alt="Book"
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              boxShadow: "0px 5px 15px rgba(0.1, 0, 0.2, 0.9)",
-              borderRadius: "10px",
-            }}
-          />
+          <FaBook size={50} color="white" />
         </div>
 
         {/* Magnifying Glass */}

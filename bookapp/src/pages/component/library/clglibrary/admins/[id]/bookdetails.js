@@ -272,6 +272,7 @@ export default function BookDetails() {
 
 
                               {authUser.role === 'user' ? (
+                                <div className={styles.bottom}>
                                 <div className={styles.buttongroup}>
                                   <button
                                     className={styles.collect_button}
@@ -288,14 +289,16 @@ export default function BookDetails() {
                                   >
                                     {isWaitlisted ? "Waitlisted" : "Join Waitlist"}
                                   </button>
+                                  </div>
                                   <div className={styles.ratings}>
-                                    <span className={styles.star}>&#9733;</span>
-                                    <span className={styles.star}>&#9733;</span>
-                                    <span className={styles.star}>&#9733;</span>
-                                    <span className={styles.star}>&#9734;</span>
-                                    <span className={styles.star}>&#9734;</span>
+                                    <span className={styles.star}>★</span>
+                                    <span className={styles.star}>★</span>
+                                    <span className={styles.star}>★</span>
+                                    <span className={styles.star}>☆</span>
+                                    <span className={styles.star}>☆</span>
                                     <p className={styles.ratingText}>3.0/5.0</p>
                                   </div>
+                                
                                 </div>
                   
                               ) : (
@@ -342,10 +345,6 @@ export default function BookDetails() {
                                 </div>
                               ))}
                             </div>
-
-
-
-
                           </div>
                         </div>
                       )}

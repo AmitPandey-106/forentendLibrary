@@ -76,16 +76,18 @@
     /* background-color: #3f5b94; */
 }
 
+.bottom{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
 
 .ratings {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 5px;
-    margin-top: -5px;
-    margin-right: -200px;
-    padding-left: 110px;
-
+    margin-top: 7px;
 }
 
 .top {
@@ -241,7 +243,7 @@
 .books_row {
     display: flex;
     flex-wrap: wrap;
-    position: relative;
+    /* position: relative; */
     gap: 25px;
     justify-content: center;
     padding: 0 7px;
@@ -253,7 +255,7 @@
     grid-template-columns: repeat(3, 1fr);
     justify-content: center;
     align-items: center;
-    margin: 0px 100px;
+    /* margin: 0px 100px; */
 }
 
 .cat1::before,
@@ -353,7 +355,7 @@
     }
 
     .backimage {
-        height: 335%;
+        height: 305%;
     }
 
     .section1 {
@@ -409,9 +411,10 @@
     }
 
     .recommendation h2{
-        width: 367px;
+        width: 151%;
         font-size: 2rem;
         text-align: left;
+        padding-left: 20px;
     }
 
     .recommendation{
@@ -433,6 +436,10 @@
         align-items: center;
     }
 
+    .bottom{
+        gap: 0px;
+    }
+
     .ratings {
         padding: 0px;
     }
@@ -445,33 +452,7 @@
 
 }
 
-@media (min-width: 1024px) and (max-width: 1250px) {
-    .backimage {
-        height: 220%;
-    }
 
-    .cat1::before,
-    .cat1::after {
-        content: "";
-        height: 2px;
-        width: 350px;
-        background-color: black;
-        display: block;
-    }
-
-    .recommendation_list {
-        gap: 40px;
-        justify-content: center;
-    }
-
-    .recommendation {
-        margin-bottom: 52px;
-    }
-
-    .ratings {
-        padding: 0px;
-    }
-}
 
 @media (min-width: 344px) and (max-width: 370px) {
 
@@ -508,3 +489,5 @@
     }
 
 }
+
+

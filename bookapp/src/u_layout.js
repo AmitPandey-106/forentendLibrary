@@ -5,7 +5,7 @@ import styles from '@/styles/usernav.module.css'
 import { AuthContext } from '@/pages/component/context/authcontext';
 import Image from 'next/image';
 import NextNProgress from 'nextjs-progressbar';
-
+import { FaFacebook, FaTwitter, FaLinkedin, FaInstagram } from "react-icons/fa";
 
 export default function Userlayout({ children }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -67,26 +67,26 @@ export default function Userlayout({ children }) {
         closeMenu();
       }
     };
-  
+
     if (menuOpen || dropdownOpen) {
       document.addEventListener("mousedown", handleClickOutside);
     }
-  
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [menuOpen, dropdownOpen]);
-  
+
 
 
   return (
     <div className={styles.container}>
       <NextNProgress
-        color="#32CD32"       
-        startPosition={0.3} 
-        stopDelayMs={200}   
-        height={3}          
-        showOnShallow={true} 
+        color="#32CD32"
+        startPosition={0.3}
+        stopDelayMs={200}
+        height={3}
+        showOnShallow={true}
       />
       <link
         rel="stylesheet"
@@ -96,7 +96,7 @@ export default function Userlayout({ children }) {
         {/* Desktop Navbar */}
         <nav className={styles.desktop_navbar}>
           <div className={styles.logo}>
-            <Link href="/">library</Link>
+            <Link href="/">Library</Link>
           </div>
           <ul className={styles.nav_links}>
             <>
@@ -136,7 +136,7 @@ export default function Userlayout({ children }) {
 
             <div className={styles.slide}>
               <div className={styles.upper}>
-                <Image className={styles.slideimage} src='/logo.jpg' alt='user' height={74} width={74}></Image>
+                {/* <Image className={styles.slideimage} src='/vppcoe_logo.png' alt='user' height={74} width={74}></Image> */}
               </div>
               <ul className={styles.nav_links}>
                 <>
@@ -284,17 +284,17 @@ export default function Userlayout({ children }) {
             <div className={styles.social_media}>
               <h3>Follow Us</h3>
               <div className={styles.icons}>
-                <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
-                  <Image src="/facebook.png" alt="Facebook" width={24} height={24} /> Facebook
+                <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" style={{ color: "#1877F2" }}>
+                  <FaFacebook size={30} />
                 </a>
-                <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer">
-                  <Image src="/twitter.png" alt="Twitter" width={24} height={24} /> Twitter
+                <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer" style={{ color: "#1DA1F2" }}>
+                  <FaTwitter size={30} />
                 </a>
-                <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">
-                  <Image src="/linkedin-logo.png" alt="LinkedIn" width={24} height={24} /> LinkedIn
+                <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" style={{ color: "#0077B5" }}>
+                  <FaLinkedin size={30} />
                 </a>
-                <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
-                  <Image src="/instagram.png" alt="Instagram" width={24} height={24} /> Instagram
+                <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" style={{ color: "#E4405F" }}>
+                  <FaInstagram size={30} />
                 </a>
               </div>
             </div>

@@ -16,6 +16,7 @@ export default function AdminLayout({ children }) {
   const reloadPage = () => {
     window.location.reload();
   };
+  
 
   // Fetch member count and pending requests count
   useEffect(() => {
