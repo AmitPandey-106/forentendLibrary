@@ -1,6 +1,6 @@
-import Layout from "../../layout";
+import Userlayout from "../../u_layout";
 import styles from '@/styles/about.module.css';
-import styless from '@/styles/usernav.module.css';
+// import styless from '@/styles/Home.module.css';
 import Head from 'next/head';
 import Image from 'next/image';
 import React, { useState, useEffect } from 'react';
@@ -196,10 +196,9 @@ useEffect(() => {
         </div>
 
         
-        <footer className={styless.footer} style={{backgroundColor:"#242526", marginTop:'60px'}}>
+        {/* <footer className={styless.footer} style={{backgroundColor:"#242526", marginTop:'60px'}}>
         <div className={styless.f_div}>
 
-          {/* About Section */}
           <div className={styless.f_about}>
             <h3>BooksEra</h3>
             <p>Suntouch Technology is dedicated to delivering top-notch tech solutions to empower businesses worldwide.</p>
@@ -212,12 +211,11 @@ useEffect(() => {
             <div className={styless.navigation}>
               <h3>Navigation</h3>
               <p><Link href="/">Home</Link></p>
-              {/* <p><Link href="/component/library/clglibrary/users/clgbooks">All Books</Link></p> */}
+              <p><Link href="/component/library/clglibrary/users/clgbooks">All Books</Link></p>
               <p><Link href="/component/about">About Us</Link></p>
               <p><Link href="https://posts-sigma-eight.vercel.app">UserExchange</Link></p>
             </div>
 
-            {/* Contact Us Section */}
             <div className={styless.contact}>
               <h3>Contact Us</h3>
               <p>Email: suntouchtechnology01@gmail.com</p>
@@ -226,8 +224,6 @@ useEffect(() => {
             </div>
           </div>
 
-
-          {/* Services Section */}
           <div className={styless.ser_foll}>
             <div className={styless.f_services}>
               <h3>Services</h3>
@@ -238,7 +234,6 @@ useEffect(() => {
               </ul>
             </div>
 
-            {/* Social Media Links */}
             <div className={styless.social_media}>
               <h3>Follow Us</h3>
               <div className={styless.icons}>
@@ -259,8 +254,12 @@ useEffect(() => {
           </div>
         </div>
         <p>© 2025 SunTouch Technology All rights reserved.</p>
-      </footer>
+      </footer> */}
         </div>
     </>
   );
 }
+
+About.getLayout = function getLayout(page) {
+  return <Userlayout>{page}</Userlayout>
+};

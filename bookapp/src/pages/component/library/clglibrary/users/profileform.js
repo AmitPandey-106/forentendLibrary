@@ -84,6 +84,7 @@ export default function ProfileForm({ initialError }) {
 
       if (res.status === 200) {
         setSuccess(data.message || 'Profile updated successfully!');
+        window.location.reload();
       } else {
         setError(data.message || 'Something went wrong.');
       }

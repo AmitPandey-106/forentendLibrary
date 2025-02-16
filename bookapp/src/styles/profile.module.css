@@ -99,7 +99,9 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 20px;
-  margin: 20px 305px;
+  /* justify-content: center; */
+  margin: 30px 305px;
+  /* margin-left: 100px; */
   justify-items: center; /* Center buttons in their grid */
 }
 

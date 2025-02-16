@@ -62,6 +62,7 @@ export default function Profile() {
         height={3}
         showOnShallow={true}
       />
+      <p style={{textAlign:'center'}}>Please fill user details before Borrowing Books</p>
       <h1 className={styles.h1}>Profile</h1>
 
       <div className={styles.profile}>
@@ -69,13 +70,13 @@ export default function Profile() {
         {profileData ? (
           <div>
             <h2 style={{ color: 'black' }}>Name: {profileData.firstName} {profileData.lastName}</h2>
-            <div className={styles.edit}>
-              <Link href={`/component/library/clglibrary/users/profileform`}>Edit</Link>
-            </div>
           </div>
         ) : (
-          <p>Loading...</p>
+          <p>Unknown User</p>
         )}
+        <div className={styles.edit}>
+              <Link href={`/component/library/clglibrary/users/profileform`}>Edit</Link>
+            </div>
       </div>
       <hr />
       <div className={styles.buttons}>

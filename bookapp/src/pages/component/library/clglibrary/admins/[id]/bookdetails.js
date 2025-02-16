@@ -280,8 +280,8 @@ export default function BookDetails() {
                       </div>
                     ) : (
                       <div className={styles.buttongroup}>
-                        <button className={styles.collect_button} onClick={() => router.push(`/component/library/clglibrary/admins/editbook`)}>Edit</button>
-                        <button className={styles.dl_button} onClick={() => router.push(`/component/library/clglibrary/admins/editbook?mode=dl`)}>D & L</button>
+                        <button className={styles.collect_button} onClick={() => router.push(`/component/library/clglibrary/admins/${id}/editbook`)}>Edit</button>
+                        <button className={styles.dl_button} onClick={() => router.push(`/component/library/clglibrary/admins/${id}/editbook?mode=dl`)}>D & L</button>
                         <button className={styles.waitlistbutton} onClick={() => alert("Delete button clicked")}>Delete</button>
                         {authUser.role === 'admin' && (
                           <button className={styles.report_button} onClick={handleReportClick}>

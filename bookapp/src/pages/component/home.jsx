@@ -60,7 +60,7 @@ export default function Home() {
       <header className={styles.header}>
         <Image src="/logo.jpg" alt="BookSera Logo" width={60} height={60} style={{ borderRadius: '50%' }} />
         <h1 className={styles.headerTitle}>BOOKSERA</h1>
-        <button className={styles.knowUsBtn}>Know us</button>
+        {/* <button className={styles.knowUsBtn}>Know us</button> */}
       </header>
       <div className={styles.videoContainer}>
         {/* Background Video */}

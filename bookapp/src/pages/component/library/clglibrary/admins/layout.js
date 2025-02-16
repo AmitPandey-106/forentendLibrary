@@ -90,7 +90,7 @@ export default function AdminLayout({ children }) {
         <nav className={styles.sidebar}>
           <ul>
             <li>
-              <Link href="/component/library/clglibrary/admins/home" replace>Dashboard</Link>
+              <Link href="/component/library/clglibrary/admins/home">Dashboard</Link>
             </li>
             <li>
               <Link href="/component/library/clglibrary/admins/member" replace>Members</Link>
