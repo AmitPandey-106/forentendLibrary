@@ -1,6 +1,7 @@
   .header {
     position: relative;
-    background-color: #4A90E2;
+    /* background-color: #4A90E2; */
+    background: linear-gradient(45deg, #5a9bd5, #2c5d95, #1b3a6f);
     color: white;
     padding: 10px;
     text-align: center;
@@ -104,7 +105,8 @@
 
 .footer {
   width: 100%;
-  background: #4A90E8; /* Light blue theme */
+  /* background: #4A90E8;  */
+  background: linear-gradient(45deg, #5a9bd5, #2c5d95, #1b3a6f);
   color: white; /* Darker blue for contrast */
   text-align: center;
   padding: 15px 10px;

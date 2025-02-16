@@ -5,7 +5,7 @@ import styles from '@/styles/usernav.module.css'
 import { AuthContext } from '@/pages/component/context/authcontext';
 import Image from 'next/image';
 import NextNProgress from 'nextjs-progressbar';
-import { FaFacebook, FaTwitter, FaLinkedin, FaInstagram } from "react-icons/fa";
+import { FaFacebook, FaTwitter, FaLinkedin, FaInstagram, FaMapMarkerAlt  } from "react-icons/fa";
 
 export default function Userlayout({ children }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -246,7 +246,7 @@ export default function Userlayout({ children }) {
             <h3>BooksEra</h3>
             <p>Suntouch Technology is dedicated to delivering top-notch tech solutions to empower businesses worldwide.</p>
             <a href="https://www.googlemaps.com" target="_blank" rel="noopener noreferrer">
-              <Image src="/location.png" alt="Facebook" width={24} height={35} />
+            <FaMapMarkerAlt className="icon" size={30}/>
             </a>
           </div>
 
@@ -287,13 +287,13 @@ export default function Userlayout({ children }) {
                 <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" style={{ color: "#1877F2" }}>
                   <FaFacebook size={30} />
                 </a>
-                <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer" style={{ color: "#1DA1F2" }}>
+                <a href="https://x.com/SunTouchTech01" target="_blank" rel="noopener noreferrer" style={{ color: "#1DA1F2" }}>
                   <FaTwitter size={30} />
                 </a>
                 <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" style={{ color: "#0077B5" }}>
                   <FaLinkedin size={30} />
                 </a>
-                <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" style={{ color: "#E4405F" }}>
+                <a href="https://www.instagram.com/suntouchtechnology01/?hl=en" target="_blank" rel="noopener noreferrer" style={{ color: "#E4405F" }}>
                   <FaInstagram size={30} />
                 </a>
               </div>

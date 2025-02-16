@@ -126,7 +126,8 @@
 
 .footer {
   width: 100%;
-  background-color: #4A90E2;
+  /* background-color: #4A90E2; */
+  background: linear-gradient(135deg, #4A90E2, #357ABD);
   margin-top: auto;
   padding-bottom: 20px;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
@@ -367,6 +368,7 @@
     justify-content: left;
     width: 97%;
     height: 200px;
+    opacity: 25 black;
     background-image: url('/vppcoe.jpeg');
     background-size: cover;
     background-position: center;

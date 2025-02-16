@@ -58,7 +58,7 @@ export default function AdminPenaltySection() {
                   {penalty.user.firstName} {penalty.user.lastName} ({penalty.user.email})
                 </td>
                 <td style={{ padding: '8px', border: '1px solid #ddd' }}>{penalty.book.TITLE}</td>
-                <td style={{ padding: '8px', border: '1px solid #ddd' }}>{penalty.daysOverdue}</td>
+                <td style={{ padding: '8px', border: '1px solid #ddd' }}>{penalty.overdueDays}</td>
                 <td style={{ padding: '8px', border: '1px solid #ddd' }}>₹{penalty.penaltyAmount}</td>
                 <td style={{ padding: '8px', border: '1px solid #ddd' }}>
                   {new Date(penalty.createdAt).toLocaleDateString()}

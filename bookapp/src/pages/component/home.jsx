@@ -11,6 +11,20 @@ export default function Home() {
   const [role, setRole] = useState("");
   const libraryRef = useRef(null);
 
+  const fullText = "WELCOME TO BOOKSERA";
+  const [displayedText, setDisplayedText] = useState("");
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    if (index < fullText.length) {
+      const timeout = setTimeout(() => {
+        setDisplayedText((prev) => prev + fullText[index]);
+        setIndex(index + 1);
+      }, 100); // Adjust speed of typing
+      return () => clearTimeout(timeout);
+    }
+  }, [index]);
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       setRole(localStorage.getItem("role") || ""); // Get role or set empty string
@@ -61,7 +75,11 @@ export default function Home() {
             {/* Text Section */}
             <div className={styles.text}>
               <h1>
-                WELCOME TO <span className={styles.highlight}>BOOKSERA</span>
+                {displayedText.split(" ").map((word, i) => (
+                  <span key={i} className={word === "BOOKSERA" ? styles.highlight : ""}>
+                    {word}{" "}
+                  </span>
+                ))}
               </h1>
               <p>Explore a vast collection of books, resources, and exchange options.</p>
               <button className={styles.exploreButton} onClick={handleExploreClick}>Explore</button>
@@ -138,13 +156,13 @@ export default function Home() {
               <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" style={{ color: "#1877F2" }}>
                 <FaFacebook size={30} />
               </a>
-              <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer" style={{ color: "#1DA1F2" }}>
+              <a href="https://x.com/SunTouchTech01" target="_blank" rel="noopener noreferrer" style={{ color: "#1DA1F2" }}>
                 <FaTwitter size={30} />
               </a>
               <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" style={{ color: "#0077B5" }}>
                 <FaLinkedin size={30} />
               </a>
-              <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" style={{ color: "#E4405F" }}>
+              <a href="https://www.instagram.com/suntouchtechnology01/?hl=en" target="_blank" rel="noopener noreferrer" style={{ color: "#E4405F" }}>
                 <FaInstagram size={30} />
               </a>
             </div>

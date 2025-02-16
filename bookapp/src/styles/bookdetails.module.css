@@ -1,493 +1,336 @@
-.backimage {
-    position: absolute;
-    z-index: -1;
-    width: 100%;
-    height: 110%;
-}
-
-
-.h1 {
-    margin-bottom: 15px;
-}
-
-.book_title {
-    text-align: center;
-    margin-top: 40px;
-    font-size: 1.8rem;
-    text-decoration: underline;
-}
-
-.bookdetails {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-top: 20px;
-}
-
-.section1 {
-    width: 80%;
-    display: flex;
-    gap: 50px;
-    /* align-items: center; 
-    justify-content: center; */
-    padding: 50px;
-}
-
-.bookimage {
-    height: 350px;
-    width: 231px;
-    border-radius: 5%;
-}
-
-.imgcover{
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-
-}
-
-.sec1_bookname {
-    align-items: center;
-    justify-content: center;
-}
-
-.detailLeft {
-    width: 60%;
-}
-
-.bookinfo {
-    width: 100%;
-    display: flex;
-    margin-top: 0px;
-    /* font-size: 15px; */
-    /* line-height: 1.2; */
-    /* border: 0.9px solid grey; */
-}
-
-.deepDetails {
-    width: 100%;
-    height: 100%;
-    color: black;
-    display: flex;
-    flex-direction: column;
-    font-size: 20px;
-    justify-content: space-between;
-    padding: 10px;
-    border: 2px solid black;
-    /* background-color: #3f5b94; */
-}
-
-.bottom{
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 10px;
-}
-
-.ratings {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 7px;
-}
-
-.top {
-    display: flex;
-    flex-direction: column;
-    margin-top: 20px;
-}
-
-.top p {
-    margin-bottom: 10px;
-}
-
-.star {
-    font-size: 25px;
-    color: #e6a604;
-}
-
-.star:not(:last-child) {
-    margin-right: 3px;
-}
-
-.ratingText {
-    font-size: 14px;
-    color: black;
-    margin-top: 4px;
-    margin-left: 10px;
-}
-.ratings p{
-    margin-bottom: 0px;
-    font-size: 17px;
-}
-
 .book_details_container {
-    /* padding: 20px 130px; */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: #333333;
-    min-height: 100vh;
-    /* background-color: rgb(213, 234, 245); */
-}
-
-/* .backimage{
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    position: absolute; 
-} */
-
-.book_details_container::before {
-    content: "";
-    position: absolute;
-    height: 500px;
-    width: 100%;
-    top: 0px;
-    left: 0px;
-    z-index: -1;
-    opacity: 0.89;
-}
-
-.buttongroup {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: left;
-    gap: 10px;
-    margin-top: 20px;
-}
-
-.collect_button {
-    color: #fff;
-    height: 40px;
-    width: 150px;
-    border: none;
-    border-radius: 5px;
-    font-size: 17px;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #2eba2e;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.collect_button:disabled {
-    background-color: #a5d6a7;
-    cursor: not-allowed;
-}
-
-.waitlistbutton {
-    padding: 10px 20px;
-    height: 40px;
-    width: 150px;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    background-color: #f50100;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.waitlistbutton:disabled {
-    background-color: #f50100;
-    cursor: not-allowed;
-}
-
-.collect_button:hover:not(:disabled),
-.waitlistbutton:hover:not(:disabled) {
-    background-color: #6abe6e;
-    /* Darker green for collect button */
-    color: #fff;
-}
-
-.waitlistbutton:hover:not(:disabled) {
-    background-color: #e95d5d;
-    /* Darker red for waitlist button */
-    color: #fff;
-}
-
-.dl_button{
-    padding: 10px 20px;
-    height: 40px;
-    width: 150px;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    background-color:#D91A73;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-.dl_button:hover{
-    background-color: #f29cbd;
-}
-
-.report_button{
-    padding: 10px 20px;
-    height: 40px;
-    width: 150px;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    background-color: #9795db;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-.report_button:hover{
-    background-color: #b0aedd;
-}
-
-.books_row {
-    display: flex;
-    flex-wrap: wrap;
-    /* position: relative; */
-    gap: 25px;
-    justify-content: center;
-    padding: 0 7px;
-    z-index: 1;
-}
-
-.cat1 {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    justify-content: center;
-    align-items: center;
-    /* margin: 0px 100px; */
-}
-
-.cat1::before,
-.cat1::after {
-    content: "";
-    height: 2px;
-    width: 400px;
-    background-color: black;
-    display: block;
-}
-
-.recommendation_list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-.recommendation_item {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 6px;
-    text-align: center;
-    box-shadow: 12px 11px 10px rgba(2, 55, 141, 0.1);
-    max-width: 180px;
-    max-height: 295px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid rgb(193, 234, 248);
-    background-color: rgb(215, 245, 250);
-    transition: box-shadow 0.3s ease, transform 0.3s ease;
-}
-
-.recommendation_image {
-    width: 200px;
-    height: 200px;
-    object-fit: contain;
-    border-radius: 5px;
-}
-
-.recommendation_item:hover {
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    transform: translateY(-5px);
-}
-
-.recommendation {
-    margin-top: 20px;
     padding: 20px;
-}
-
-.recommendation h2 {
-    margin-bottom: 20px;
-    color: black;
-    text-decoration: underline;
+    width: 100%;
+  }
+  
+  .bookdetails {
+    max-width: 1100px;
+    width: 100%;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .bookDetailsPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .book_title {
+    font-size: 32px; /* Slightly bigger */
     text-align: center;
-}
-
-.recommendation_title {
-    font-size: 16px;
-    color: #333;
-    margin: 10px 0;
+    margin-bottom: 15px;
     font-weight: bold;
-    white-space: nowrap;
+    background: linear-gradient(45deg, #5a9bd5, #2c5d95); /* Gradient blue */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; /* Gradient text effect */
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 10px 0;
+    position: relative;
+  }
+  
+  /* Add a subtle underline effect */
+  .book_title::after {
+    content: "";
+    display: block;
+    width: 50%;
+    height: 3px;
+    background: #5a9bd5; /* Light blue underline */
+    margin: 5px auto;
+    border-radius: 5px;
+  }
+  
+  
+  .section1 {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .imgCover img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+  
+  .bookinfo {
+    max-width: 400px;
+    text-align: left;
+  }
+  
+  .deepDetails p {
+    font-size: 20px;
+    margin-bottom: 5px;
+  }
+
+  .deepDetails p.description {
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Limit to 3 lines */
+    -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
-    width: 90%;
-    height: 20px;
-}
-
-@keyframes scroll {
-    from {
-        opacity: 0;
-        scale: 0.5;
+    max-width: 600px; /* Adjust based on layout */
+    line-height: 1.5; /* Adjust line spacing */
+  }
+  
+  .ratings {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 20px;
+    color: #f1c40f;
+  }
+  
+  .buttongroup {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .collect_button,
+  .waitlistbutton,
+  .dl_button,
+  .report_button {
+    padding: 10px 15px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .collect_button {
+    background: linear-gradient(45deg, #5aa9e6, #3498db);
+    color: white;
+  }
+  
+  .collect_button:hover {
+    background: linear-gradient(45deg, #3498db, #217dbb);
+    transform: scale(1.05); /* Slight zoom on hover */
+  }
+  
+  /* Waitlist Button */
+  .waitlistbutton {
+    background: linear-gradient(45deg, #f39c12, #e67e22);
+    color: white;
+  }
+  
+  .waitlistbutton:hover {
+    background: linear-gradient(45deg, #e67e22, #d35400);
+    transform: scale(1.05);
+  }
+  
+  /* Download Button */
+  .dl_button {
+    background: linear-gradient(45deg, #2ecc71, #27ae60);
+    color: white;
+  }
+  
+  .dl_button:hover {
+    background: linear-gradient(45deg, #27ae60, #1e8449);
+    transform: scale(1.05);
+  }
+  
+  /* Report Button */
+  .report_button {
+    background: linear-gradient(45deg, #e74c3c, #c0392b);
+    color: white;
+  }
+  
+  .report_button:hover {
+    background: linear-gradient(45deg, #c0392b, #a93226);
+    transform: scale(1.05);
+  }
+  .recommendation {
+    margin-top: 20px;
+  }
+  
+  .books_row {
+    padding: 20px 40px;
+  }
+  
+  .recommendation_list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    /* Reduced gap for better alignment */
+  }
+  
+  .recommendation_item {
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 15px;
+    width: calc(50% - 20px);
+    /* Ensures 2 books per row */
+    width: 200px;
+    /* Default width for desktop */
+    height: 270px;
+    /* Default height for desktop */
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    justify-content: space-between;
+    background-color: #fff;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .recommendation_item:hover {
+    transform: scale(1.01);
+  }
+  
+  .recommendation_image {
+    width: 100%;
+    height: 180px;
+    /* Fixed height for images */
+    object-fit: contain;
+    /* Ensures images fill the box properly */
+    border-radius: 5px;
+  }
+  
+  .recommendation_title {
+    font-size: 14px;
+    font-weight: bold;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2; /* Limits text to 2 lines */
+    overflow: hidden;
+    max-width: 100%;
+    white-space: normal;
+    word-wrap: break-word;  /* ✅ Allows word breaking */
+    word-break: break-word;
+    hyphens: auto;
+  }
+  
+  /* ✅ Mobile View: Apply Ellipsis for Titles Exceeding 25 Characters */
+  @media (max-width: 768px) {
+    .book_details_container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0px;
+      width: 100%;
     }
-
-    to {
-        opacity: 1;
-        transform: scale(1);
+    
+    .recommendation_title {
+      max-width: 90%; /* Adjust max width for better truncation */
     }
-}
-
-.recommended_books {
-    position: relative;
-    margin: 65px 85px;
-    text-decoration: overline;
-    color: #333333;
-    animation: scroll linear;
-    animation: scroll 1s ease-out;
-}
-
-@media (max-width: 600px) {
-
-    .cat1::before,
-    .cat1::after {
-        width: 0px;
+  }
+  
+  .r_ratings {
+    font-size: 15px;
+    display: flex;
+    color: #e67e22;
+    align-items: center;
+  }
+  
+  .r_ratingText {
+    padding-left: 5px;
+    font-size: 14px;
+  }
+  
+  /* Media Query for Mobile */
+  @media (max-width: 768px) {
+    .bookdetails {
+      padding: 15px;
     }
-
-    .backimage {
-        height: 305%;
+  
+    .imgCover img {
+      width: 200px;
+      height: 200px;
+      position: relative;
+      object-fit: contain;
+      border-radius: 8px;
     }
-
+  
+    .book_title {
+      font-size: 20px;
+    }
+  
     .section1 {
-        flex-direction: column;
-        width: 111%;
-        justify-content: center;
-        align-items: center;
+      flex-direction: column;
     }
-
-    .deepDetails {
-        height: 100%;
-        padding: 12px;
+  
+    .bookinfo {
+      max-width: 100%;
     }
-
-    .ratings {
-        align-items: center;
-        justify-content: center;
-        /* padding-right: 150px; */
+  
+    .deepDetails p {
+      font-size: 16px;
     }
-
-    .recommendation {
-        padding: 10px 5px 10px;
+  
+    .buttongroup {
+      align-items: center;
     }
-
-    .recommendation_list {
-        gap: 11px;
-        align-items: center;
-        justify-content: center;
+  
+    .books_row {
+      padding: 20px 0px;
     }
-
+  
     .recommendation_item {
-        width: 170px;
+      width: 45%;
+      /* Each book takes 45% width, making 2 per row */
+      height: 200px;
+      padding: 8px;
+      gap: 2px;
     }
-
-    .waitlistbutton{
-        height: 40px;
-        width: 110px;
-        padding: 0px 10px;
+  
+    .recommendation_image {
+      height: 130px;
     }
-    .collect_button{
-        height: 40px;
-        width: 110px;
-        padding: 0px 10px;
-        /* margin-left: 10px; */
+  
+    .recommendation_title {
+      font-size: 12px;
+      justify-content: 500;
+      -webkit-line-clamp: 2;
     }
-}
-
-@media (min-width: 601px) and (max-width: 1024px) {
-
-    .cat1::before,
-    .cat1::after {
-        display: none;
+    .r_ratings {
+      font-size: 12px;
     }
-
-    .recommendation h2{
-        width: 151%;
-        font-size: 2rem;
-        text-align: left;
-        padding-left: 20px;
+  }
+  
+  @media (max-width: 1024px) {
+    .recommendation_item {
+      width: 30%;
+      /* 3 books per row */
+      height: 220px;
     }
-
-    .recommendation{
-        padding: 20px 0px;
-        text-align: left;
-    }
-
-    .backimage {
-        height: 130%;
-    }
-
-    .deepDetails {
-        height: 250px;
-    }
-
-    .section1 {
-        width: 100%;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .bottom{
-        gap: 0px;
-    }
-
-    .ratings {
-        padding: 0px;
-    }
-
+  }
+  
+  /* ✅ Small Screens (Phones below 500px) */
+  @media (max-width: 500px) {
     .recommendation_list {
-        gap: 50px;
-        align-items: center;
-        justify-content: center;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      /* Reduced gap for better alignment */
     }
-
-}
-
-
-
-@media (min-width: 344px) and (max-width: 370px) {
-
-    .cat1::before,
-    .cat1::after {
-        width: 0px;
+  
+    .recommendation_item {
+      width: 45%;
+      /* Each book takes 48% width, making 2 per row */
+      height: 210px;
+      justify-content: flex-start;
     }
-
-    .backimage {
-        height: 340%;
+    .recommendation_title {
+      font-size: 12px;
+      justify-content: 500;
+      -webkit-line-clamp: 2;
     }
-
-    .recommendation_list {
-        gap: 20px;
+  
+    .recommendation_image {
+      width: 100%;
+      height: 140px;
+      /* Fixed height for images */
+      object-fit: contain;
+      /* Ensures images fill the box properly */
+      border-radius: 5px;
     }
-
-    .recommendation {
-        padding: 20px;
-    }
-
-    .recommendation h2 {
-        text-align: center;
-    }
-
-    .deepDetails {
-        text-align: left;
-        padding: 10px 30px;
-    }
-
-    .ratings {
-        align-items: center;
-        justify-content: center;
-        margin: 0px;
-    }
-
-}
-
-
+  }

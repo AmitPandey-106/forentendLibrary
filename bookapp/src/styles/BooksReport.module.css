@@ -37,6 +37,9 @@
   .button:hover {
     background: #52c3da;
   }
+  .button:focus {
+    background: #799bec;
+  }
   
   .table {
     width: 100%;
