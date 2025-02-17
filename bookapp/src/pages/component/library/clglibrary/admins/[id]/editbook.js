@@ -128,7 +128,7 @@ export default function Editbook() {
       <div className={styles.tp}>
       {success && <p style={{ color: 'green' }}>{success}</p>}
       {error && <p style={{ color: 'red' }}>{error}</p>}
-      <h2>Lost Books</h2>
+      {/* <h2>Lost Books</h2> */}
       </div>
       <form className={styles.form} onSubmit={handleSubmit}>
         <div className={styles.user_info}>

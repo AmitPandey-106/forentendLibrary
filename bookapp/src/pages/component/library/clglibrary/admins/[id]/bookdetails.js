@@ -144,6 +144,7 @@ export default function BookDetails() {
 
         // Alert success with due date from API response
         alert(`Request Successfully send for "${bookdetails.book.TITLE}"}`);
+        window.location.reload();
       } else {
         const errorData = await response.json();
         if (errorData.message) {

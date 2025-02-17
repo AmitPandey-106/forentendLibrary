@@ -73,6 +73,7 @@ export default function AdminUpdateBook() {
       );
 
       alert("Book removed successfully.");
+      window.location.reload()
     } catch (error) {
       alert(error.message);
     }
@@ -92,13 +93,13 @@ export default function AdminUpdateBook() {
 
   if (loading) {
     return <div>
-     <SearchAnimation/>
+      <SearchAnimation />
     </div>
   }
 
   return (
     <div>
-      <h1 style={{padding:'10px'}}>Borrowed Books</h1>
+      <h1 style={{ padding: '10px' }}>Borrowed Books</h1>
       <div className={styles.searchbar}>
         <input
           type="text"
@@ -106,7 +107,7 @@ export default function AdminUpdateBook() {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && onSearch()}
-          
+
         />
         <button
           onClick={onSearch}
@@ -114,7 +115,7 @@ export default function AdminUpdateBook() {
       </div>
 
       {filterBooks.length > 0 ? (
-        <table style={{ width: '95%', borderCollapse: 'collapse', backgroundColor:'white', marginLeft:'35px' }}>
+        <table style={{ width: '95%', borderCollapse: 'collapse', backgroundColor: 'white', marginLeft: '35px' }}>
           <thead>
             <tr>
               <th style={{ padding: '8px', border: '1px solid #ddd', textAlign: 'left' }}>Student</th>
@@ -128,10 +129,10 @@ export default function AdminUpdateBook() {
           <tbody>
             {filterBooks.map((borrowedBook) => (
               <tr key={borrowedBook._id}>
-                <td style={{ padding: '6px', border: '1px solid #ddd' }}>{borrowedBook.user ? `${borrowedBook.user.firstName} ${borrowedBook.user.lastName}` : 'N/A'}
+                <td style={{ padding: '6px', border: '1px solid #ddd', textAlign: 'center' }}>{borrowedBook.user ? `${borrowedBook.user.firstName} ${borrowedBook.user.lastName}` : 'N/A'}
                 </td>
-                <td style={{ padding: '6px', border: '1px solid #ddd' }}>{borrowedBook.user ? `${borrowedBook.user.studentID}` : 'N/A'}</td>
-                <td style={{ padding: '6px ', border: '1px solid #ddd', textAlign: 'center' }}>
+                <td style={{ padding: '6px', border: '1px solid #ddd', textAlign: 'center' }}>{borrowedBook.user ? `${borrowedBook.user.studentID}` : 'N/A'}</td>
+                <td style={{ padding: '6px ', border: '1px solid #ddd', textAlign: 'center', maxWidth: '200px' }}>
                   <Image
                     src={isValidURL(borrowedBook.book) ? `${borrowedBook.book.PHOTO}` : defaultimage}
                     alt={borrowedBook.book ? `${borrowedBook.book.TITLE}` : 'N/A'}
@@ -141,14 +142,32 @@ export default function AdminUpdateBook() {
                   />
                   <p className='book-name'>{borrowedBook.book.TITLE}</p>
                 </td>
-                <td style={{ padding: '6px', border: '1px solid #ddd' }}>
+                <td style={{ padding: '6px', border: '1px solid #ddd', textAlign: 'center' }}>
                   {new Date(borrowedBook.borrowDate).toLocaleDateString()}
                 </td>
-                <td style={{ padding: '6px', border: '1px solid #ddd' }}>
+                <td style={{ padding: '6px', border: '1px solid #ddd', textAlign: 'center' }}>
                   {new Date(borrowedBook.dueDate).toLocaleDateString()}
                 </td>
-                <td style={{ padding: '6px', border: '1px solid #ddd' }}>
-                  <button style={{ padding: '8px', border: '1px solid #ddd', backgroundColor: 'red' }} onClick={() => handleRemoveBook(borrowedBook._id)}>Remove</button>
+                <td style={{ padding: '6px', border: '1px solid #ddd', textAlign: 'center' }}>
+                  <button
+                    style={{
+                      padding: '10px 16px',
+                      border: 'none',
+                      background: 'linear-gradient(90deg,rgb(251, 102, 76),rgb(242, 15, 68))', // Gradient red
+                      color: 'white',
+                      fontSize: '16px',
+                      fontWeight: 'bold',
+                      borderRadius: '8px',
+                      cursor: 'pointer',
+                      boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)'
+                    }}
+                    onMouseOver={(e) => (e.target.style.background = '#ff1e00')}
+                    onMouseOut={(e) => (e.target.style.background = 'linear-gradient(90deg, #ff4b2b, #ff416c)')}
+                    onClick={() => handleRemoveBook(borrowedBook._id)}
+                  >
+                    Remove
+                  </button>
+
                 </td>
               </tr>
             ))}
