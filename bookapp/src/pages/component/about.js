@@ -20,13 +20,13 @@ export default function About() {
 
   return (
     <>
-      <NextNProgress
+      {/* <NextNProgress
         color="#32CD32"       
         startPosition={0.3} 
         stopDelayMs={200}   
         height={3}          
         showOnShallow={true} 
-      />
+      /> */}
       <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"

@@ -81,13 +81,13 @@ export default function Userlayout({ children }) {
 
   return (
     <div className={styles.container}>
-      {/* <NextNProgress
+      <NextNProgress
         color="#32CD32"
         startPosition={0.3}
         stopDelayMs={200}
         height={3}
-        showOnShallow={true}
-      /> */}
+        showOnShallow={false}
+      />
       <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
