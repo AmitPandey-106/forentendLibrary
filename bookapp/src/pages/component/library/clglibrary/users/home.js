@@ -73,13 +73,13 @@ export default function Home() {
 
   return (
     <div className={styles.books_container}>
-      <NextNProgress
+      {/* <NextNProgress
         color="#32CD32"       
         startPosition={0.3} 
         stopDelayMs={200}   
         height={3}          
         showOnShallow={true} 
-      />
+      /> */}
       <div className={styles.home}>
       <div className={styles.text}>
         <h1>The more that you read, the more things you know.</h1>
