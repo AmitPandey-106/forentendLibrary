@@ -331,6 +331,7 @@
     background: linear-gradient(45deg, #5a9bd5, #2c5d95, #1b3a6f);
     /* background-image: url('/vppcoe.jpeg'); */
     color: black;
+    z-index: 1;
   }
 
   .slide{

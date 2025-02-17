@@ -98,7 +98,7 @@ export default function AdminUpdateBook() {
 
   return (
     <div>
-      <h1>Borrowed Books</h1>
+      <h1 style={{padding:'10px'}}>Borrowed Books</h1>
       <div className={styles.searchbar}>
         <input
           type="text"
@@ -114,7 +114,7 @@ export default function AdminUpdateBook() {
       </div>
 
       {filterBooks.length > 0 ? (
-        <table style={{ width: '100%', borderCollapse: 'collapse', backgroundColor:'white' }}>
+        <table style={{ width: '95%', borderCollapse: 'collapse', backgroundColor:'white', marginLeft:'35px' }}>
           <thead>
             <tr>
               <th style={{ padding: '8px', border: '1px solid #ddd', textAlign: 'left' }}>Student</th>

@@ -204,7 +204,7 @@ export default function Userlayout({ children }) {
             zIndex: 1000,
           }}
         >
-          <h3>Are you sure you want to logout?</h3>
+          <h3>Are you sure you want to log out?</h3>
           <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '10px' }}>
             <button
               onClick={handleLogout}

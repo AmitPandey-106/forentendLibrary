@@ -3,38 +3,20 @@ import styles from '@/styles/about.module.css';
 // import styless from '@/styles/Home.module.css';
 import Head from 'next/head';
 import Image from 'next/image';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import NextNProgress from 'nextjs-progressbar';
 import Link from "next/link";
 
 
 export default function About() {
 
-// Carousel functionality
-useEffect(() => {
-  const carousels = document.querySelectorAll(`.${styles.carrousel}`);
+    const footerRef  = useRef(null);
 
-  carousels.forEach(carousel => {
-    let scrollAmount = 0;
-    const cardStyle = getComputedStyle(carousel.querySelector(`.${styles.card}`));
-    const slideWidth = parseInt(cardStyle.width) + parseInt(cardStyle.marginRight);
-
-    function autoSlide() {
-      scrollAmount += slideWidth;
-      if (scrollAmount >= carousel.scrollWidth - carousel.clientWidth) {
-        scrollAmount = 0;
+    const handleExploreClick = () => {
+      if (footerRef .current) {
+        footerRef .current.scrollIntoView({ behavior: "smooth" });
       }
-      carousel.scroll({
-        left: scrollAmount,
-        behavior: 'smooth',
-      });
-    }
-
-    const interval = setInterval(autoSlide, 2000); // Auto-slide every 2 seconds
-
-    return () => clearInterval(interval); // Cleanup interval on component unmount
-  });
-}, []);
+    };
 
   return (
     <>
@@ -76,7 +58,7 @@ useEffect(() => {
           <div className={styles.side_part1}>
             <h1>We Always Make The Best</h1>
             <p>We are committed to revolutionizing library management by offering seamless and efficient solutions. Our platform simplifies book tracking, borrowing, and inventory management, ensuring libraries run at their best for both staff and users.</p>
-            <button>Contact Us</button>
+            <button onClick={handleExploreClick}>Contact Us</button>
           </div>
         </div>
 
@@ -191,7 +173,7 @@ useEffect(() => {
         <div className={styles.joinus}>
           <p>Join Us Now</p>
           <h1>We Are Always Ready To Take A Perfect Shot</h1>
-          <button>Get Started</button>
+          <button ref={footerRef}>Get Started</button>
         </div>
         </div>
 

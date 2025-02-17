@@ -41,7 +41,7 @@ export default function AdminPenaltySection() {
     <div>
       <h1 style={{margin: '10px 10px 20px'}}>Penalty Details</h1>
       {penalties.length > 0 ? (
-        <table style={{ width: '100%', borderCollapse: 'collapse', backgroundColor:'white' }}>
+        <table style={{ width: '98%', borderCollapse: 'collapse', backgroundColor:'white',marginLeft:'15px' }}>
           <thead>
             <tr>
               <th style={{ padding: '8px', border: '1px solid #ddd' }}>Student</th>

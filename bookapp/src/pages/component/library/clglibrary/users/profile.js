@@ -55,13 +55,13 @@ export default function Profile() {
 
   return (
     <div className={styles.body}>
-      <NextNProgress
+      {/* <NextNProgress
         color="#32CD32"
         startPosition={0.3}
         stopDelayMs={200}
         height={3}
         showOnShallow={true}
-      />
+      /> */}
       <p style={{textAlign:'center'}}>Please fill user details before Borrowing Books</p>
       <h1 className={styles.h1}>Profile</h1>
 
@@ -78,7 +78,7 @@ export default function Profile() {
               <Link href={`/component/library/clglibrary/users/profileform`}>Edit</Link>
             </div>
       </div>
-      <hr />
+      <hr style={{width:'100%'}}></hr>
       <div className={styles.buttons}>
         <h3 className={styles.uinfo}>
           <Link href={'/component/library/clglibrary/users/userinfo'}>User Info</Link>
@@ -117,7 +117,7 @@ export default function Profile() {
             zIndex: 1000,
           }}
         >
-          <h3>Are you sure you want to logout?</h3>
+          <h3>Are you sure you want to log out?</h3>
           <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '10px' }}>
             <button
               onClick={handleLogout}

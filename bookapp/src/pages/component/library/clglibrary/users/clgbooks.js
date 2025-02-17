@@ -254,13 +254,13 @@ export default function ClgBooks() {
 
   return (
     <div className={styles.books_container}>
-      <NextNProgress
+      {/* <NextNProgress
         color="#32CD32"       
         startPosition={0.3} 
         stopDelayMs={200}   
         height={3}          
         showOnShallow={true} 
-      />
+      /> */}
       <div className={styles.control_bar}>
         <h1>All Books</h1>
         <div>
