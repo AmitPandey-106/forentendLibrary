@@ -56,9 +56,10 @@ export default function AdminLayout({ children }) {
     const checkRole = () => {
       if (typeof window !== "undefined") {
         const storedRole = localStorage.getItem("role") || "";
+        const storedtoken = localStorage.getItem("token") || "";
         setRole(storedRole);
 
-        if (!storedRole) {
+        if (!storedRole && !storedtoken) {
           router.push("/");
         }
       }
@@ -71,6 +72,7 @@ export default function AdminLayout({ children }) {
   }, [router]);
 
   const handleLogout = () => {
+    localStorage.setItem('token', '')
     localStorage.setItem('role', '')
   };
 
@@ -187,7 +189,7 @@ export default function AdminLayout({ children }) {
             zIndex: 1000,
           }}
         >
-          <h3>Are you sure you want to logout?</h3>
+          <h3>Are you sure you want to log out?</h3>
           <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '10px' }}>
             <button
               onClick={handleLogout}

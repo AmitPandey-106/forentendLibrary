@@ -41,9 +41,10 @@ export default function Userlayout({ children }) {
     const checkRole = () => {
       if (typeof window !== "undefined") {
         const storedRole = localStorage.getItem("role") || "";
+        const storedtoken = localStorage.getItem("token") || "";
         setRole(storedRole);
 
-        if (!storedRole) {
+        if (!storedRole && !storedtoken) {
           router.push("/");
         }
       }
@@ -56,6 +57,7 @@ export default function Userlayout({ children }) {
   }, [router]);
 
   const handleLogout = () => {
+    localStorage.setItem('token', '')
     localStorage.setItem('role', '')
   };
 
@@ -181,7 +183,7 @@ export default function Userlayout({ children }) {
                   </div>
                   <div className={styles.ic} onClick={() => { setShowPopup(true) }}>
                     <i className="fas fa-right-to-bracket"></i>
-                    <li onClick={() => setShowPopup(true)}>Logo Out</li>
+                    <li onClick={() => setShowPopup(true)}>Log Out</li>
                   </div>
                 </>
               </ul>

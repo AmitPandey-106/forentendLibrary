@@ -49,8 +49,27 @@ export default function Profile() {
     fetchProfileData();
   }, [router, backendUrl]);
 
+  useEffect(() => {
+    const checkRole = () => {
+      if (typeof window !== "undefined") {
+        const storedRole = localStorage.getItem("role") || "";
+        const storedtoken = localStorage.getItem("token") || "";
+
+        if (!storedRole && !storedtoken) {
+          router.push("/");
+        }
+      }
+    };
+
+    checkRole(); // Initial check
+    const interval = setInterval(checkRole, 2000); // Check every 2 seconds
+
+    return () => clearInterval(interval); // Cleanup on unmount
+  }, [router]);
+
   const handleLogout = () => {
-    signOut(); // Call signOut from AuthContext
+    localStorage.setItem('token', '')
+    localStorage.setItem('role', '')
   };
 
   return (
