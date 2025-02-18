@@ -90,20 +90,20 @@ export default function ClgBooks() {
     };
   }, [isPopupOpen]);
 
-  useEffect(() => {
-    router.beforePopState((url) => {
-      if(url === '/component/library/clglibrary/users/home'){
-        return true;
-      }else{
-        router.replace('/component/library/clglibrary/users/home'); // Redirect to home page
-        return false; // Prevent default back navigation
-      }
-    });
+  // useEffect(() => {
+  //   router.beforePopState((url) => {
+  //     if(url === '/component/library/clglibrary/users/home'){
+  //       return true;
+  //     }else{
+  //       router.replace('/component/library/clglibrary/users/home'); // Redirect to home page
+  //       return false; // Prevent default back navigation
+  //     }
+  //   });
 
-    return () => {
-      router.beforePopState(() => true); // Restore default behavior when unmounting
-    };
-  }, [router]);
+  //   return () => {
+  //     router.beforePopState(() => true); // Restore default behavior when unmounting
+  //   };
+  // }, [router]);
 
   // useEffect(()=>{
   //   const handleBack = () => {
@@ -120,41 +120,12 @@ export default function ClgBooks() {
   // };
   // },[router])
 
-  // useEffect(() => {
-  //   const handleBackButton = () => {
-  //     if (searchType && showSearchFilter) {
-  //       setShowSearchFilter(false);
-  //       window.history.pushState(null, null, window.location.pathname); // Prevent navigation
-  //     }
-  //   };
-  
-  //   window.history.pushState(null, null, window.location.pathname); // Initial push
-  //   window.addEventListener("popstate", handleBackButton);
-  
-  //   return () => {
-  //     window.removeEventListener("popstate", handleBackButton);
-  //   };
-  // }, [searchType, showSearchFilter]);
 
   const handleInputFocus = (type) => {
     setSearchType(type);
     setShowSearchFilter(true)
     setIsPopupOpen(false)
   };
-
-  // useEffect(() => {
-  //   const handleBackButton = () => {
-  //     if (showSearchFilter) {
-  //       setShowSearchFilter(false); // Close popup when back button is clicked
-  //       window.history.pushState(null, null, window.location.href);
-  //     }
-  //   };
-
-  //   window.addEventListener("popstate", handleBackButton);
-  //   return () => {
-  //     window.removeEventListener("popstate", handleBackButton);
-  //   };
-  // }, [showSearchFilter]);
 
   const openPopup = () => {
     setIsPopupOpen(false);
@@ -433,6 +404,7 @@ export default function ClgBooks() {
         <div className={styles.single_input}>
           <SearchPopup type={searchType} onClose={()=> {
             setShowSearchFilter(false)
+            // window.location.reload()
             }}/>
         </div>
       )}
