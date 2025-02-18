@@ -49,7 +49,17 @@ const SearchPopup = ({ type, onClose }) => {
     if (inputRef.current) {
       inputRef.current.focus(); // Auto-focus input when component mounts
     }
-  }, []); 
+    const handleBackClick=()=>{
+      onClose()
+    }
+
+    window.history.pushState({popup: true},'')
+    window.addEventListener('popstate', handleBackClick)
+
+    return (
+      window.history.replaceState('popstate', handleBackClick)
+    )
+  }, [onclose]); 
 
   // Fetch book suggestions based on input
   const fetchBookSuggestions = async (query) => {

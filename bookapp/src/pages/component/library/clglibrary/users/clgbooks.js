@@ -90,6 +90,21 @@ export default function ClgBooks() {
     };
   }, [isPopupOpen]);
 
+  useEffect(() => {
+    router.beforePopState((url) => {
+      if(url === '/component/library/clglibrary/users/home'){
+        return true;
+      }else{
+        router.replace('/component/library/clglibrary/users/home'); // Redirect to home page
+        return false; // Prevent default back navigation
+      }
+    });
+
+    return () => {
+      router.beforePopState(() => true); // Restore default behavior when unmounting
+    };
+  }, [router]);
+
   // useEffect(()=>{
   //   const handleBack = () => {
   //     if (window.history.length > 1) {
