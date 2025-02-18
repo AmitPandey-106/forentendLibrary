@@ -59,7 +59,7 @@ const SearchPopup = ({ type, onClose }) => {
     return (
       window.history.replaceState('popstate', handleBackClick)
     )
-  }, [onclose]); 
+  }, [onClose]); 
 
   // Fetch book suggestions based on input
   const fetchBookSuggestions = async (query) => {
